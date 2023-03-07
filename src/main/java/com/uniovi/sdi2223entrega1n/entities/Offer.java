@@ -21,7 +21,7 @@ public class Offer {
     private User seller;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id_buyer")
     private User buyer = null;
 
     @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)

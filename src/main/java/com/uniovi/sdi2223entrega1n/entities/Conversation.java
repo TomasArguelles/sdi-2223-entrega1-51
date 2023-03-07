@@ -13,9 +13,9 @@ public class Conversation {
     @JoinColumn(name="offer_id")
     private Offer offer;
 
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     private Set<Message> msgsBuyer;
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     private Set<Message> msgsSeller;
 
     public Conversation() {
