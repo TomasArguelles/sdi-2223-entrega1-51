@@ -59,6 +59,18 @@
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
             <version>3.0.4.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/selenium-server-standalone-3.141.59.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.1</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -67,7 +67,7 @@
             <li sec:authorize="isAuthenticated()" class="nav-item">
                 <a class="nav-link" href="/logout">
                     <i class='fas fa-sign-out-alt' style='font-size:16px'></i>
-                    <span>Desconectar</span>
+                    <span th:text="#{logout.message}"></span>
                 </a>
             </li>
         </ul>

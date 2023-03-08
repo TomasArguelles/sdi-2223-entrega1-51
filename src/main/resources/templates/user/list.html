@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+<div class="container">
+  <h2>Usuarios</h2>
+  <p>Los usuarios que actualmente figuran en el sistema son los
+    siguientes:</p>
+  <button type="button" id="updateButton" class="btn btn-primary">Actualizar</button>
+  <script>
+    $( "#updateButton" ).click(function() {
+      $("#tableUsers").load('/user/list/update');
+    });
+  </script>
+  <div class="table-responsive">
+    <table class="table table-hover" th:fragment="tableUsers" id="tableUsers">
+      <thead>
+      <tr>
+        <th scope="col">DNI</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${usersList}">
+        <td scope="row" th:text="${user.dni}">71888888X</td>
+        <td scope="row" th:text="${user.name}">Nombre del alumno</td>
+        <td scope="row" th:text="${user.lastName}">Apellidos del alumno</td>
+        <td scope="row"><a th:href="${'/user/details/' + user.id}">detalles</a></td>
+        <td scope="row"><a th:href="${'/user/edit/' + user.id}">modificar</a></td>
+        <td scope="row" ><a th:href="${'/user/delete/' + user.id}">eliminar</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>
