@@ -1,9 +1,6 @@
 package com.uniovi.sdi2223entrega1n;
 
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_NavView;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_OfferView;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_Properties;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_View;
+import com.uniovi.sdi2223entrega1n.pageobjects.*;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
@@ -60,60 +57,60 @@ class Sdi2223Entrega1NApplicationTests {
     }
 
     //    [Prueba1] Registro de Usuario con datos válidos.
-//    @Test
-//    @Order(1)
-//    void PR01() {
-//        //Nos movemos al formulario de registro
-//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "77777", "77777");
-//        //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
-//        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
-//    }
-//
-//    //    [Prueba2] Registro de Usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos).
-//    @Test
-//    @Order(2)
-//    void PR02() {
-//        //Nos movemos al formulario de registro
-//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos INVALIDOS
-//        PO_SignUpView.fillForm(driver, "", "", "", "77777", "77777");
-//        //Comprobamos que seguimos en la pantalla de registro
-//        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
-//    }
-//
-//    //    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
-//    @Test
-//    @Order(3)
-//    void PR03() {
-//        //Nos movemos al formulario de registro
-//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos INVALIDOS
-//        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "77777", "773777");
-//        //Comprobamos que seguimos en la pantalla de registro
-//        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
-//    }
-//
-//    //    [Prueba4] Registro de Usuario con datos inválidos (email existente).
-//    @Test
-//    @Order(4)
-//    void PR04() {
-//        //Nos movemos al formulario de registro
-//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos VALIDOS
-//        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
-//        //Comprobamos que seguimos en la pantalla de registro
-//        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
-//
-//        //Nos movemos al formulario de registro
-//        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-//        //Cumplimentamos el registro con datos INVALIDOS
-//        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
-//        //Comprobamos que seguimos en la pantalla de registro
-//        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
-//    }
-//
+    @Test
+    @Order(1)
+    void PR01() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "77777", "77777");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el registro se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //    [Prueba2] Registro de Usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos).
+    @Test
+    @Order(2)
+    void PR02() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "", "", "", "77777", "77777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //    [Prueba3] Registro de Usuario con datos inválidos (repetición de contraseña inválida).
+    @Test
+    @Order(3)
+    void PR03() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo@gmail.com", "Josefo", "Perez", "77777", "773777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //    [Prueba4] Registro de Usuario con datos inválidos (email existente).
+    @Test
+    @Order(4)
+    void PR04() {
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+
+        //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos INVALIDOS
+        PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
+        //Comprobamos que seguimos en la pantalla de registro
+        PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
+    }
+
     // [Prueba 15]. Añadir nueva oferta con datos válidos.
     @Test
     @Order(5)
@@ -162,7 +159,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
 
         // Comprobar número elementos de tabla con número de elementos BBDD
-        int offerCountFromUserOnDatabase = offersRepository.findAllBySellerEmail("usuario1@email.com").size();
+        int offerCountFromUserOnDatabase = offersRepository.findAllBySeller("usuario1@email.com").size();
 
         // Obtener número de filas de la tabla de la vista del listado de ofertas
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
