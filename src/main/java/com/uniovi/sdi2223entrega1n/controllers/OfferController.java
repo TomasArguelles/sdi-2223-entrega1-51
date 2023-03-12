@@ -1,7 +1,6 @@
 package com.uniovi.sdi2223entrega1n.controllers;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
-import com.uniovi.sdi2223entrega1n.entities.User;
 import com.uniovi.sdi2223entrega1n.services.OffersService;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import com.uniovi.sdi2223entrega1n.validators.OfferFormValidation;
@@ -67,8 +66,6 @@ public class OfferController {
      */
     @RequestMapping(value = "/offer/list", method = RequestMethod.GET)
     public String getAllOffersList(Model model, Principal principal) {
-        // Obtener id del usuario en sesion
-
         String userEmail = principal.getName();
 
         if (userEmail == null || userEmail == "" || userEmail == "anonymousUser") {
@@ -76,9 +73,7 @@ public class OfferController {
         }
 
         // Si el usuario está autenticado, obtener sus datos
-        User authenticatedUser = usersService.getUserByEmail(userEmail);
-
-        List<Offer> offers = offersService.findAllOffersFromUserById(authenticatedUser.getId());
+        List<Offer> offers = offersService.findAllOffersFromUserByEmail(userEmail);
 
         // Enviar el listado de ofertas a la vista
         model.addAttribute("offerList", offers);

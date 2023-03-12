@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface OffersRepository extends CrudRepository<Offer, Long> {
 
-    @Query("SELECT o FROM Offer o WHERE o.seller.id = ?1")
-    List<Offer> findAllBySellerId(final Long sellerId);
+    @Query("SELECT o FROM Offer o WHERE o.seller.email = ?1")
+    List<Offer> findAllBySeller(final String sellerEmail);
 }
