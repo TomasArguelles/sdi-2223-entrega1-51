@@ -1,8 +1,6 @@
 package com.uniovi.sdi2223entrega1n;
 
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_HomeView;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_Properties;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_SignUpView;
+import com.uniovi.sdi2223entrega1n.pageobjects.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -15,7 +13,8 @@ class Sdi2223Entrega1NApplicationTests {
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
 
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
@@ -31,6 +30,9 @@ class Sdi2223Entrega1NApplicationTests {
     @BeforeEach
     public void setUp() {
         driver.navigate().to(URL);
+        // Cambiar usuario
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillLoginForm(driver, "prueba@gmail.com", "123456");
     }
 
     //Después de cada prueba se borran las cookies del navegador
@@ -47,7 +49,7 @@ class Sdi2223Entrega1NApplicationTests {
     //Al finalizar la última prueba
     @AfterAll
     static public void end() {
-//Cerramos el navegador al finalizar las pruebas
+        // Cerramos el navegador al finalizar las pruebas
         driver.quit();
     }
 
@@ -104,5 +106,35 @@ class Sdi2223Entrega1NApplicationTests {
         PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
         //Comprobamos que seguimos en la pantalla de registro
         PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
+    }
+
+    // [Prueba 15]. Añadir nueva oferta con datos válidos.
+    @Test
+    @Order(5)
+    public void PR05() {
+        String newOfferText = "Coche marca Renault";
+
+        // Acceder a la vista de añadir una nueva oferta
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores válidos.
+        PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50);
+
+        // Comprobar que se muestra en el listado de ofertas
+        PO_View.checkElementBy(driver, "text", newOfferText);
+    }
+
+    // [Prueba 16]. Añadir una nueva oferta con datos inválidos -> precio negativo.
+    @Test
+    @Order(6)
+    public void PR06() {
+        // Acceder a la vista de añadir una nueva oferta
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores inválidos.
+        PO_OfferView.fillForm(driver, "Coche marca Renault", "Coche de los años 90", -1.0);
+
+        // Comprobar que se muestra el error en el formulario.
+        PO_OfferView.checkErrorMessage(driver, PO_Properties.getSPANISH(), "error.offer.price.range");
     }
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+
+<body>
+<nav th:replace="fragments/nav"/>
+
+<div class="container" id="main-container">
+    <h2>Listado de ofertas</h2>
+    <div class="table-responsive">
+        <!--        <p th:if=""></p>-->
+        <table class="table table-hover" th:fragment="tableOffer"
+               id="tableOffer">
+            <thead>
+            <tr>
+                <th scope="col" th:text="#{offer.title}">Texto</th>
+                <th scope="col" th:text="#{offer.description}">Detalle</th>
+                <th scope="col" th:text="#{offer.price}">Cantidad solicitada
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="offer : ${offerList}">
+
+                <td th:text="${offer.title}"></td>
+                <td th:text="${offer.description}"></td>
+                <td th:text="${offer.price}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(offerList)}"> No hay ofertas</div>
+</div>
+
+<footer th:replace="fragments/footer"/>
+
+</body>
+</html>

@@ -68,10 +68,12 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "Mark{" +
+        return "Offer{" +
                 "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", score=" + price +
+                ", dateUpload=" + dateUpload +
+                ", price=" + price +
                 '}';
     }
 
