@@ -16,4 +16,6 @@ footer {
     text-align:center;
     line-height:60px
 }
-/* Sticky footer styles-------------------------------------------------- */
+#btnBorrar{
+    background-color: #d47166
+}
