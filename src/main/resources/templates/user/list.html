@@ -8,39 +8,46 @@
   <h2>Usuarios</h2>
   <p>Los usuarios que actualmente figuran en el sistema son los
     siguientes:</p>
-  <button type="button" id="updateButton" class="btn btn-primary">Actualizar</button>
-  <script>
-    $( "#updateButton" ).click(function() {
-      $("#tableUsers").load('/user/list/update');
-    });
-  </script>
-  <div class="table-responsive">
-    <table class="table table-hover" th:fragment="tableUsers" id="tableUsers">
+  <div class="table-responsive"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity4">>
+
+    <form method="POST" action="/users/deleteSelected">
+    <table class="table table-hover">
       <thead>
       <tr>
-        <th scope="col">DNI</th>
+        <th scope="col">Email</th>
         <th scope="col">Nombre</th>
         <th scope="col">Apellidos</th>
         <th scope="col"></th>
         <th scope="col"></th>
-        <th scope="col"></th>
+
+        <th scope="col" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+          <input id="btnBorrar" type="submit" name="btnBorrar" value="Eliminar" ></th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
+
       <tr th:each="user : ${usersList}">
-        <td scope="row" th:text="${user.dni}">71888888X</td>
+        <td scope="row" th:text="${user.email}">correo@email.com</td>
         <td scope="row" th:text="${user.name}">Nombre del alumno</td>
         <td scope="row" th:text="${user.lastName}">Apellidos del alumno</td>
         <td scope="row"><a th:href="${'/user/details/' + user.id}">detalles</a></td>
         <td scope="row"><a th:href="${'/user/edit/' + user.id}">modificar</a></td>
-        <td scope="row" ><a th:href="${'/user/delete/' + user.id}">eliminar</a></td>
+
+        <td scope="row" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+          <input type="checkbox" name="userIds" th:value="${user.id}" /></td>
+
+
+
       </tr>
       </tbody>
     </table>
+      </form>
   </div>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>
 </html>
+<!--<td scope="row" ><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="${'/user/delete/' + user.id}" >eliminar</a></td>-->
+<!--<td scope="row"><input id="gre" type="checkbox" name="gre" th:checked="*{gre}" /></td>-->

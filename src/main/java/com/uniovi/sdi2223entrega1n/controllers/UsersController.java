@@ -12,10 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 public class UsersController {
@@ -58,6 +57,21 @@ public class UsersController {
     @RequestMapping("/user/delete/{id}")
     public String delete(@PathVariable Long id) {
         usersService.deleteUser(id);
+        return "redirect:/user/list";
+    }
+
+    @PostMapping("/users/deleteSelected")
+    public String deleteUsers(@RequestParam(value = "userIds", required = false) Long[] userIds, Principal principal) {
+        String currentEmail=principal.getName();
+        User currentUser=usersService.getUserByEmail(currentEmail);
+        Long id=currentUser.getId();
+        if (userIds != null && userIds.length > 0) {
+            for(int i=0; i<userIds.length; i++){
+                if(userIds[i]!=id)
+                    usersService.deleteUser(userIds[i]);
+            }
+
+        }
         return "redirect:/user/list";
     }
     @RequestMapping(value = "/user/edit/{id}")
