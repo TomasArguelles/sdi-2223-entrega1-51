@@ -22,4 +22,10 @@ public class PO_LoginView extends PO_NavView {
         By boton = By.className("btn");
         driver.findElement(boton).click();
     }
+
+    static public void checkLoginPage(WebDriver driver, int language) {
+//Esperamos a que se cargue el saludo de bienvenida en Español
+        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString("login.page.message", language),
+                getTimeout());
+    }
 }

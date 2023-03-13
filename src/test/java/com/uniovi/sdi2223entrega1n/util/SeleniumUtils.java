@@ -134,6 +134,7 @@ public class SeleniumUtils {
      */
     static public void signInIntoAccount(WebDriver driver, String role) {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillLoginForm(driver, role.equals("STANDARD") ? "usuario1@email.com" : "admin1@email.com", "123456");
+        PO_LoginView.fillForm(driver, role.equals("STANDARD") ? "usuario1@email.com" : "admin@email.com",
+                role.equals("STANDARD") ? "123456" : "admin");
     }
 }
