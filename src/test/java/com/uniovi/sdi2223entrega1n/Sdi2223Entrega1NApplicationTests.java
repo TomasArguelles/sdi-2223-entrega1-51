@@ -257,7 +257,7 @@ class Sdi2223Entrega1NApplicationTests {
         Assertions.assertNotEquals(s1,s2);
         Assertions.assertEquals(s1,s2+3);
 
-
+    }
 
 
     // [Prueba 15]. Añadir nueva oferta con datos válidos.
