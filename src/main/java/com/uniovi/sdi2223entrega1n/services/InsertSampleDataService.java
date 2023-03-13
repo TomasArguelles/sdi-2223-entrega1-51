@@ -28,11 +28,6 @@ public class InsertSampleDataService {
         user1.setRole(rolesService.getRoles()[0]);
         usersService.addUser(user1);
 
-        User user2 = new User("admin@email.com", "User", "Admin");
-        user2.setPassword("admin");
-        user2.setRole(rolesService.getRoles()[1]);
-        usersService.addUser(user2);
-
 
         User user3 = new User("usuario2@email.com", "User", "Normal");
         user3.setPassword("123456");
@@ -48,6 +43,12 @@ public class InsertSampleDataService {
         user5.setPassword("123456");
         user5.setRole(rolesService.getRoles()[0]);
         usersService.addUser(user5);
+
+        User user2 = new User("admin@email.com", "User", "Admin");
+        user2.setPassword("admin");
+        user2.setRole(rolesService.getRoles()[1]);
+        usersService.addUser(user2);
+
 
         Offer offer1 = new Offer("Coche1","Opel",124.0);
         offer1.setSeller(user1);
