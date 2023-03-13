@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+<div class="container">
+    <h2><span th:text="#{offer.page.title}"></span></h2>
+    <form class="form-horizontal" method="post" action="/offer/add"
+          th:object="${offer}">
+        <!-- Titulo de la oferta -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="title"
+                   th:text="#{offer.page.form.title} + ':'">Titulo:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title"
+                       th:value="${offer.title}"
+                       th:placeholder="#{offer.page.form.title.placeholder}"/>
+                <span class="text-danger" th:if="${#fields.hasErrors('title')}"
+                      th:errors="*{title}"></span>
+            </div>
+        </div>
+
+        <!-- Descripción de la oferta -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="description"
+                   th:text="#{offer.page.form.detail}+ ':'"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="description"
+                       name="description"
+                       th:value="${offer.description}"
+                       th:placeholder="#{offer.page.form.detail.placeholder}"/>
+                <span class="text-danger"
+                      th:if="${#fields.hasErrors('description')}"
+                      th:errors="*{description}"></span>
+            </div>
+        </div>
+
+        <!-- Cantidad solicitada -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="price"
+                   th:text="#{offer.page.form.price}+ ':'"></label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="price"
+                       name="price"
+                       step="0.1"
+                       th:value="${offer.price}"
+                       th:placeholder="#{offer.page.form.price}"
+                />
+                <span class="text-danger" th:if="${#fields.hasErrors('price')}"
+                      th:errors="*{price}"></span>
+            </div>
+        </div>
+
+        <!-- Boton para publicar la nueva oferta -->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Añadir</button>
+            </div>
+        </div>
+        <input type="hidden" class="form-control" id="dateUpload"
+               name="dateUpload" th:value="${T(java.time.Instant).now()}"
+        />
+        <input type="hidden" name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+    </form>
+</div>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

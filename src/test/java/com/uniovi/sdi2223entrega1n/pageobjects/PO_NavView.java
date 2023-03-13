@@ -20,16 +20,20 @@ public class PO_NavView extends PO_View {
      * @param targetText: texto correspondiente a la búsqueda de la página destino.
      */
     public static void clickOption(WebDriver driver, String textOption, String criterio, String targetText) {
-//CLickamos en la opción de registro y esperamos a que se cargue el enlace de Registro.
+        // CLickamos en la opción de registro y esperamos a que se cargue el enlace de Registro.
         List<WebElement> elements = SeleniumUtils.waitLoadElementsBy(driver, "@href", textOption,
                 getTimeout());
-//Tiene que haber un sólo elemento.
+
+        // Tiene que haber un sólo elemento.
         Assertions.assertEquals(1, elements.size());
-//Ahora lo clickamos
+
+        // Ahora lo clickamos
         elements.get(0).click();
-//Esperamos a que sea visible un elemento concreto
+
+        // Esperamos a que sea visible un elemento concreto
         elements = SeleniumUtils.waitLoadElementsBy(driver, criterio, targetText, getTimeout());
-//Tiene que haber un sólo elemento.
+
+        // Tiene que haber un sólo elemento.
         Assertions.assertEquals(1, elements.size());
     }
 
@@ -51,5 +55,24 @@ public class PO_NavView extends PO_View {
         List<WebElement> Selectedlanguage = SeleniumUtils.waitLoadElementsBy(driver, "id", textLanguage,
                 getTimeout());
         Selectedlanguage.get(0).click();
+    }
+
+    public static void selectDropdownById(WebDriver driver, String downdownMenuArrowId,
+                                          String downdownMenuId, String drowndownSubmenuId) {
+        // Hacer click en el dropdown
+        List<WebElement> offerManagementDropdown = SeleniumUtils.waitLoadElementsBy(driver, "id", downdownMenuArrowId,
+                getTimeout());
+        offerManagementDropdown.get(0).click();
+
+        // Seleccionar el menu
+        SeleniumUtils.waitLoadElementsBy(driver, "id", downdownMenuId,
+                getTimeout());
+
+        // Seleccionar el submenu
+        if (drowndownSubmenuId != null) {
+            List<WebElement> dropdownSubmenu = SeleniumUtils.waitLoadElementsBy(driver, "id", drowndownSubmenuId,
+                    getTimeout());
+            dropdownSubmenu.get(0).click();
+        }
     }
 }
