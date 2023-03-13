@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+
+<body>
+<nav th:replace="fragments/nav"/>
+
+<div class="container" id="main-container">
+
+    <div class="table-responsive">
+        <!--        <p th:if=""></p>-->
+        <table class="table table-hover" th:fragment="tableOffer"
+               id="tableOffer">
+            <h2 th:text="#{alloffer.page.title}" ></h2>
+            <form class="form-inline" action="/offer/allList">
+                <div class="form-group">
+                    <input name="searchText" type="text" class="form-control" size="50"
+                           placeholder="Buscar por descripción o nombre del alumno">
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+            <thead>
+            <tr>
+                <th scope="col" th:text="#{offer.title}">Texto</th>
+                <th scope="col" th:text="#{offer.description}">Detalle</th>
+                <th scope="col" th:text="#{offer.price}">Cantidad solicitada</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="offer : ${offersList}">
+
+                <td th:text="${offer.title}"></td>
+                <td th:text="${offer.description}"></td>
+                <td th:text="${offer.price}"></td>
+                <td>
+                    <div th:if = "${offer.sold}">
+                            Vendido
+                    </div>
+                    <div th:unless = "${offer.sold}">
+                        <button type="button" th:id="${'buyOffer' + offer.id}"
+                                class="btn btn-success" >
+                            Comprar
+                        </button>
+
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(offersList)}"> No hay ofertas</div>
+</div>
+
+<footer th:replace="fragments/footer"/>
+
+</body>
+</html>

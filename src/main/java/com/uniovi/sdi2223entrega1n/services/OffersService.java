@@ -27,15 +27,6 @@ public class OffersService {
      * @param newOffer Datos de la nueva oferta.
      */
     public void add(Offer newOffer) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User seller = usersService.getUserByEmail(email);
-
-        // El vendedor es el usuario en sesión
-        newOffer.setSeller(seller);
-
-        // Fecha a dia de hoy
-        newOffer.setDateUpload(Instant.now());
         offersRepository.save(newOffer);
     }
 
@@ -51,6 +42,23 @@ public class OffersService {
             System.out.println("Offer: " + o + " " + o.getSeller().getEmail());
         }
         offersRepository.findAllBySeller(userEmail).forEach(offers::add);
+        return offers;
+    }
+
+    /**
+     * Metodo que devuelve todos las ofertas del sistema
+     * @return offers Lisa de ofertas.
+     */
+    public List<Offer> getAllOffers() {
+        List<Offer> offers = new ArrayList<>();
+        offersRepository.findAll().forEach(offers::add);
+        return offers;
+    }
+
+    public List<Offer> searchOffersByName(String searchText) {
+        List<Offer> offers = new ArrayList<>();
+        searchText = "%"+searchText+"%";
+        offers = offersRepository.searchByName(searchText);
         return offers;
     }
 }
