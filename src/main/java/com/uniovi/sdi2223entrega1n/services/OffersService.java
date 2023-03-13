@@ -54,4 +54,11 @@ public class OffersService {
         offersRepository.findAll().forEach(offers::add);
         return offers;
     }
+
+    public List<Offer> searchOffersByName(String searchText) {
+        List<Offer> offers = new ArrayList<>();
+        searchText = "%"+searchText+"%";
+        offers = offersRepository.searchByName(searchText);
+        return offers;
+    }
 }

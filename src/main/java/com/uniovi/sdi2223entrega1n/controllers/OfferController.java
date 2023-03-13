@@ -14,9 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -94,12 +96,21 @@ public class OfferController {
     /**
      * Metodo que redirecciona a la vista de TODAS las ofertas en el sistema
      *
-     *
+     * @return vista de todas las ofertas que puede comprar
      */
     @RequestMapping (value="/offer/allList")
-    public String getOffersToBuy(Model model){
-        List<Offer>offers = offersService.getAllOffers();
+    public String getOffersToBuy(Model model, @RequestParam(value = "", required = false)String searchText){
+
+        List<Offer>offers = new ArrayList<>();
+        //Si esta vacio el buscador devolvemos todas, sino no
+        if(searchText==null || searchText.isEmpty()){
+            offers = offersService.getAllOffers();
+        }else{
+            offers = offersService.searchOffersByName(searchText);
+        }
+
         model.addAttribute("offersList",offers);
         return "offer/allList";
+
     }
 }

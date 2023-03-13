@@ -55,6 +55,7 @@ public class InsertSampleDataService {
 
         Offer offer2 = new Offer("Coche2","Peugeot",14.0);
         offer2.setSeller(user1);
+        offer2.setSold(true);
         offersService.add(offer2);
 
         Offer offer3 = new Offer("Coche3","Citroen",24.0);
