@@ -12,7 +12,7 @@
         <!--        <p th:if=""></p>-->
         <table class="table table-hover" th:fragment="tableOffer"
                id="tableOffer">
-            <h2 th:text="#{offer.page.title}" ></h2>
+            <h2 th:text="#{alloffer.page.title}" ></h2>
             <form class="form-inline" action="/offer/allList">
                 <div class="form-group">
                     <input name="searchText" type="text" class="form-control" size="50"
@@ -24,8 +24,7 @@
             <tr>
                 <th scope="col" th:text="#{offer.title}">Texto</th>
                 <th scope="col" th:text="#{offer.description}">Detalle</th>
-                <th scope="col" th:text="#{offer.price}">Cantidad solicitada
-                </th>
+                <th scope="col" th:text="#{offer.price}">Cantidad solicitada</th>
             </tr>
             </thead>
             <tbody>
@@ -40,7 +39,7 @@
                     </div>
                     <div th:unless = "${offer.sold}">
                         <button type="button" th:id="${'buyOffer' + offer.id}"
-                                class="btn btn-success">
+                                class="btn btn-success" >
                             Comprar
                         </button>
 
