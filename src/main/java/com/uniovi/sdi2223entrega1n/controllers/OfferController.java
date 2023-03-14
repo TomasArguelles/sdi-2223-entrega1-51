@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -78,5 +79,17 @@ public class OfferController {
         // Enviar el listado de ofertas a la vista
         model.addAttribute("offerList", offers);
         return "offer/list";
+    }
+
+    /**
+     * Dar de baja una oferta por su identificador.
+     *
+     * @param id Identificador de la oferta.
+     * @return
+     */
+    @RequestMapping(value = "/offer/delete/{id}", method = RequestMethod.GET)
+    public String deleteOfferById(@PathVariable final Long id) {
+        offersService.deleteOfferById(id);
+        return "redirect:/offer/list";
     }
 }

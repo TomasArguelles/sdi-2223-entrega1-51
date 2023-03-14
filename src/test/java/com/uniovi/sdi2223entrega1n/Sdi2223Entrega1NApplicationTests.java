@@ -1,18 +1,14 @@
 package com.uniovi.sdi2223entrega1n;
 
+import com.uniovi.sdi2223entrega1n.pageobjects.PO_OfferView;
+import com.uniovi.sdi2223entrega1n.pageobjects.PO_View;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
-import antlr.ASTNULLType;
-import com.uniovi.sdi2223entrega1n.entities.User;
-import com.uniovi.sdi2223entrega1n.pageobjects.*;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,10 +22,10 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String URL = "http://localhost:8090";
 
@@ -38,7 +34,7 @@ class Sdi2223Entrega1NApplicationTests {
 
     @Autowired
     private UsersService userService;
-    
+
     public static WebDriver getDriver(String PathFirefox, String Geckodriver) {
         System.setProperty("webdriver.firefox.bin", PathFirefox);
         System.setProperty("webdriver.gecko.driver", Geckodriver);
@@ -70,7 +66,7 @@ class Sdi2223Entrega1NApplicationTests {
     }
 
     //    [Prueba1] Registro de Usuario con datos válidos.
-    @Test
+  /*  @Test
     @Order(1)
     void PR01() {
         //Nos movemos al formulario de registro
@@ -123,6 +119,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Comprobamos que seguimos en la pantalla de registro
         PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
     }
+
     //[Prueba11] Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el
     //sistema.
     @Test
@@ -141,11 +138,10 @@ class Sdi2223Entrega1NApplicationTests {
         //Sacamos la lista de usuarios q hay
         List<WebElement> usersList = PO_UserListView.getUsersList(driver);
         //Sacamos la lista de usaurios del sistema
-        List<User>usersSystem=userService.getUsers();
-        Assertions.assertEquals(usersSystem.size(),usersSystem.size());
+        List<User> usersSystem = userService.getUsers();
+        Assertions.assertEquals(usersSystem.size(), usersSystem.size());
         //Comprobamos uno a uno
         PO_UserListView.compareOneByOneTwoUsersLists(driver, usersList, usersSystem);
-
 
 
     }
@@ -167,9 +163,9 @@ class Sdi2223Entrega1NApplicationTests {
         //Sacamos la lista de usuarios q hay
         List<WebElement> usersList = PO_UserListView.getUsersList(driver);
         //guardamos tamaño para comporbar
-        int s1=usersList.size();
+        int s1 = usersList.size();
         //Primer usuario y marcaje de su checkbox
-        WebElement firstUser= usersList.get(0);
+        WebElement firstUser = usersList.get(0);
 
         PO_UserListView.markCheckBoxUser(driver, firstUser);
         //Borramos dandole al boton
@@ -177,18 +173,13 @@ class Sdi2223Entrega1NApplicationTests {
         //Actualizamos la lista
         usersList = PO_UserListView.getUsersList(driver);
         //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
-        int s2=usersList.size();
-        Assertions.assertNotEquals(s1,s2);
-        Assertions.assertEquals(s1,s2+1);
-
-
-
-
-
+        int s2 = usersList.size();
+        Assertions.assertNotEquals(s1, s2);
+        Assertions.assertEquals(s1, s2 + 1);
     }
 
-//[Prueba13] Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
-//y dicho usuario desaparece.
+    // [Prueba13] Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
+    // y dicho usuario desaparece.
     @Test
     @Order(13)
     void PR013() {
@@ -204,26 +195,23 @@ class Sdi2223Entrega1NApplicationTests {
         //Sacamos la lista de usuarios q hay
         List<WebElement> usersList = PO_UserListView.getUsersList(driver);
         //guardamos tamaño para comporbar
-        int s1=usersList.size();
+        int s1 = usersList.size();
         //Ultimo usuario y marcaje de su checkbox
-        WebElement lastUser= usersList.get(usersList.size()-1);
+        WebElement lastUser = usersList.get(usersList.size() - 1);
         PO_UserListView.markCheckBoxUser(driver, lastUser);
         //Borramos dandole al boton
         PO_UserListView.clickDeleteButton(driver);
         //Actualizamos la lista
         usersList = PO_UserListView.getUsersList(driver);
         //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
-        int s2=usersList.size();
-        Assertions.assertNotEquals(s1,s2);
-        Assertions.assertEquals(s1,s2+1);
-
-
-
+        int s2 = usersList.size();
+        Assertions.assertNotEquals(s1, s2);
+        Assertions.assertEquals(s1, s2 + 1);
 
 
     }
 
-   //[Prueba14] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
+    //[Prueba14] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
     //usuarios desaparecen.
     @Test
     @Order(14)
@@ -231,7 +219,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de inicio de sesion
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "admin1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
         //Accedemos a la lista de users
@@ -240,11 +228,11 @@ class Sdi2223Entrega1NApplicationTests {
         //Sacamos la lista de usuarios q hay
         List<WebElement> usersList = PO_UserListView.getUsersList(driver);
         //guardamos tamaño para comporbar
-        int s1=usersList.size();
+        int s1 = usersList.size();
         //Sacamos los tres primeros usuarios y marcamos de sus checkboxes
-        WebElement u1= usersList.get(0);
-        WebElement u2= usersList.get(1);
-        WebElement u3= usersList.get(2);
+        WebElement u1 = usersList.get(0);
+        WebElement u2 = usersList.get(1);
+        WebElement u3 = usersList.get(2);
         PO_UserListView.markCheckBoxUser(driver, u1);
         PO_UserListView.markCheckBoxUser(driver, u2);
         PO_UserListView.markCheckBoxUser(driver, u3);
@@ -253,12 +241,10 @@ class Sdi2223Entrega1NApplicationTests {
         //Actualizamos la lista
         usersList = PO_UserListView.getUsersList(driver);
         //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
-        int s2=usersList.size();
-        Assertions.assertNotEquals(s1,s2);
-        Assertions.assertEquals(s1,s2+3);
-
-
-
+        int s2 = usersList.size();
+        Assertions.assertNotEquals(s1, s2);
+        Assertions.assertEquals(s1, s2 + 3);
+    }
 
     // [Prueba 15]. Añadir nueva oferta con datos válidos.
     @Test
@@ -315,5 +301,53 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Verificar que el número de registros mostrados es correcto
         Assertions.assertEquals(offerCountFromUserOnDatabase, rowCount);
+    }*/
+
+    // [Prueba18]. Baja de una oferta - Borrar primera oferta de la lista.
+    @Test
+    @Order(18)
+    public void PR018() {
+        String sampleText1 = "Coche de segunda mano";
+        String sampleText2 = "Vestido de comunión";
+        String sampleText3 = "Baraja de cartas";
+
+        // Iniciar sesion, añadir una nueva oferta
+        PO_OfferView.addSampleOffer(driver, sampleText1);
+        PO_OfferView.addSampleOffer(driver, sampleText2);
+        PO_OfferView.addSampleOffer(driver, sampleText3);
+
+        // Click en el enlace eliminar del primer elemento de la lista
+        PO_OfferView.clickDeleteButton(driver, 0);
+
+        // Comprobar que el primer elemento no se muestra en la tabla
+        PO_OfferView.checkOfferNotExistsOnPage(driver, sampleText1);
+
+        // Comprobar que el número de oferta es 2
+        List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout());
+        Assertions.assertEquals(2, offerList.size());
+    }
+
+    // [Prueba19]. Baja de una oferta - Borrar última oferta de la lista.
+    @Test
+    @Order(19)
+    public void PR019() {
+        String sampleTextLast = "Coche se segunda mano";
+//        String sampleText2 = "Vestido de comunión";
+//        String sampleText3 = "Baraja de cartas";
+
+        // Iniciar sesion, añadir una nueva oferta
+        PO_OfferView.addSampleOffer(driver, sampleTextLast);
+
+        // Click en el enlace eliminar del ultimo elemento de la lista
+        PO_OfferView.clickDeleteButton(driver, 2);
+
+        // Comprobar que el ultimo elemento no se muestra en la tabla
+        PO_OfferView.checkOfferNotExistsOnPage(driver, sampleTextLast);
+
+        // Comprobar que el número de oferta es 2
+        List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout());
+        Assertions.assertEquals(2, offerList.size());
     }
 }

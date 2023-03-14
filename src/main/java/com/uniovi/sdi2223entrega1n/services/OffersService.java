@@ -53,4 +53,14 @@ public class OffersService {
         offersRepository.findAllBySeller(userEmail).forEach(offers::add);
         return offers;
     }
+
+    /**
+     * Dar de baja una oferta por su identificador.
+     *
+     * @param id Identificador de la oferta.
+     * @return
+     */
+    public void deleteOfferById(final Long id) {
+        offersRepository.deleteById(id);
+    }
 }
