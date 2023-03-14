@@ -3,6 +3,7 @@ package com.uniovi.sdi2223entrega1n.util;
 
 import com.uniovi.sdi2223entrega1n.pageobjects.PO_HomeView;
 import com.uniovi.sdi2223entrega1n.pageobjects.PO_LoginView;
+import com.uniovi.sdi2223entrega1n.pageobjects.PO_SignUpView;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -118,7 +119,7 @@ public class SeleniumUtils {
      * @return Número de filas de la tabla indicada.
      */
     static public int countTableRows(WebDriver driver, String tableXpathQuery) {
-        if (tableXpathQuery == null || tableXpathQuery == "") {
+        if (tableXpathQuery == null || tableXpathQuery.equals("")) {
             return 0;
         }
         // Obtener las filas de la tabla.
@@ -132,9 +133,23 @@ public class SeleniumUtils {
      * @param driver Apuntando al navegador abierto actualmente.
      * @param role   STANDARD | ADMIN
      */
-    static public void signInIntoAccount(WebDriver driver, String role) {
+    static public void signInIntoAccount(WebDriver driver, String role, String email) {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, role.equals("STANDARD") ? "usuario1@email.com" : "admin@email.com",
+        PO_LoginView.fillForm(driver, role.equals("STANDARD") ? email : "admin@email.com",
                 role.equals("STANDARD") ? "123456" : "admin");
+    }
+
+    /**
+     * Registrar un nuevo usuario para probar ciertas funcionalidades de forma aislada.
+     * <p>
+     * ver método: com.uniovi.sdi2223entrega1n.pageobjects.PO_SignUpView.fillForm
+     *
+     * @param driver
+     * @param email    Email del usuario a registrar.
+     * @param password Contraseña del usuario a registrar.
+     */
+    static public void registerNewUser(WebDriver driver, String email, String password) {
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        PO_SignUpView.fillForm(driver, email, "aaaaa", "aaaaa", password, password);
     }
 }

@@ -66,11 +66,11 @@ public class Offer {
         this.seller = seller;
     }
 
-    public Offer(String title, String description, Double price){
+    public Offer(String title, String description, Double price) {
         super();
-        this.title=title;
-        this.description=description;
-        this.price=price;
+        this.title = title;
+        this.description = description;
+        this.price = price;
     }
 
     @Override

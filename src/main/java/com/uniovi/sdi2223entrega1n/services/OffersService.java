@@ -42,7 +42,18 @@ public class OffersService {
     }
 
     /**
+     * Dar de baja una oferta por su identificador.
+     *
+     * @param id Identificador de la oferta.
+     * @return
+     */
+    public void deleteOfferById(final Long id) {
+        offersRepository.deleteById(id);
+    }
+
+    /**
      * Metodo que devuelve todos las ofertas del sistema
+     *
      * @return offers Lisa de ofertas.
      */
     public List<Offer> getAllOffersToBuy(String userEmail) {

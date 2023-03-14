@@ -90,6 +90,18 @@ public class OfferController {
     }
 
     /**
+     * Dar de baja una oferta por su identificador.
+     *
+     * @param id Identificador de la oferta.
+     * @return
+     */
+    @RequestMapping(value = "/offer/delete/{id}", method = RequestMethod.GET)
+    public String deleteOfferById(@PathVariable final Long id) {
+        offersService.deleteOfferById(id);
+        return "redirect:/offer/list";
+    }
+
+    /**
      * Metodo que redirecciona a la vista de TODAS las ofertas en el sistema
      * @param model
      * @param principal usuario
@@ -154,7 +166,4 @@ public class OfferController {
         model.addAttribute("offersList",offers);
         return "offer/allList :: tableOffer";
     }
-
-
-
 }

@@ -18,14 +18,14 @@
             <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
 
-        <!--        <p th:if=""></p>-->
         <table class="table table-hover" th:fragment="tableOffer"
                id="tableOffer">
             <thead>
             <tr>
                 <th scope="col" th:text="#{offer.title}">Texto</th>
                 <th scope="col" th:text="#{offer.description}">Detalle</th>
-                <th scope="col" th:text="#{offer.price}">Cantidad solicitada</th>
+                <th scope="col" th:text="#{offer.price}">Cantidad solicitada
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -35,12 +35,12 @@
                 <td th:text="${offer.description}"></td>
                 <td th:text="${offer.price}"></td>
                 <td>
-                    <div th:if = "${offer.sold}">
-                            Vendido
+                    <div th:if="${offer.sold}">
+                        Vendido
                     </div>
-                    <div th:unless = "${offer.sold}">
+                    <div th:unless="${offer.sold}">
                         <button type="button" th:id="${'buyOffer' + offer.id}"
-                                class="btn btn-success" >
+                                class="btn btn-success">
                             Comprar
                         </button>
                         <script th:inline="javascript">
