@@ -1,14 +1,10 @@
 package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
-import com.uniovi.sdi2223entrega1n.entities.User;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,16 +45,20 @@ public class OffersService {
      * Metodo que devuelve todos las ofertas del sistema
      * @return offers Lisa de ofertas.
      */
-    public List<Offer> getAllOffers() {
+    public List<Offer> getAllOffersToBuy(String userEmail) {
         List<Offer> offers = new ArrayList<>();
-        offersRepository.findAll().forEach(offers::add);
+        offers = offersRepository.findAllToBuy(userEmail);
         return offers;
     }
 
-    public List<Offer> searchOffersByName(String searchText) {
+    public List<Offer> searchOffersByNameAndUser(String searchText,String userEmail) {
         List<Offer> offers = new ArrayList<>();
         searchText = "%"+searchText+"%";
-        offers = offersRepository.searchByName(searchText);
+        offers = offersRepository.searchByName(searchText,userEmail);
         return offers;
+    }
+
+    public void setOfferSold(Long id) {
+        offersRepository.setOfferSold(true,id);
     }
 }
