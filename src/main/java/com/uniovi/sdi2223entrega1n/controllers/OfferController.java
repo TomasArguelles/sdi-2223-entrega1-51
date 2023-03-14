@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -104,21 +103,67 @@ public class OfferController {
 
     /**
      * Metodo que redirecciona a la vista de TODAS las ofertas en el sistema
-     *
-     * @return vista de todas las ofertas que puede comprar
+     * @param model
+     * @param principal usuario
+     * @param searchText texto a buscar
+     * @return la vista
      */
-    @RequestMapping(value = "/offer/allList")
-    public String getOffersToBuy(Model model, @RequestParam(value = "", required = false) String searchText) {
-
-        List<Offer> offers = new ArrayList<>();
+    @RequestMapping (value="/offer/allList")
+    public String getOffersToBuy(Model model, Principal principal,@RequestParam(value = "", required = false)String searchText){
+        String userEmail = principal.getName();
+        List<Offer>offers;
         //Si esta vacio el buscador devolvemos todas, sino no
-        if (searchText == null || searchText.isEmpty()) {
-            offers = offersService.getAllOffers();
-        } else {
-            offers = offersService.searchOffersByName(searchText);
+        if(searchText==null || searchText.isEmpty()){
+            offers = offersService.getAllOffersToBuy(userEmail);
+        }else{
+            offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
-
-        model.addAttribute("offersList", offers);
+        model.addAttribute("offersList",offers);
         return "offer/allList";
+    }
+
+    /**
+     * Metodo para comprar una oferta
+     * @param id id de la oferta
+     * @param model
+     * @param principal usuario
+     * @return la vista
+     */
+    @RequestMapping(value = "/offer/{id}/buyOffer")
+    public String buyOffer(@PathVariable Long id,Model model,Principal principal){
+        //Obtengo el dinero que tiene la cartera del usuario
+        String userEmail = principal.getName();
+        User user = usersService.getUserByEmail(userEmail);
+        Double wallet = user.getWallet();
+        //Obtengo el precio de la oferta
+        Offer offer = offersService.getOffer(id);
+        Double price = offer.getPrice();
+        //Comprobar si el dinero del wallet es superior al precio
+        if(wallet>price) {
+            offersService.setOfferSold(id);
+            user.setWallet((user.getWallet())-price);
+        }
+        return "redirect:/offer/allList";
+    }
+
+    /**
+     * Metodo que actualiza la vista
+     * @param model
+     * @param principal usuario registrado
+     * @param searchText texto a buscar
+     * @return la vista
+     */
+    @RequestMapping(value = "/offer/list/update")
+    public String updateList(Model model, Principal principal,@RequestParam(value = "", required = false)String searchText){
+        String userEmail = principal.getName();
+        List<Offer>offers;
+        //Si esta vacio el buscador devolvemos todas, sino no
+        if(searchText==null || searchText.isEmpty()){
+            offers = offersService.getAllOffersToBuy(userEmail);
+        }else{
+            offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
+        }
+        model.addAttribute("offersList",offers);
+        return "offer/allList :: tableOffer";
     }
 }

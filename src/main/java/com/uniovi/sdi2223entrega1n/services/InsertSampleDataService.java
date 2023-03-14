@@ -23,22 +23,26 @@ public class InsertSampleDataService {
         User user1 = new User("usuario1@email.com", "User", "Normal");
         user1.setPassword("123456");
         user1.setRole(rolesService.getRoles()[0]);
+        user1.setWallet(154.0);
         usersService.addUser(user1);
 
 
         User user3 = new User("usuario2@email.com", "User", "Normal");
         user3.setPassword("123456");
         user3.setRole(rolesService.getRoles()[0]);
+        user3.setWallet(154.0);
         usersService.addUser(user3);
 
         User user4 = new User("usuario3@email.com", "User", "Normal");
         user4.setPassword("123456");
         user4.setRole(rolesService.getRoles()[0]);
+        user4.setWallet(100.0);
         usersService.addUser(user4);
 
         User user5 = new User("usuario4@email.com", "User", "Normal");
         user5.setPassword("123456");
         user5.setRole(rolesService.getRoles()[0]);
+        user5.setWallet(154.0);
         usersService.addUser(user5);
 
         User user2 = new User("admin@email.com", "User", "Admin");
