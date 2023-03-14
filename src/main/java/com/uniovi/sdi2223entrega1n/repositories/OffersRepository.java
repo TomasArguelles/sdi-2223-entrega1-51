@@ -10,4 +10,7 @@ public interface OffersRepository extends CrudRepository<Offer, Long> {
 
     @Query("SELECT o FROM Offer o WHERE o.seller.email = ?1")
     List<Offer> findAllBySeller(final String sellerEmail);
+
+    @Query("SELECT o FROM Offer o WHERE(LOWER(o.title) LIKE LOWER(?1) )")
+    List<Offer> searchByName(String searchText);
 }

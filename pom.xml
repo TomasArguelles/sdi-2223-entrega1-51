@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.uniovi</groupId>
-    <artifactId>sdi-2223-entrega1-n</artifactId>
+    <artifactId>sdi-2223-entrega1-51</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>sdi-2223-entrega1-n</name>
     <description>sdi-2223-entrega1-n</description>
     <properties>

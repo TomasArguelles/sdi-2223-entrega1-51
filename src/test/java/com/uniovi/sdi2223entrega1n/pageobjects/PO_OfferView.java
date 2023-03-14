@@ -58,9 +58,6 @@ public class PO_OfferView extends PO_NavView {
      * @param offerTitle
      */
     static public void addSampleOffer(WebDriver driver, String offerTitle) {
-        // Iniciar sesión como usuario standard
-        SeleniumUtils.signInIntoAccount(driver, "STANDARD");
-
         // Acceder a la vista de añadir una nueva oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 

@@ -1,7 +1,7 @@
 package com.uniovi.sdi2223entrega1n;
 
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_OfferView;
-import com.uniovi.sdi2223entrega1n.pageobjects.PO_View;
+import com.uniovi.sdi2223entrega1n.entities.User;
+import com.uniovi.sdi2223entrega1n.pageobjects.*;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
@@ -66,7 +66,7 @@ class Sdi2223Entrega1NApplicationTests {
     }
 
     //    [Prueba1] Registro de Usuario con datos válidos.
-  /*  @Test
+    @Test
     @Order(1)
     void PR01() {
         //Nos movemos al formulario de registro
@@ -113,11 +113,48 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
 
         //Nos movemos al formulario de registro
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos INVALIDOS
         PO_SignUpView.fillForm(driver, "JoseFo1@gmail.com", "Josefo", "Perez", "77777", "77777");
         //Comprobamos que seguimos en la pantalla de registro
         PO_SignUpView.checkSignUpPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //[Prueba5] Inicio de sesión con datos válidos (administrador).
+    @Test
+    @Order(5)
+    void PR05() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario administrador
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //[Prueba6] Inicio de sesión con datos válidos (usuario estándar).
+    @Test
+    @Order(6)
+    void PR06() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //[Prueba7] Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos)
+    @Test
+    @Order(7)
+    void PR07() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos INVALIDOS
+        PO_LoginView.fillForm(driver, "", "");
+        //Comprobamos que seguimos en la pantalla de inicio de sesión
+        PO_LoginView.checkLoginPage(driver, PO_Properties.getSPANISH());
     }
 
     //[Prueba11] Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el
@@ -128,7 +165,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de inicio de sesion
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "admin1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
         //Accedemos a la lista de users
@@ -142,8 +179,6 @@ class Sdi2223Entrega1NApplicationTests {
         Assertions.assertEquals(usersSystem.size(), usersSystem.size());
         //Comprobamos uno a uno
         PO_UserListView.compareOneByOneTwoUsersLists(driver, usersList, usersSystem);
-
-
     }
 
     //[Prueba12] Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar que la lista se actualiza
@@ -154,7 +189,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de inicio de sesion
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "admin1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
         //Accedemos a la lista de users
@@ -178,15 +213,15 @@ class Sdi2223Entrega1NApplicationTests {
         Assertions.assertEquals(s1, s2 + 1);
     }
 
-    // [Prueba13] Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
-    // y dicho usuario desaparece.
+    //[Prueba13] Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
+//y dicho usuario desaparece.
     @Test
     @Order(13)
     void PR013() {
         //Nos movemos al formulario de inicio de sesion
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "admin1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
         //Comprobamos que seguimos en la pantalla de registro
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
         //Accedemos a la lista de users
@@ -207,8 +242,6 @@ class Sdi2223Entrega1NApplicationTests {
         int s2 = usersList.size();
         Assertions.assertNotEquals(s1, s2);
         Assertions.assertEquals(s1, s2 + 1);
-
-
     }
 
     //[Prueba14] Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
@@ -250,10 +283,10 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(15)
     public void PR015() {
-        // Iniciar sesión como usuario standard
-        SeleniumUtils.signInIntoAccount(driver, "STANDARD");
+        // Crear nuevo usuario
+        SeleniumUtils.registerNewUser(driver, "miemail444@email.com", "123456");
 
-        String newOfferText = "Coche marca Renault";
+        String newOfferText = "Coche marca Renault 1";
 
         // Acceder a la vista de añadir una nueva oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
@@ -269,8 +302,8 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(16)
     public void PR016() {
-        // Iniciar sesión como usuario standard
-        SeleniumUtils.signInIntoAccount(driver, "STANDARD");
+        // Iniciar sesion
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", "miemail444@email.com");
 
         // Acceder a la vista de añadir una nueva oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
@@ -287,26 +320,29 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(17)
     public void PR017() {
-        // Iniciar sesión como usuario standard
-        SeleniumUtils.signInIntoAccount(driver, "STANDARD");
+        // Iniciar sesion
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", "miemail444@email.com");
 
         // Acceder a la vista de listado de ofertas
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
 
         // Comprobar número elementos de tabla con número de elementos BBDD
-        int offerCountFromUserOnDatabase = offersRepository.findAllBySeller("usuario1@email.com").size();
+        int offerCountFromUserOnDatabase = offersRepository.findAllBySeller("miemail444@email.com").size();
 
         // Obtener número de filas de la tabla de la vista del listado de ofertas
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
 
         // Verificar que el número de registros mostrados es correcto
         Assertions.assertEquals(offerCountFromUserOnDatabase, rowCount);
-    }*/
+    }
 
     // [Prueba18]. Baja de una oferta - Borrar primera oferta de la lista.
     @Test
     @Order(18)
     public void PR018() {
+        // Registrar nuevo usuario
+        SeleniumUtils.registerNewUser(driver, "miemail666@email.com", "123456");
+
         String sampleText1 = "Coche de segunda mano";
         String sampleText2 = "Vestido de comunión";
         String sampleText3 = "Baraja de cartas";
@@ -322,7 +358,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Comprobar que el primer elemento no se muestra en la tabla
         PO_OfferView.checkOfferNotExistsOnPage(driver, sampleText1);
 
-        // Comprobar que el número de oferta es 2
+        // Comprobar que el número de oferta es 3
         List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
         Assertions.assertEquals(2, offerList.size());
@@ -332,11 +368,16 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(19)
     public void PR019() {
+        // Registrar nuevo usuario
+        SeleniumUtils.registerNewUser(driver, "miemail777@email.com", "123456");
+
         String sampleTextLast = "Coche se segunda mano";
-//        String sampleText2 = "Vestido de comunión";
-//        String sampleText3 = "Baraja de cartas";
+        String sampleText2 = "Vestido de comunión";
+        String sampleText3 = "Baraja de cartas";
 
         // Iniciar sesion, añadir una nueva oferta
+        PO_OfferView.addSampleOffer(driver, sampleText2);
+        PO_OfferView.addSampleOffer(driver, sampleText3);
         PO_OfferView.addSampleOffer(driver, sampleTextLast);
 
         // Click en el enlace eliminar del ultimo elemento de la lista
@@ -345,7 +386,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Comprobar que el ultimo elemento no se muestra en la tabla
         PO_OfferView.checkOfferNotExistsOnPage(driver, sampleTextLast);
 
-        // Comprobar que el número de oferta es 2
+        // Comprobar que el número de ofertas, tras eliminar la última oferta, es 2
         List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
         Assertions.assertEquals(2, offerList.size());

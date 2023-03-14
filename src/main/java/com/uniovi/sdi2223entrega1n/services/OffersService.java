@@ -1,14 +1,10 @@
 package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
-import com.uniovi.sdi2223entrega1n.entities.User;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +23,6 @@ public class OffersService {
      * @param newOffer Datos de la nueva oferta.
      */
     public void add(Offer newOffer) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User seller = usersService.getUserByEmail(email);
-
-        // El vendedor es el usuario en sesión
-        newOffer.setSeller(seller);
-
-        // Fecha a dia de hoy
-        newOffer.setDateUpload(Instant.now());
         offersRepository.save(newOffer);
     }
 
@@ -62,5 +49,23 @@ public class OffersService {
      */
     public void deleteOfferById(final Long id) {
         offersRepository.deleteById(id);
+    }
+
+    /**
+     * Metodo que devuelve todos las ofertas del sistema
+     *
+     * @return offers Lisa de ofertas.
+     */
+    public List<Offer> getAllOffers() {
+        List<Offer> offers = new ArrayList<>();
+        offersRepository.findAll().forEach(offers::add);
+        return offers;
+    }
+
+    public List<Offer> searchOffersByName(String searchText) {
+        List<Offer> offers = new ArrayList<>();
+        searchText = "%" + searchText + "%";
+        offers = offersRepository.searchByName(searchText);
+        return offers;
     }
 }
