@@ -15,6 +15,7 @@ public class User {
     private String lastName;
     private String role;
     private String password;
+    private double wallet;
 
     @Transient //propiedad que no se almacena en la tabla.
     private String passwordConfirm;
@@ -68,6 +69,14 @@ public class User {
     }
 
     public String getRole() {     return role; }  public void setRole(String role) {     this.role = role; }
+
+    public double getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(double wallet) {
+        this.wallet = wallet;
+    }
 
     public Set<Offer> getOnSale() {
         return onSale;
