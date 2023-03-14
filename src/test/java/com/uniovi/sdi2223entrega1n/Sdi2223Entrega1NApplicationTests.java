@@ -19,10 +19,11 @@ import java.util.List;
 class Sdi2223Entrega1NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -390,5 +391,49 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
         Assertions.assertEquals(2, offerList.size());
+
+    }
+
+    /**
+     * [Prueba 20] Hacer una búsqueda con el campo vacío y comprobar que se muestra la página que
+     * corresponde con el listado de las ofertas existentes en el sistema
+     */
+    @Test
+    @Order(20)
+    public void PR020(){
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        String invalid = "";
+        PO_AllOfferView.SearchInvalid(driver,invalid);
+
+        //Comprobar que el numero es 0
+        List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout());
+
+        Assertions.assertEquals(5,offerList.size());
+
+        //Cierro sesion
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    /**
+     * [Prueba21] Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se
+     * muestra la página que corresponde, con la lista de ofertas vacía.
+     */
+    @Test
+    @Order(21)
+    public void PR021(){
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        String invalid = "asdasd";
+        PO_AllOfferView.SearchInvalid(driver,invalid);
+
+        //Comprobar que el numero es 0
+        SeleniumUtils.textIsNotPresentOnPage(driver,"//tbody/tr");
+
+        //Cierro sesion
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
 }
