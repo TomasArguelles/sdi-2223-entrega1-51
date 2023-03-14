@@ -51,6 +51,12 @@ public class OffersService {
         return offers;
     }
 
+    /**
+     * Buscar ofertas por nombre y que no sean del usuario
+     * @param searchText nombre a buscar
+     * @param userEmail email del usuario que no debe ser el vendedor
+     * @return lista de ofertas
+     */
     public List<Offer> searchOffersByNameAndUser(String searchText,String userEmail) {
         List<Offer> offers = new ArrayList<>();
         searchText = "%"+searchText+"%";
@@ -58,7 +64,20 @@ public class OffersService {
         return offers;
     }
 
+    /**
+     * Metodo que actualiza una oferta a vendida
+     * @param id de la oferta
+     */
     public void setOfferSold(Long id) {
         offersRepository.setOfferSold(true,id);
+    }
+
+    /**
+     * Metodo que buscar una oferta por id
+     * @param id de la oferta
+     * @return la oferta
+     */
+    public Offer getOffer(Long id) {
+        return offersRepository.findById(id).get();
     }
 }
