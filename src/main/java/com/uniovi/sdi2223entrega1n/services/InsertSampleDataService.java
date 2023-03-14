@@ -1,6 +1,9 @@
 package com.uniovi.sdi2223entrega1n.services;
 
 
+
+import com.uniovi.sdi2223entrega1n.entities.Conversation;
+
 import com.uniovi.sdi2223entrega1n.entities.Offer;
 import com.uniovi.sdi2223entrega1n.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +98,8 @@ public class InsertSampleDataService {
         Offer offer11 = new Offer("Movil3", "LG", 28.0);
         offer11.setSeller(user5);
         offersService.add(offer11);
+
+        //Conversation c1=new Conversation(offer9);
 
 
     }
