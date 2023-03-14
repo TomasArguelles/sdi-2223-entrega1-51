@@ -129,6 +129,7 @@ public class OfferController {
         //Comprobar si el dinero del wallet es superior al precio
         if(wallet>price) {
             offersService.setOfferSold(id);
+            user.setWallet((user.getWallet())-price);
         }
         return "redirect:/offer/allList";
     }
