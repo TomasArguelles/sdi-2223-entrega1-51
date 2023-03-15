@@ -100,7 +100,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
      */
     private String getLogTypeByRequestUrl(final HttpServletRequest request, final String httpMethod,
                                           final int httpStatus, final String requestUrl) {
-
         boolean isSuccessResponse = httpStatus >= 200 && httpStatus < 300;
         boolean isErrorResponse = httpStatus >= 400 && httpStatus < 500;
         boolean isPostMethod = httpMethod.equals(HttpMethod.POST);
@@ -172,6 +171,27 @@ public class LoggingInterceptor implements HandlerInterceptor {
         return sB.toString();
     }
 
+    /**
+     * Extrae todos los parámetros de una peticion y devuelve una cadena con
+     * sus pares clave-valor con un formato determinado.
+     *
+     * @param params Parametros recibidos de la request.
+     * @return
+     */
+    private String extractRequestParamsAsString(Map<String, String[]> params) {
+        StringBuilder sB = new StringBuilder();
+
+        for (Map.Entry<String, String[]> param : params.entrySet()) {
+            sB.append(param.getKey()).append(" : ")
+                    .append(Arrays.stream(param.getValue()).reduce((res, p) -> {
+                        return res += " ; " + p;
+                    }));
+            sB.append("\n");
+        }
+
+        return sB.toString();
+    }
+
     @Override
     public void afterCompletion
             (HttpServletRequest request, HttpServletResponse response, Object
@@ -184,13 +204,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
         String endPointName = request.getRequestURI();
 
         // Parametros de la peticion, si los hay
-        Map<String, String[]> requestParams = request.getParameterMap();
-
-//        if (request.getParameterMap().size() > 0) {
-//            for (Map.Entry<String, String[]> param : requestParams.entrySet()) {
-//                System.out.println("param: " + param.getValue()[0]);
-//            }
-//        }
+        String requestParams = extractRequestParamsAsString(request.getParameterMap());
 
         // Método HTTP recibido.
         String httpMethod = request.getMethod();
@@ -215,20 +229,18 @@ public class LoggingInterceptor implements HandlerInterceptor {
                 responseStatus, responseLocale, remoteAddress, currentTime);
 
         // Registrar log de determinados endpoints. No registrar accesos a ficheros estáticos.
-        String endpointNameExtracted = endPointName.split("/")[1];
+        String endpointNameExtracted = endPointName.split("/").length > 1
+                ? endPointName.split("/")[1]
+                : "/";
 
         // Filtrar solamente los endpoint definidos en endpointsTargetArr
         Optional<String> isValidEndpoint = Arrays.stream(endpointsTargetArr).filter(ep ->
                 ep.contains(endpointNameExtracted)).findAny();
 
         if (isValidEndpoint.isPresent() && !logType.equalsIgnoreCase(UNKNOWN_ENDPOINT)) {
-            //log.info(outputMessage);
-
             CustomLog newLog = usernameInSession == null
-                    ? new CustomLog(logType, httpMethod, responseStatus, remoteAddress, responseLocale, currentTime, endPointName)
-                    : new CustomLog(logType, httpMethod, responseStatus, remoteAddress, responseLocale, currentTime, endPointName, usernameInSession);
-
-            System.out.println(newLog);
+                    ? new CustomLog(logType, httpMethod, responseStatus, remoteAddress, responseLocale, currentTime, endPointName, requestParams)
+                    : new CustomLog(logType, httpMethod, responseStatus, remoteAddress, responseLocale, currentTime, endPointName, requestParams, usernameInSession);
 
             // Persistir log en base de datos
             loggingService.addNewLog(newLog);

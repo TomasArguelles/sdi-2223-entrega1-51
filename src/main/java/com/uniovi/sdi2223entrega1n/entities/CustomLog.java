@@ -17,6 +17,8 @@ public class CustomLog {
 
     private String endPoint;
 
+    private String requestParams;
+
     private String httpMethod;
 
     private int responseStatusCode;
@@ -30,6 +32,18 @@ public class CustomLog {
     private String username; // Usuario en sesion
 
     public CustomLog() {
+    }
+
+    public CustomLog(String logType, String httpMethod, int responseStatusCode, String remoteAddr, Locale responseLocale, Timestamp createdAt, String endPoint, String params, String username) {
+        this.logType = logType;
+        this.httpMethod = httpMethod;
+        this.responseStatusCode = responseStatusCode;
+        this.remoteAddr = remoteAddr;
+        this.responseLocale = responseLocale;
+        this.createdAt = createdAt;
+        this.endPoint = endPoint;
+        this.requestParams = params;
+        this.username = username;
     }
 
     public CustomLog(String logType, String httpMethod, int responseStatusCode, String remoteAddr, Locale responseLocale, Timestamp createdAt, String endPoint, String username) {
@@ -117,6 +131,14 @@ public class CustomLog {
 
     public void setEndPoint(String endPoint) {
         this.endPoint = endPoint;
+    }
+
+    public String getRequestParams() {
+        return requestParams;
+    }
+
+    public void setRequestParams(String requestParams) {
+        this.requestParams = requestParams;
     }
 
     @Override

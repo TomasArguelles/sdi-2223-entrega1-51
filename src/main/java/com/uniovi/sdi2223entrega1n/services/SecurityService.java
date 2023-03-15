@@ -17,13 +17,25 @@ public class SecurityService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private LoggingService loggingService;
+
     public String findLoggedInDni() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
-            return ((UserDetails) userDetails).getUsername();
+
+            String username = ((UserDetails) userDetails).getUsername();
+
+//TODO:            loggingService.addNewLog(new CustomLog(LogType.LOGIN_EX.name(),
+//                    "-", HttpServletResponse.SC_OK, "POST", null, Timestamp.from(Instant.now()),
+//                    "/login", username));
+
+            return username;
         }
         return null;
     }
+
     public void autoLogin(String email, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
@@ -32,7 +44,6 @@ public class SecurityService {
         authenticationManager.authenticate(aToken);
         if (aToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(aToken);
-            logger.debug(String.format("Auto login %s successfully!", email));
         }
     }
 }

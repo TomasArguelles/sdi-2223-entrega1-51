@@ -31,7 +31,7 @@ public class LoggingService {
     public List<CustomLog> findAll() {
         // TODO: Paginacion.
         List<CustomLog> logs = new ArrayList<>();
-        loggingRepository.findAll().forEach(logs::add);
+        loggingRepository.findAllOrderByDate().forEach(logs::add);
         return logs;
     }
 
@@ -42,7 +42,9 @@ public class LoggingService {
      * @return
      */
     public List<CustomLog> findAllByLogType(final String logTypeToFilter) {
-        return loggingRepository.findAllByLogType(logTypeToFilter);
+        List<CustomLog> logs = new ArrayList<>();
+        loggingRepository.findAllByLogType(logTypeToFilter).forEach(logs::add);
+        return logs;
     }
 
     /**
