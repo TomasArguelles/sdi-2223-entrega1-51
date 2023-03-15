@@ -7,13 +7,14 @@
 <nav th:replace="fragments/nav"/>
 
 <div class="container">
-    <h2 class="my-3">Listado de logs</h2>
+    <h2 class="my-3" th:text="#{admin.dashboard.title}">Listado de logs</h2>
 
     <div class="d-flex flex-row justify-content-start mb-5">
 
         <div class="col-md-4">
             <a class="btn btn-dark mb-4" href="/admin/logs/deleteAll"
-               title="Eliminar todos los logs registrados hasta la fecha">Eliminar
+               th:title="#{admin.dashboard.deleteAllLogs.title}"
+               th:text="#{admin.dashboard.deleteAllLogs}">Eliminar
                 logs
                 <span class="badge badge-light" th:text="${logs.size()}"></span>
             </a>
@@ -22,7 +23,9 @@
               class="d-flex flex-row justify-content-start mb-4 gap-3">
             <select class="form-select form-select-lg mb-3"
                     name="logType">
-                <option selected value="TODO">Mostrar todo</option>
+                <option selected value="TODO"
+                        th:text="#{admin.dashboard.showAll}">Mostrar todo
+                </option>
                 <option value="PET">PET</option>
                 <option value="ALTA">ALTA</option>
                 <option value="LOGIN-EX">LOGIN-EX</option>
@@ -30,7 +33,8 @@
                 <option value="LOGOUT">LOGOUT</option>
             </select>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Filtrar">
+                <input type="submit" class="btn btn-primary"
+                       th:value="#{admin.dashboard.filter}">
             </div>
         </form>
     </div>
@@ -40,19 +44,34 @@
            th:fragment="tableLogs">
         <thead class="thead-dark">
         <tr>
-            <th scope="col" title="Tipo de petición">Tipo</th>
-            <th scope="col" title="Método HTTP de la petición">Método</th>
-            <th scope="col" title="URL del endpoint consultado">URL</th>
-            <th scope="col" title="Código de estado HTTP">Código HTTP</th>
-            <th scope="col" title="Parámetros recibidos">Parámetros</th>
-            <th scope="col"
-                title="Dirección IP desde donde se realiza la petición">IP
+            <th scope="col" th:title="#{admin.dashboard.type.title}"
+                th:text="#{admin.dashboard.form.type}">Tipo
             </th>
-            <th scope="col" title="Idioma del recurso solicitado">Idioma</th>
-            <th scope="col" title="Fecha y hora cuando tuvo lugar la consulta">
+            <th scope="col" th:title="#{admin.dashboard.method.title}"
+                th:text="#{admin.dashboard.form.method}">Método
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.url.title}"
+                th:text="#{admin.dashboard.form.url}">URL
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.statusCode.title}"
+                th:text="#{admin.dashboard.form.statusCode}">Código HTTP
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.params.title}"
+                th:text="#{admin.dashboard.form.params}">Parámetros
+            </th>
+            <th scope="col"
+                th:title="#{admin.dashboard.ip.title}"
+                th:text="#{admin.dashboard.form.ip}">IP
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.lang.title}"
+                th:text="#{admin.dashboard.form.lang}">Idioma
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.date.title}"
+                th:text="#{admin.dashboard.form.date}">
                 Fecha y hora
             </th>
-            <th scope="col" title="Nombre del usuario que realizó la petición">
+            <th scope="col" th:title="#{admin.dashboard.username.title}"
+                th:text="#{admin.dashboard.form.username}">
                 Usuario
             </th>
         </tr>
@@ -85,7 +104,7 @@
         </tbody>
     </table>
     <div th:if="${logs.size() == 0}" class="container">
-        <h3>No hay logs</h3>
+        <h3 th:text="#{admin.dashboard.form.nologs}">No hay logs</h3>
     </div>
 </div>
 <footer th:replace="fragments/footer"/>
