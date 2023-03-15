@@ -1,5 +1,7 @@
 package com.uniovi.sdi2223entrega1n;
 
+import com.uniovi.sdi2223entrega1n.interceptors.LoggingInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +23,17 @@ public class CustomConfiguration implements WebMvcConfigurer {
     private int page;
     @Value("${spring.data.web.pageable.default-page-size}")
     private int size;
+
+    @Autowired
+    private LoggingInterceptor loggingInterceptor;
+
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
         localeResolver.setDefaultLocale(new Locale("es", "ES"));
         return localeResolver;
     }
+
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor =
@@ -34,9 +41,13 @@ public class CustomConfiguration implements WebMvcConfigurer {
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+
+        // Interceptor para el logging de la aplicacion
+        registry.addInterceptor(loggingInterceptor);
     }
 
     @Override
