@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+
+<div class="container">
+    <h2>Listado de logs</h2>
+
+    <a class="btn btn-dark mb-4" href="/admin/logs/deleteAll"
+       title="Eliminar todos los logs registrados hasta la fecha">Eliminar
+        logs
+        <span class="badge badge-light" th:text="${logs.size()}"></span>
+    </a>
+
+    <table class="table table-striped px-3" th:fragment="tableLogs">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Tipo</th>
+            <th scope="col">Método</th>
+            <th scope="col">URL</th>
+            <th scope="col">Código HTTP</th>
+            <th scope="col">IP</th>
+            <th scope="col">Idioma</th>
+            <th scope="col">Fecha y hora</th>
+            <th scope="col">Usuario</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="log : ${logs}"
+            th:attr="class=${log.logType == 'LOGIN-EX' ? 'table-warning' : ''}">
+            <td scope="row">
+                <span class="badge badge-pill badge-primary"
+                      th:text="${log.logType}"></span>
+            </td>
+            <td scope="row" th:text="${log.httpMethod}"></td>
+            <td scope="row" th:text="${log.endPoint}"></td>
+            <td scope="row" th:text="${log.responseStatusCode}"></td>
+            <td scope="row" th:text="${log.remoteAddr}"></td>
+            <td scope="row" th:text="${log.responseLocale}"></td>
+            <td scope="row" th:text="${log.createdAt}"></td>
+            <td scope="row" th:if="${log.username != 'anonymous'}"
+                th:text="${log.username}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>
