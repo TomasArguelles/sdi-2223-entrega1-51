@@ -39,8 +39,6 @@ springsecurity4">
                     usuarios
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/user/add">Agregar
-                        usuario</a>
                     <a class="dropdown-item" href="/user/list"
                        th:if="${#request.isUserInRole('ROLE_ADMIN')}">Ver
                         usuarios</a>
