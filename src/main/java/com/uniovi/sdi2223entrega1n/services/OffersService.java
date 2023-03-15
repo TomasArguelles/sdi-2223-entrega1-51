@@ -2,11 +2,13 @@ package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
+import org.openqa.selenium.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OffersService {
@@ -90,5 +92,9 @@ public class OffersService {
      */
     public Offer getOffer(Long id) {
         return offersRepository.findById(id).get();
+    }
+
+    public Offer findById(Long offerId) {
+        return offersRepository.findById(offerId).orElseThrow(() -> new NotFoundException("Conversation not found with id " + offerId));
     }
 }

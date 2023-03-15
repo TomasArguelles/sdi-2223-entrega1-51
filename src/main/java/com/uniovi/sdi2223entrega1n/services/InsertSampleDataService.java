@@ -4,12 +4,14 @@ package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Conversation;
 
+import com.uniovi.sdi2223entrega1n.entities.Message;
 import com.uniovi.sdi2223entrega1n.entities.Offer;
 import com.uniovi.sdi2223entrega1n.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.Instant;
 
 @Service
 public class InsertSampleDataService {
@@ -21,6 +23,12 @@ public class InsertSampleDataService {
     @Autowired
     private OffersService offersService;
 
+    @Autowired
+    private MessagesService msgService;
+
+    @Autowired
+    private ConversationsService convService;
+
     @PostConstruct
     public void init() {
         User user1 = new User("usuario1@email.com", "User", "Normal");
@@ -30,7 +38,7 @@ public class InsertSampleDataService {
         usersService.addUser(user1);
 
 
-        User user3 = new User("usuario2@email.com", "User", "Normal");
+        User user3 = new User("usuario2@email.com", "User13", "Normal");
         user3.setPassword("123456");
         user3.setRole(rolesService.getRoles()[0]);
         user3.setWallet(154.0);
@@ -99,7 +107,45 @@ public class InsertSampleDataService {
         offer11.setSeller(user5);
         offersService.add(offer11);
 
-        //Conversation c1=new Conversation(offer9);
+        Offer offer12 = new Offer("Coche", "LG", 28.0);
+        offer12.setSeller(user1);
+        offersService.add(offer12);
+
+        Offer offer13 = new Offer("Carro", "LG", 28.0);
+        offer13.setSeller(user3);
+        offersService.add(offer13);
+
+        Conversation c1=new Conversation();
+        c1.setOffer(offer12);
+        c1.setBuyer(user3);
+        convService.add(c1);
+
+
+        Conversation c2=new Conversation();
+        c2.setOffer(offer13);
+        c2.setBuyer(user1);
+        convService.add(c2);
+        Message m1=new Message();
+        m1.setSender(user1);
+        m1.setDate(Instant.now());
+        m1.setText("Hola, sigue disponible?");
+        msgService.add(m1);
+        Message m2=new Message();
+        m2.setSender(offer13.getSeller());
+        m2.setDate(Instant.now());
+        m2.setText("Sí, sigue");
+        msgService.add(m2);
+        Message m3=new Message();
+        m3.setSender(user1);
+        m3.setDate(Instant.now());
+        m3.setText("Genial!");
+        msgService.add(m3);
+        c2.addMessage(m1);
+        c2.addMessage(m2);
+        c2.addMessage(m3);
+        convService.save(c2);
+
+
 
 
     }

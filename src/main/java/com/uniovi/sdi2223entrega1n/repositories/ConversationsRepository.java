@@ -9,6 +9,15 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ConversationsRepository extends CrudRepository<Conversation, Long> {
-    @Query("SELECT c FROM Conversation c WHERE c.offer.seller.email = ?1")
-    List<Conversation> findAllBySeller(final String userEmail);
+    @Query("SELECT c FROM Conversation c WHERE c.offer.seller = ?1")
+    List<Conversation> findAllBySeller(User user);
+
+    @Query("SELECT c FROM Conversation c WHERE c.offer.id= ?1 and c.buyer= ?2")
+    Conversation findConversationByOfferId(Long offerId, User buyer);
+
+    @Query("SELECT c FROM Conversation c WHERE c.offer.id= ?1 ")
+    Conversation findByOfferId(Long offerId);
+
+    @Query("SELECT c FROM Conversation c WHERE c.id= ?1")
+    Conversation findConversationById(Long id);
 }

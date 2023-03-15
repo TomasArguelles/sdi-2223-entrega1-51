@@ -3,6 +3,7 @@ package com.uniovi.sdi2223entrega1n.entities;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,14 +16,17 @@ public class Conversation {
     @JoinColumn(name="offer_id")
     private Offer offer;
 
+    @OneToOne
+    private User buyer;
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
-    private Set<Message> msgsBuyer;
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
-    private Set<Message> msgsSeller;
+    private List<Message> msgs;
+
 
     boolean state;
 
     public Conversation() {
+
+        this.msgs=new ArrayList<>();
         this.state=false;
     }
 
@@ -30,6 +34,7 @@ public class Conversation {
         this.id = id;
         this.offer = offer;
         this.state=false;
+        this.msgs=new ArrayList<>();
     }
 
     public Conversation(Offer offer) {
@@ -54,23 +59,25 @@ public class Conversation {
         this.offer = offer;
     }
 
-    public Set<Message> getMsgsBuyer() {
-        return msgsBuyer;
+    public List<Message> getMsgs() {
+        return msgs;
     }
 
-    public Set<Message> getMsgsSeller() {
-        return msgsSeller;
-    }
+
 
     public void setState(boolean s){this.state=s;}
     public boolean getState(){return this.state;}
-    public void addBuyerMessage(Message m){
-        if(this.msgsBuyer==null)this.msgsBuyer=new HashSet<>();
-        else this.msgsBuyer.add(m);
+    public void addMessage(Message m){
+        msgs.add(m);
+        m.setConversation(this);
+        System.out.println("Mensaje "+m.getText()+" añadido a "+getId());
+        System.out.println("Tamaño de conversacion  "+getMsgs().size());
+        System.out.println("Conv  "+this);
+        System.out.println("Msg conv  "+m.getConversation());
     }
 
-    public void addSellerMessage(Message m){
-        if(this.msgsSeller==null)this.msgsSeller=new HashSet<>();
-        else this.msgsSeller.add(m);
-    }
+    public void setBuyer(User u){this.buyer=u;}
+    public User getBuyer(){return this.buyer;}
+
+
 }
