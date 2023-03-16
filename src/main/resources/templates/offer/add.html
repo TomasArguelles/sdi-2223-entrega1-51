@@ -56,7 +56,9 @@
         <!-- Boton para publicar la nueva oferta -->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Añadir</button>
+                <button type="submit" class="btn btn-primary"
+                        th:text="#{offer.page.form.addButton}">Añadir
+                </button>
             </div>
         </div>
         <input type="hidden" class="form-control" id="dateUpload"
