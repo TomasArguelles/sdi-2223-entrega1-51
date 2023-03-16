@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -118,6 +119,8 @@ public class OfferController {
         }else{
             offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
+        User user = usersService.getUserByEmail(userEmail);
+        model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
         return "offer/allList";
     }
@@ -125,12 +128,11 @@ public class OfferController {
     /**
      * Metodo para comprar una oferta
      * @param id id de la oferta
-     * @param model
      * @param principal usuario
      * @return la vista
      */
     @RequestMapping(value = "/offer/{id}/buyOffer")
-    public String buyOffer(@PathVariable Long id,Model model,Principal principal){
+    public String buyOffer(@PathVariable Long id,Principal principal){
         //Obtengo el dinero que tiene la cartera del usuario
         String userEmail = principal.getName();
         User user = usersService.getUserByEmail(userEmail);
@@ -141,7 +143,7 @@ public class OfferController {
         //Comprobar si el dinero del wallet es superior al precio
         if(wallet>price) {
             offersService.setOfferSold(id);
-            user.setWallet((user.getWallet())-price);
+            usersService.decrementMoney(user,price);
         }
         return "redirect:/offer/allList";
     }
@@ -163,7 +165,9 @@ public class OfferController {
         }else{
             offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
+        User user = usersService.getUserByEmail(userEmail);
+        model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
-        return "offer/allList :: tableOffer";
+        return "offer/allList :: tableBuy";
     }
 }

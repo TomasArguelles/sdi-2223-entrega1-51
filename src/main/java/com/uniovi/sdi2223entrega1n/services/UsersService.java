@@ -42,4 +42,7 @@ public class UsersService {
     }
 
 
+    public void decrementMoney(User user, Double price) {
+        usersRepository.decrementMoney(user.getId(),user.getWallet() - price);
+    }
 }
