@@ -5,6 +5,8 @@ import com.uniovi.sdi2223entrega1n.entities.User;
 import com.uniovi.sdi2223entrega1n.services.OffersService;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import com.uniovi.sdi2223entrega1n.validators.OfferFormValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +32,11 @@ public class OfferController {
     @Autowired
     private UsersService usersService;
 
+
     private boolean invalidBuy = false;
+
+    private Logger logger = LoggerFactory.getLogger(OfferController.class);
+
 
     /**
      * Añade una nueva oferta.
@@ -56,6 +62,9 @@ public class OfferController {
         offerToAdd.setDateUpload(Instant.now());
 
         offersService.add(offerToAdd);
+
+        logger.info("Oferta añadida al sistema correctamente");
+
         return "redirect:/offer/list";
     }
 
@@ -167,6 +176,7 @@ public class OfferController {
         //Si esta vacio el buscador devolvemos todas, sino no
         if(searchText==null || searchText.isEmpty()){
             offers = offersService.getAllOffersToBuy(userEmail);
+
         }else{
             offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+
+<div class="container">
+    <h2 class="my-3" th:text="#{admin.dashboard.title}">Listado de logs</h2>
+
+    <div class="d-flex flex-row justify-content-start mb-5">
+
+        <div class="col-md-4">
+            <a class="btn btn-dark mb-4" href="/admin/logs/deleteAll"
+               th:title="#{admin.dashboard.deleteAllLogs.title}"
+               th:text="#{admin.dashboard.deleteAllLogs}">Eliminar
+                logs
+                <span class="badge badge-light" th:text="${logs.size()}"></span>
+            </a>
+        </div>
+        <form action="/admin/logs/filter" method="GET"
+              class="d-flex flex-row justify-content-start mb-4 gap-3">
+            <select class="form-select form-select-lg mb-3"
+                    name="logType">
+                <option selected value="TODO"
+                        th:text="#{admin.dashboard.showAll}">Mostrar todo
+                </option>
+                <option value="PET">PET</option>
+                <option value="ALTA">ALTA</option>
+                <option value="LOGIN-EX">LOGIN-EX</option>
+                <option value="LOGIN-ERR">LOGIN-ERR</option>
+                <option value="LOGOUT">LOGOUT</option>
+            </select>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary"
+                       th:value="#{admin.dashboard.filter}">
+            </div>
+        </form>
+    </div>
+
+
+    <table th:if="${logs.size() > 0}" class="table table-striped px-3 my-3"
+           th:fragment="tableLogs">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" th:title="#{admin.dashboard.type.title}"
+                th:text="#{admin.dashboard.form.type}">Tipo
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.method.title}"
+                th:text="#{admin.dashboard.form.method}">Método
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.url.title}"
+                th:text="#{admin.dashboard.form.url}">URL
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.statusCode.title}"
+                th:text="#{admin.dashboard.form.statusCode}">Código HTTP
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.params.title}"
+                th:text="#{admin.dashboard.form.params}">Parámetros
+            </th>
+            <th scope="col"
+                th:title="#{admin.dashboard.ip.title}"
+                th:text="#{admin.dashboard.form.ip}">IP
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.lang.title}"
+                th:text="#{admin.dashboard.form.lang}">Idioma
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.date.title}"
+                th:text="#{admin.dashboard.form.date}">
+                Fecha y hora
+            </th>
+            <th scope="col" th:title="#{admin.dashboard.username.title}"
+                th:text="#{admin.dashboard.form.username}">
+                Usuario
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="log : ${logs}"
+            th:attr="class=${log.httpMethod == 'POST' ? 'table-warning'
+            : log.httpMethod == 'DELETE' ? 'table-danger' : ''}">
+            <td scope="row">
+                <span class="badge badge-pill badge-primary"
+                      th:text="${log.logType}"></span>
+            </td>
+            <td scope="row" th:text="${log.httpMethod}"></td>
+            <td scope="row" th:text="${log.endPoint}"></td>
+            <td scope="row" th:text="${log.responseStatusCode}"></td>
+            <td scope="row"
+                th:if="${log.requestParams != null && log.requestParams.length > 0}"
+                th:text="${log.requestParams}"></td>
+            <td scope="row"
+                th:if="${log.requestParams == null || log.requestParams.length == 0}">
+                -
+            </td>
+            <td scope="row" th:text="${log.remoteAddr}"></td>
+            <td scope="row" th:text="${log.responseLocale}"></td>
+            <td scope="row" th:text="${log.createdAt}"></td>
+            <td scope="row" th:if="${log.username != 'anonymous'}"
+                th:text="${log.username}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${logs.size() == 0}" class="container">
+        <h3 th:text="#{admin.dashboard.form.nologs}">No hay logs</h3>
+    </div>
+</div>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

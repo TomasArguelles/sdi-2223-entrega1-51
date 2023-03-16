@@ -1,16 +1,14 @@
 package com.uniovi.sdi2223entrega1n.services;
 
-
-
 import com.uniovi.sdi2223entrega1n.entities.Conversation;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
 import com.uniovi.sdi2223entrega1n.entities.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-
 @Service
 public class InsertSampleDataService {
     @Autowired
@@ -125,7 +123,6 @@ public class InsertSampleDataService {
 
 
         //Conversation c1=new Conversation(offer9);
-
 
     }
 }
