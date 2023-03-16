@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/deleteSelected").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/offer/add", "/offer/list").hasAuthority("ROLE_STANDARD")
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/conversation/**").hasAuthority("ROLE_STANDARD")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
