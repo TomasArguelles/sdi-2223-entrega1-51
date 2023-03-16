@@ -30,6 +30,8 @@ public class OfferController {
     @Autowired
     private UsersService usersService;
 
+    private boolean invalidBuy = false;
+
     /**
      * Añade una nueva oferta.
      *
@@ -122,6 +124,7 @@ public class OfferController {
         User user = usersService.getUserByEmail(userEmail);
         model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
+        model.addAttribute("buyError",invalidBuy);
         return "offer/allList";
     }
 
@@ -140,10 +143,12 @@ public class OfferController {
         //Obtengo el precio de la oferta
         Offer offer = offersService.getOffer(id);
         Double price = offer.getPrice();
+        invalidBuy=true;
         //Comprobar si el dinero del wallet es superior al precio
         if(wallet>price) {
             offersService.setOfferSold(id);
             usersService.decrementMoney(user,price);
+            invalidBuy=false;
         }
         return "redirect:/offer/allList";
     }
@@ -168,6 +173,7 @@ public class OfferController {
         User user = usersService.getUserByEmail(userEmail);
         model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
+        model.addAttribute("buyError",invalidBuy);
         return "offer/allList :: tableBuy";
     }
 }
