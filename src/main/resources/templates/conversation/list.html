@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+
+<body>
+<nav th:replace="fragments/nav"/>
+
+<div class="container" id="main-container">
+    <h2>Listado de conversaciones</h2>
+    <div class="table-responsive">
+        <!--        <p th:if=""></p>-->
+        <table class="table table-hover" th:fragment="tableConversations"
+               id="tableOffer">
+            <thead>
+            <tr>
+                <th scope="col" th:text="#{conversation.offer.title}">Titulo de la oferta</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${conversationsList}">
+
+                <td th:text="${c.offer.title}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(offerList)}"> No hay conversaciones</div>
+</div>
+
+<footer th:replace="fragments/footer"/>
+
+</body>
+</html>

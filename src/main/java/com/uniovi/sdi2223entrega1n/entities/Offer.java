@@ -25,7 +25,7 @@ public class Offer {
     private User buyer = null;
 
     @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
-    private Set<Conversation> bought;
+    private Set<Conversation> conversations;
 
     //OPCIONAL
     private String urlImage;
