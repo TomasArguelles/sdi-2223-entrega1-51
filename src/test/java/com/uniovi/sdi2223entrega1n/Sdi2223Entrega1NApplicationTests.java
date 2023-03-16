@@ -6,6 +6,7 @@ import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -22,10 +23,10 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String URL = "http://localhost:8090";
 
@@ -390,5 +391,134 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
         Assertions.assertEquals(2, offerList.size());
+    }
+
+//[Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
+//a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
+//en la conversación.
+    @Test
+    @Order(26)
+    public void PR026() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/offer/allList?searchText=Carro");
+
+        //Click the link
+        PO_ConversationsView.clickConversationsLink(driver);
+
+        //we count the number of rows
+        WebElement table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsInit = rows.size();
+
+        // Write a message
+        PO_ConversationsView.writeMessage(driver, "MensajePrueba");
+        // Send the message
+        PO_ConversationsView.sendMessage(driver);
+
+        // Check if the message was sent by counting again the number of rows
+        table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
+        int numRowsAfter = rows2.size();
+
+        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
+    }
+
+    //[Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
+//“Conversación”. Comprobar que el mensaje aparece en la conversación
+    @Test
+    @Order(27)
+    public void PR027() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/offer/allList?searchText=Carro");
+
+        //Click the link
+        PO_ConversationsView.clickConversationsLink(driver);
+
+        //we count the number of rows
+        WebElement table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsInit = rows.size();
+
+        // Write a message
+        PO_ConversationsView.writeMessage(driver, "MensajePrueba");
+        // Send the message
+        PO_ConversationsView.sendMessage(driver);
+
+        // Check if the message was sent by counting again the number of rows
+        table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
+        int numRowsAfter = rows2.size();
+
+        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
+    }
+
+
+    //[Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
+    //cantidad correcta de conversaciones.
+    @Test
+    @Order(28)
+    public void PR028() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/conversation/mylist");
+        WebElement table = driver.findElement(By.id("tableMyOffer"));
+        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
+        int numRows = rows2.size();
+
+        Assertions.assertEquals(numRows, 2);
+
+    }
+
+    //[Prueba35] Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
+    //comprobar que el listado se actualiza correctamente
+    @Test
+    @Order(35)
+    public void PR035() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/conversation/list");
+
+        WebElement table = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsOriginal = rows.size();
+
+        PO_ConversationsView.clickEliminarOtherOffersFirst(driver);
+        WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
+        int numRowsFinal = rows2.size();
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
+
+    }
+    //[Prueba36] Sobre el listado de conversaciones ya abiertas, pulsar el enlace Eliminar de la última y
+    //comprobar que el listado se actualiza correctamente
+    @Test
+    @Order(36)
+    public void PR036() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/conversation/list");
+
+        WebElement table = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsOriginal = rows.size();
+
+        PO_ConversationsView.clickEliminarOtherOffersLast(driver);
+        WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
+        int numRowsFinal = rows2.size();
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
+
     }
 }

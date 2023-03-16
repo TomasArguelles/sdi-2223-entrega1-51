@@ -1,6 +1,5 @@
 package com.uniovi.sdi2223entrega1n.controllers;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.uniovi.sdi2223entrega1n.entities.Conversation;
 import com.uniovi.sdi2223entrega1n.entities.Message;
 import com.uniovi.sdi2223entrega1n.entities.Offer;
@@ -9,19 +8,12 @@ import com.uniovi.sdi2223entrega1n.services.ConversationsService;
 import com.uniovi.sdi2223entrega1n.services.OffersService;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class ConversationController {
@@ -35,13 +27,27 @@ public class ConversationController {
     @Autowired
     private OffersService offersService;
 
+    @RequestMapping(value = "/conversation/mylist")
+    public String getMyConversationsList(Model model, Principal principal) {
+        String userEmail = principal.getName();
+        User u=usersService.getUserByEmail(userEmail);
+        model.addAttribute("conversationsList", conversationsService.findAllConversationsFromUserByEmail(u));
+        return "/conversation/mylist";
+    }
     @RequestMapping(value = "/conversation/list")
+    public String getConversationsList(Model model, Principal principal) {
+        String userEmail = principal.getName();
+        User u=usersService.getUserByEmail(userEmail);
+        model.addAttribute("conversationsList", conversationsService.findAllConversationsByBuyer(u));
+        return "/conversation/list";
+    }
+    @RequestMapping(value = "/conversation/allList")
     public String getAllConversationsList(Model model, Principal principal) {
         String userEmail = principal.getName();
         User u=usersService.getUserByEmail(userEmail);
-        // Enviar el listado de conversaciones a la vista
-        model.addAttribute("conversationsList", conversationsService.findAllConversationsFromUserByEmail(u));
-        return "conversation/list";
+        model.addAttribute("conversationsList", conversationsService.findAllConversationsByBuyer(u));
+        model.addAttribute("myconversationsList", conversationsService.findAllConversationsFromUserByEmail(u));
+        return "/conversation/allList";
     }
 
 
@@ -52,7 +58,8 @@ public class ConversationController {
 
         Offer o=offersService.findById(offerId);
         //System.out.println("O  "+o.getId());
-        Conversation conv = conversationsService.findByOfferId(offerId);
+        Conversation conv = conversationsService.getConversationByOfferIdAndBuyer(offerId,u);
+
         Conversation conversation;
         if (conv == null) {
 
@@ -60,7 +67,7 @@ public class ConversationController {
             conversation.setOffer(o);
             conversation.setBuyer(u);
             conversationsService.save(conversation);
-            System.out.println("No había conver, se creó "+conversation);
+            System.out.println("No había conver, se creó entre "+o.getSeller().getName()+" y "+conversation.getBuyer().getName());
             return "redirect:/conversation/conversation/"+conversation.getId();
         }else{
             System.out.println("La conver es "+conv);
@@ -69,14 +76,43 @@ public class ConversationController {
 
 
     }
+
+
+    @RequestMapping("/conversation/redirectToConversationMyOffers/{offerId}")
+    public String getRedirectToConversationMyOffers(@PathVariable Long offerId, Principal principal, Model model) {
+        String userEmail = principal.getName();
+        User u = usersService.getUserByEmail(userEmail);
+
+        Offer o=offersService.findById(offerId);
+        //System.out.println("O  "+o.getId());
+        Conversation conv = conversationsService.getConversationByOfferIdAndSeller(offerId,u);
+        Conversation conversation;
+        if (conv == null) {
+
+           System.out.println("No hay conversación");
+           return "/offer/list";
+        }else{
+            System.out.println("La conver es "+conv);
+            return "redirect:/conversation/myconversation/"+conv.getId();
+        }
+
+
+    }
     @RequestMapping("conversation/conversation/{conversationId}")
     public String getConversation(@PathVariable Long conversationId, Model model) {
 
         model.addAttribute("conversation", conversationsService.getConversation(conversationId));
-        System.out.println("Id: "+conversationId);
-        System.out.println("Conv: "+conversationsService.getConversation(conversationId));
-        System.out.println("Msgs size: "+conversationsService.getConversation(conversationId).getMsgs().size());
+
         return "conversation/conversation";
+    }
+
+    @RequestMapping("conversation/myconversation/{conversationId}")
+    public String getMyConversation(@PathVariable Long conversationId, Model model) {
+
+        model.addAttribute("conversation", conversationsService.getConversation(conversationId));
+
+
+        return "conversation/myconversation";
     }
 
     @PostMapping("conversation/conversation/{conversationId}/addMessage")
@@ -98,7 +134,34 @@ public class ConversationController {
         return "redirect:/conversation/conversation/" + conversationId;
     }
 
+    @RequestMapping(value = "/conversation/mydelete/{id}", method = RequestMethod.GET)
+    public String deleteMyConversationById(@PathVariable final Long id, Principal principal) {
+        User user = usersService.getUserByEmail(principal.getName());
+        Conversation conversation = conversationsService.getConversation(id);
 
+        if (conversation.getBuyer().equals(user) || conversation.getOffer().getSeller().equals(user)) {
+            conversationsService.deleteConversationById(id);
+            return "redirect:/conversation/mylist";
+
+        }else{
+            System.out.println("Error");
+            return null;
+        }
+    }
+    @RequestMapping(value = "/conversation/delete/{id}", method = RequestMethod.GET)
+    public String deleteConversationById(@PathVariable final Long id, Principal principal) {
+        User user = usersService.getUserByEmail(principal.getName());
+        Conversation conversation = conversationsService.getConversation(id);
+
+        if (conversation.getBuyer().equals(user) || conversation.getOffer().getSeller().equals(user)) {
+            conversationsService.deleteConversationById(id);
+            return "redirect:/conversation/list";
+
+        }else{
+            System.out.println("Error");
+            return null;
+        }
+    }
 
 }
 

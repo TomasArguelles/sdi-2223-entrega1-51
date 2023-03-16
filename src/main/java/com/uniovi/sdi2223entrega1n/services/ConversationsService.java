@@ -16,7 +16,11 @@ public class ConversationsService {
     private ConversationsRepository conversationsRepository;
 
     public  Conversation getConversationByOfferIdAndBuyer(Long offerId, User buyer) {
-        return conversationsRepository.findConversationByOfferId(offerId, buyer);
+        return conversationsRepository.findConversationByOfferIdAndBuyer(offerId, buyer);
+    }
+
+    public  Conversation getConversationByOfferIdAndSeller(Long offerId, User buyer) {
+        return conversationsRepository.findConversationByOfferIdAndSeller(offerId, buyer);
     }
 
     public void add(Conversation newConv){conversationsRepository.save(newConv);}
@@ -27,7 +31,11 @@ public class ConversationsService {
 
         return conversationsRepository.findAllBySeller(seller);
     }
-    public Conversation findByOfferId(Long offerId) {
+
+    public List<Conversation> findAllConversationsByBuyer(User buyer) {
+        return conversationsRepository.findAllByBuyer(buyer);
+    }
+    public List<Conversation> findByOfferId(Long offerId) {
         return conversationsRepository.findByOfferId(offerId);
     }
 
@@ -41,4 +49,7 @@ public class ConversationsService {
     }
 
 
+    public void deleteConversationById(Long id) {
+        conversationsRepository.deleteById(id);
+    }
 }

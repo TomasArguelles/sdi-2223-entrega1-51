@@ -8,7 +8,7 @@ springsecurity4">
 <nav th:replace="fragments/nav"/>
 
 <div class="container" id="main-container">
-    <h2>Listado de ofertas</h2>
+    <h2>Mis ofertas</h2>
     <div class="table-responsive">
         <!--        <p th:if=""></p>-->
         <table class="table table-hover" th:fragment="tableOffer"
@@ -33,11 +33,13 @@ springsecurity4">
                        sec:authorize="hasRole('ROLE_STANDARD')"
                        class="btnBorrarOferta">eliminar</a>
                 </td>
+                <td><a th:href="${'/conversation/redirectToConversationMyOffers/' + offer.id}">Conversation</a></td>
             </tr>
+
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(offerList)}"> No hay ofertas</div>
+    <div th:if="${#lists.isEmpty(offerList)}"> Vacio</div>
 </div>
 
 <footer th:replace="fragments/footer"/>

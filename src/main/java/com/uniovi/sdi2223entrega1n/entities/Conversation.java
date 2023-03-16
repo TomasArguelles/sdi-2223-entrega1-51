@@ -70,14 +70,15 @@ public class Conversation {
     public void addMessage(Message m){
         msgs.add(m);
         m.setConversation(this);
-        System.out.println("Mensaje "+m.getText()+" añadido a "+getId());
-        System.out.println("Tamaño de conversacion  "+getMsgs().size());
-        System.out.println("Conv  "+this);
-        System.out.println("Msg conv  "+m.getConversation());
+        //System.out.println("Mensaje "+m.getText()+" añadido a "+getId());
+        //System.out.println("Tamaño de conversacion  "+getMsgs().size());
+        //System.out.println("Conv  "+this);
+        //System.out.println("Msg conv  "+m.getConversation());
     }
 
     public void setBuyer(User u){this.buyer=u;}
     public User getBuyer(){return this.buyer;}
+
 
 
 }

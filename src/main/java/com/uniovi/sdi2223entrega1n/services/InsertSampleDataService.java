@@ -38,7 +38,7 @@ public class InsertSampleDataService {
         usersService.addUser(user1);
 
 
-        User user3 = new User("usuario2@email.com", "User13", "Normal");
+        User user3 = new User("usuario2@email.com", "User2", "Normal");
         user3.setPassword("123456");
         user3.setRole(rolesService.getRoles()[0]);
         user3.setWallet(154.0);
@@ -101,7 +101,7 @@ public class InsertSampleDataService {
 
         Offer offer10 = new Offer("Movil2", "Samsung", 228.0);
         offer10.setSeller(user5);
-        offersService.add(offer1);
+        offersService.add(offer10);
 
         Offer offer11 = new Offer("Movil3", "LG", 28.0);
         offer11.setSeller(user5);
@@ -125,6 +125,11 @@ public class InsertSampleDataService {
         c2.setOffer(offer13);
         c2.setBuyer(user1);
         convService.add(c2);
+        Conversation c3=new Conversation();
+        c3.setOffer(offer10);
+        c3.setBuyer(user1);
+        convService.add(c3);
+
         Message m1=new Message();
         m1.setSender(user1);
         m1.setDate(Instant.now());
@@ -144,6 +149,14 @@ public class InsertSampleDataService {
         c2.addMessage(m2);
         c2.addMessage(m3);
         convService.save(c2);
+
+        Message m4=new Message();
+        m4.setSender(user1);
+        m4.setDate(Instant.now());
+        m4.setText("Hola, sigue disponible?");
+        msgService.add(m4);
+        c3.addMessage(m4);
+        convService.add(c3);
 
 
 

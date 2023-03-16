@@ -6,14 +6,16 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
 public class PO_UserListView extends PO_NavView {
 
     public static List<WebElement> getUsersList(WebDriver driver) {
-        return SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
-                PO_View.getTimeout());
+               // Locate the table rows using the XPath expression
+        return SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr", PO_View.getTimeout());
     }
 
     public static void compareOneByOneTwoUsersLists(WebDriver driver, List<WebElement> usersList, List<User> usersSystem) {
