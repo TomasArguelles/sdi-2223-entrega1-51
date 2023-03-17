@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,7 +32,11 @@ public class OfferController {
     @Autowired
     private UsersService usersService;
 
+
+    private boolean invalidBuy = false;
+
     private Logger logger = LoggerFactory.getLogger(OfferController.class);
+
 
     /**
      * Añade una nueva oferta.
@@ -125,19 +130,21 @@ public class OfferController {
         }else{
             offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
+        User user = usersService.getUserByEmail(userEmail);
+        model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
+        model.addAttribute("buyError",invalidBuy);
         return "offer/allList";
     }
 
     /**
      * Metodo para comprar una oferta
      * @param id id de la oferta
-     * @param model
      * @param principal usuario
      * @return la vista
      */
     @RequestMapping(value = "/offer/{id}/buyOffer")
-    public String buyOffer(@PathVariable Long id,Model model,Principal principal){
+    public String buyOffer(@PathVariable Long id,Principal principal){
         //Obtengo el dinero que tiene la cartera del usuario
         String userEmail = principal.getName();
         User user = usersService.getUserByEmail(userEmail);
@@ -145,10 +152,12 @@ public class OfferController {
         //Obtengo el precio de la oferta
         Offer offer = offersService.getOffer(id);
         Double price = offer.getPrice();
+        invalidBuy=true;
         //Comprobar si el dinero del wallet es superior al precio
         if(wallet>price) {
             offersService.setOfferSold(id);
-            user.setWallet((user.getWallet())-price);
+            usersService.decrementMoney(user,price);
+            invalidBuy=false;
         }
         return "redirect:/offer/allList";
     }
@@ -171,7 +180,10 @@ public class OfferController {
         }else{
             offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
+        User user = usersService.getUserByEmail(userEmail);
+        model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
-        return "offer/allList :: tableOffer";
+        model.addAttribute("buyError",invalidBuy);
+        return "offer/allList :: tableBuy";
     }
 }
