@@ -121,15 +121,15 @@ public class InsertSampleDataService {
         Offer offer12 = new Offer("Coche2", "Peugeot", 14.0);
         offer12.setSeller(user6);
         offer12.setSold(true);
-        offersService.add(offer2);
+        offersService.add(offer12);
 
         Offer offer13 = new Offer("Coche3", "Citroen", 24.0);
         offer13.setSeller(user6);
-        offersService.add(offer3);
+        offersService.add(offer13);
 
         Offer offer14 = new Offer("Coche4", "Aston Martin", 1224.0);
         offer14.setSeller(user6);
-        offersService.add(offer4);
+        offersService.add(offer14);
 
 
         Conversation c2=new Conversation();
