@@ -14,7 +14,8 @@
         <div class="col-md-4">
             <a class="btn btn-dark mb-4" href="/admin/logs/deleteAll"
                th:title="#{admin.dashboard.deleteAllLogs.title}"
-               th:text="#{admin.dashboard.deleteAllLogs}">Eliminar
+               th:text="#{admin.dashboard.deleteAllLogs}"
+               id="deleteAllLogsButton">Eliminar
                 logs
                 <span class="badge badge-light" th:text="${logs.size()}"></span>
             </a>
@@ -79,10 +80,17 @@
         <tbody>
 
         <tr th:each="log : ${logs}"
-            th:attr="class=${log.httpMethod == 'POST' ? 'table-warning'
-            : log.httpMethod == 'DELETE' ? 'table-danger' : ''}">
+            th:attr="class=${log.httpMethod == 'POST' && !log.logType.equals('LOGIN-ERR')
+            ? 'table-warning'
+            : log.logType.equals('LOGIN-ERR') ? 'table-danger' : ''}">
             <td scope="row">
-                <span class="badge badge-pill badge-primary"
+                <span th:attr="class=${log.logType.equals('LOGOUT')
+                ? 'badge badge-pill badge-secondary'
+                : log.logType.equals('LOGIN-EX')
+                ? 'badge badge-pill badge-success'
+                : log.logType.equals('LOGIN-ERR')
+                ? 'badge badge-pill badge-warning'
+                :'badge badge-pill badge-primary'}"
                       th:text="${log.logType}"></span>
             </td>
             <td scope="row" th:text="${log.httpMethod}"></td>
@@ -98,8 +106,10 @@
             <td scope="row" th:text="${log.remoteAddr}"></td>
             <td scope="row" th:text="${log.responseLocale}"></td>
             <td scope="row" th:text="${log.createdAt}"></td>
-            <td scope="row" th:if="${log.username != 'anonymous'}"
+            <td scope="row"
+                th:if="${log.username != 'anonymous' || log.username != 'null'}"
                 th:text="${log.username}"></td>
+            <td scope="row" th:unless="${log.username == null}">-</td>
         </tr>
         </tbody>
     </table>
