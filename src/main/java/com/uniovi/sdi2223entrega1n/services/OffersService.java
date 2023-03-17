@@ -1,6 +1,7 @@
 package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
+import com.uniovi.sdi2223entrega1n.entities.User;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

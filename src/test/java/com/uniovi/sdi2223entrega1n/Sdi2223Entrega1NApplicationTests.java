@@ -6,6 +6,7 @@ import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -433,6 +434,80 @@ class Sdi2223Entrega1NApplicationTests {
         //Comprobar que el numero es 0
         SeleniumUtils.textIsNotPresentOnPage(driver,"//tbody/tr");
 
+        //Cierro sesion
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    /**
+     * [Prueba22] Sobre una búsqueda determinada (a elección del desarrollador),
+     * comprar una oferta que deja un saldo positivo en el contador del comprador.
+     * Comprobar que el contador se actualiza correctamente en la vista del comprador.
+     */
+    @Test
+    @Order(22)
+    public void PR022() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        //Entramos a la vista de comprar y compramos la oferta 53 que su precio es valido
+        String buttonName = "buyOffer53";
+        PO_AllOfferView.buyOffer(driver,buttonName);
+        //Sacamos el valor del wallet
+        String value = PO_AllOfferView.seeWallet(driver);
+        //Lo comparamos con el precio restado
+        Assertions.assertEquals(value,"54.0");
+        //Cierro sesion
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    /**
+     * [Prueba23] Sobre una búsqueda determinada (a elección del desarrollador),
+     * comprar una oferta que deja un saldo 0 en el contador del comprador.
+     * Comprobar que el contador se actualiza correctamente en la vista del comprador.
+     */
+    @Test
+    @Order(23)
+    public void PR023() {
+        // Registrar nuevo usuario
+        SeleniumUtils.registerNewUser(driver, "usuario8@email.com", "123456");
+        // Accedemos al menu de añadir una oferta
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+        // Añadimos una oferta nueva
+        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0);
+        //Cierro sesion
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+
+        //Accedo con el comprador
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        //Entramos a la vista de comprar y compramos la oferta 92 que su precio es igual al wallet
+        String buttonName = "buyOffer92";
+        PO_AllOfferView.buyOffer(driver,buttonName);
+        //Sacamos el valor del wallet
+        String value = PO_AllOfferView.seeWallet(driver);
+        //Lo comparamos con el precio restado
+        Assertions.assertEquals(value,"0.0");
+
+    }
+
+    /**
+     * [Prueba24] Sobre una búsqueda determinada (a elección del desarrollador),
+     * intentar comprar una oferta que esté por encima de saldo disponible del comprador.
+     * Y comprobar que se muestra el mensaje de saldo no suficiente.
+     */
+    @Test
+    @Order(24)
+    public void PR024() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        //Entramos a la vista de comprar y compramos la oferta 38 que su precio es invalido
+        String buttonName = "buyOffer38";
+        PO_AllOfferView.buyOffer(driver,buttonName);
+        //Buscamos que aparezca en la pagina la label
+        boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
+        Assertions.assertEquals(true,isDisplayed);
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
