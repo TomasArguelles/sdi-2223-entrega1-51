@@ -1,7 +1,5 @@
 package com.uniovi.sdi2223entrega1n.services;
 
-
-
 import com.uniovi.sdi2223entrega1n.entities.Conversation;
 
 import com.uniovi.sdi2223entrega1n.entities.Message;
@@ -20,6 +18,7 @@ public class InsertSampleDataService {
 
     @Autowired
     private RolesService rolesService;
+    
     @Autowired
     private OffersService offersService;
 
@@ -129,6 +128,7 @@ public class InsertSampleDataService {
 
         Offer offer14 = new Offer("Coche4", "Aston Martin", 1224.0);
         offer14.setSeller(user6);
+
         offersService.add(offer14);
 
 
@@ -173,8 +173,6 @@ public class InsertSampleDataService {
         msgService.add(m4);
         c3.addMessage(m4);
         convService.add(c3);
-
-
     }
 }
 

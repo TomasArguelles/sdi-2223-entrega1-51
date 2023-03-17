@@ -1,5 +1,6 @@
 package com.uniovi.sdi2223entrega1n;
 
+import com.uniovi.sdi2223entrega1n.interceptors.CustomAccessDeniedHandler;
 import com.uniovi.sdi2223entrega1n.interceptors.LoginFailureHandler;
 import com.uniovi.sdi2223entrega1n.interceptors.LoginSuccessHandler;
 import com.uniovi.sdi2223entrega1n.services.CustomLogoutHandler;
@@ -26,6 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private LoginFailureHandler loginFailureHandler;
 
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -44,15 +48,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        // Redireccion para usuarios no autorizados
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
         http
                 .csrf().disable()
 
                 .authorizeRequests()
                 .antMatchers("/css/**", "/images/**", "/script/**", "/", "/signup", "/login/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/user/list").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/user/deleteSelected").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/offer/add", "/offer/list").hasAuthority("ROLE_STANDARD")
-                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/conversation/**").hasAuthority("ROLE_STANDARD")
                 .anyRequest().authenticated()
                 .and()
@@ -61,7 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(loginHandler)
                 .failureHandler(loginFailureHandler)
                 .permitAll()
-//                .defaultSuccessUrl("/home")
                 .and()
                 .logout()
                 .logoutUrl("/logout")

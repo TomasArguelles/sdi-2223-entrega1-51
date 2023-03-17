@@ -3,10 +3,7 @@ package com.uniovi.sdi2223entrega1n.interceptors;
 import com.uniovi.sdi2223entrega1n.entities.CustomLog;
 import com.uniovi.sdi2223entrega1n.entities.LogType;
 import com.uniovi.sdi2223entrega1n.services.LoggingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,7 +23,7 @@ import java.util.Optional;
  * <p>
  * Se encarga de interceptar todas las peticiones HTTP y guardar en el log
  * un registro de todas las acciones del usuario. Cada linea de log contiene:
- *
+ * <p>
  * <code>
  *     <ul>
  *         <li>Tipo de log</li>
@@ -41,27 +38,20 @@ import java.util.Optional;
 @Component
 public class LoggingInterceptor implements HandlerInterceptor {
 
-    // Separador de los elementos del mensaje, por defecto
-    private final String LOG_MSG_DELIMITER = " :: ";
-
     // Nombre del endpoint de login
     private static final String LOGIN_ENDPOINT = "login";
 
     // Nombre del endpoint para el registro de usuarios.
-    private static final String SIGNUP_ENDPOINT = "signup";
 
     // Nombre del endpoint para cerrar la sesión en curso.
-    private static final String LOGOUT_ENDPOINT = "logout";
 
     // Utilizado para marcar aquellos endpoints no deseados
     private static final String UNKNOWN_ENDPOINT = "none";
 
     // Endpoints de los que se registra log. No registrar ficheros estáticos.
-    private String[] endpointsTargetArr = new String[]{
-            "offer", "user", "login", "home", "admin"
+    private final String[] endpointsTargetArr = new String[]{
+            "offer", "user", "login", "signup", "home", "admin", "conversation"
     };
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private LoggingService loggingService;
@@ -81,7 +71,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
     /**
      * En función del endpoint recibido y del código de estado HTTP,
      * devuelve un código y otro.
-     *
+     * <p>
      * <code>
      * Listado de posibles códigos.
      *     <ul>
@@ -96,35 +86,12 @@ public class LoggingInterceptor implements HandlerInterceptor {
      * @param httpMethod Método HTTP de la petición entrante.
      * @param httpStatus Código de estado HTTP.
      * @param requestUrl URL del endpoint recibido.
-     * @return
      */
     private String getLogTypeByRequestUrl(final HttpServletRequest request, final String httpMethod,
                                           final int httpStatus, final String requestUrl) {
         boolean isSuccessResponse = httpStatus >= 200 && httpStatus < 400;
-        //boolean isRedirectResponse = httpStatus >= 300 && httpStatus < 400;
-        boolean isErrorResponse = httpStatus >= 400 && httpStatus < 500;
-        boolean isPostMethod = httpMethod.equals(HttpMethod.POST);
 
-        if (isPostMethod && requestUrl.contains(LOGIN_ENDPOINT)) {
-            // Inicio de sesión con éxito
-            // TODO: No funciona error login
-            if (isSuccessResponse) {
-                return LogType.LOGIN_EX.name();
-
-            } else {
-                return LogType.LOGIN_ERR.name();
-            }
-
-            // Peticiones de alta de usuarios
-        } else if (isPostMethod && isSuccessResponse && requestUrl.contains(SIGNUP_ENDPOINT)) {
-            System.out.println("alta realizada. " + LogType.ALTA.name());
-            return LogType.ALTA.name();
-
-            // TODO: NO funciona logout
-        } else if (isSuccessResponse && requestUrl.contains(LOGOUT_ENDPOINT)) {
-            return LogType.LOGOUT.name();
-
-        } else if (!requestUrl.contains(LOGIN_ENDPOINT)) {
+        if (!requestUrl.contains(LOGIN_ENDPOINT)) {
             // Peticiones del resto de controladores
             return LogType.PET.name();
         }
@@ -157,6 +124,8 @@ public class LoggingInterceptor implements HandlerInterceptor {
         StringBuilder sB = new StringBuilder();
 
         sB.append("[ ").append(logType).append(" ]");
+        // Separador de los elementos del mensaje, por defecto
+        String LOG_MSG_DELIMITER = " :: ";
         sB.append(LOG_MSG_DELIMITER);
         sB.append(remoteAddr);
         sB.append(LOG_MSG_DELIMITER);
@@ -178,7 +147,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
      * sus pares clave-valor con un formato determinado.
      *
      * @param params Parametros recibidos de la request.
-     * @return
      */
     private String extractRequestParamsAsString(Map<String, String[]> params) {
         StringBuilder sB = new StringBuilder();
@@ -225,10 +193,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
         // Fecha y hora actual
         Timestamp currentTime = Timestamp.from(Instant.now());
-
-        // Formatear el mensaje de log
-        String outputMessage = formatLogMessage(endPointName, httpMethod, logType,
-                responseStatus, responseLocale, remoteAddress, currentTime);
 
         // Registrar log de determinados endpoints. No registrar accesos a ficheros estáticos.
         String endpointNameExtracted = endPointName.split("/").length > 1
