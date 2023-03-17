@@ -31,13 +31,16 @@ springsecurity4">
                 <td>
                     <a th:href="${'/offer/delete/' + offer.id}"
                        sec:authorize="hasRole('ROLE_STANDARD')"
-                       class="btnBorrarOferta">eliminar</a>
+                       class="btnBorrarOferta"
+                       th:text="#{offer.page.button.delete}">Eliminar</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(offerList)}"> No hay ofertas</div>
+    <div th:if="${#lists.isEmpty(offerList)}"
+         th:text="#{offer.page.noOffersToShow}"> No hay ofertas
+    </div>
 </div>
 
 <footer th:replace="fragments/footer"/>

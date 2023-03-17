@@ -27,16 +27,20 @@ public class UsersService {
         usersRepository.findAll().forEach(users::add);
         return users;
     }
+
     public User getUser(Long id) {
         return usersRepository.findById(id).get();
     }
+
     public void addUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
     }
+
     public User getUserByEmail(String email) {
         return usersRepository.findByEmail(email);
     }
+
     public void deleteUser(Long id) {
         usersRepository.deleteById(id);
     }
