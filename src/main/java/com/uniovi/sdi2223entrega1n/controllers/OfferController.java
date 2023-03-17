@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -44,7 +45,7 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-    public String addNewOffer(@ModelAttribute Offer offerToAdd, BindingResult result, Model model) {
+    public String addNewOffer(@Validated Offer offerToAdd, BindingResult result, Model model) {
         // Validacion de campos
         offerValidationForm.validate(offerToAdd, result);
 
@@ -62,7 +63,7 @@ public class OfferController {
         offerToAdd.setDateUpload(Instant.now());
 
         offersService.add(offerToAdd);
-
+        System.out.println(offerToAdd.getImage());
         logger.info("Oferta añadida al sistema correctamente");
 
         return "redirect:/offer/list";

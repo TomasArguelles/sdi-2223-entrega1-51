@@ -15,6 +15,7 @@ public class Offer {
     private Double price;
     private Boolean sold = false;
     private Boolean featured = false;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -27,8 +28,6 @@ public class Offer {
     @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
     private Set<Conversation> conversations;
 
-    //OPCIONAL
-    private String urlImage;
 
     public Long getId() {
         return id;
@@ -67,11 +66,17 @@ public class Offer {
     }
 
     public Offer(String title, String description, Double price) {
-        super();
-        this.title = title;
-        this.description = description;
-        this.price = price;
+        this(title,description,price,"aa");
+
     }
+    public Offer(String title, String description, Double price,String image){
+        super();
+        this.title=title;
+        this.description=description;
+        this.price=price;
+        this.image=image;
+    }
+
 
     @Override
     public String toString() {
@@ -81,6 +86,7 @@ public class Offer {
                 ", description='" + description + '\'' +
                 ", dateUpload=" + dateUpload +
                 ", price=" + price +
+                ", urlImage=" + image +
                 '}';
     }
 
@@ -138,5 +144,13 @@ public class Offer {
 
     public void setBuyer(User buyer) {
         this.buyer = buyer;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
