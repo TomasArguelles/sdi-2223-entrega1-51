@@ -155,7 +155,7 @@ public class OfferController {
         invalidBuy=true;
         //Comprobar si el dinero del wallet es superior al precio
         if(wallet>=price) {
-            offersService.setOfferSold(id);
+            offersService.setOfferSold(id,user);
             usersService.decrementMoney(user,price);
             invalidBuy=false;
         }

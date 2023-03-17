@@ -80,8 +80,9 @@ public class OffersService {
      * Metodo que actualiza una oferta a vendida
      * @param id de la oferta
      */
-    public void setOfferSold(Long id) {
+    public void setOfferSold(Long id,User user) {
         offersRepository.setOfferSold(true,id);
+        offersRepository.setBuyer(user,id);
     }
 
     /**
