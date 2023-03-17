@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -25,10 +27,10 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String URL = "http://localhost:8090";
 
@@ -221,6 +223,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_UserListView.markCheckBoxUser(driver, firstUser);
         //Borramos dandole al boton
         PO_UserListView.clickDeleteButton(driver);
+
         //Actualizamos la lista
         usersList = PO_UserListView.getUsersList(driver);
         //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
@@ -534,7 +537,10 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR026() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        PO_LoginView.fillForm(driver, "usuario6@email.com", "123456");
+
+
+
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
         driver.get("http://localhost:8090/offer/allList?searchText=Carro");
 
@@ -566,7 +572,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR027() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
         driver.get("http://localhost:8090/offer/allList?searchText=Carro");
 

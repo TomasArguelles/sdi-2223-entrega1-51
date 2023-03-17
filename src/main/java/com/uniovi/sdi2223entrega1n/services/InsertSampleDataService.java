@@ -44,7 +44,7 @@ public class InsertSampleDataService {
         user3.setWallet(154.0);
         usersService.addUser(user3);
 
-        User user4 = new User("usuario3@email.com", "User", "Normal");
+        User user4 = new User("usuario3@email.com", "User3", "Normal");
         user4.setPassword("123456");
         user4.setRole(rolesService.getRoles()[0]);
         user4.setWallet(100.0);
@@ -132,8 +132,13 @@ public class InsertSampleDataService {
         offersService.add(offer14);
 
 
+        Offer offer15 = new Offer("Carro", "Carro correro", 2.0);
+        offer15.setSeller(user4);
+        offersService.add(offer15);
+
+
         Conversation c2=new Conversation();
-        c2.setOffer(offer13);
+        c2.setOffer(offer15);
         c2.setBuyer(user1);
         convService.add(c2);
         Conversation c3=new Conversation();
