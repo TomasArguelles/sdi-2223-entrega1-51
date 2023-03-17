@@ -5,12 +5,15 @@ import com.uniovi.sdi2223entrega1n.entities.User;
 import com.uniovi.sdi2223entrega1n.services.OffersService;
 import com.uniovi.sdi2223entrega1n.services.UsersService;
 import com.uniovi.sdi2223entrega1n.validators.OfferFormValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -28,6 +31,12 @@ public class OfferController {
 
     @Autowired
     private UsersService usersService;
+
+
+    private boolean invalidBuy = false;
+
+    private Logger logger = LoggerFactory.getLogger(OfferController.class);
+
 
     /**
      * Añade una nueva oferta.
@@ -53,6 +62,9 @@ public class OfferController {
         offerToAdd.setDateUpload(Instant.now());
 
         offersService.add(offerToAdd);
+
+        logger.info("Oferta añadida al sistema correctamente");
+
         return "redirect:/offer/list";
     }
 
@@ -118,19 +130,21 @@ public class OfferController {
         }else{
             offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
+        User user = usersService.getUserByEmail(userEmail);
+        model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
+        model.addAttribute("buyError",invalidBuy);
         return "offer/allList";
     }
 
     /**
      * Metodo para comprar una oferta
      * @param id id de la oferta
-     * @param model
      * @param principal usuario
      * @return la vista
      */
     @RequestMapping(value = "/offer/{id}/buyOffer")
-    public String buyOffer(@PathVariable Long id,Model model,Principal principal){
+    public String buyOffer(@PathVariable Long id,Principal principal){
         //Obtengo el dinero que tiene la cartera del usuario
         String userEmail = principal.getName();
         User user = usersService.getUserByEmail(userEmail);
@@ -138,10 +152,12 @@ public class OfferController {
         //Obtengo el precio de la oferta
         Offer offer = offersService.getOffer(id);
         Double price = offer.getPrice();
+        invalidBuy=true;
         //Comprobar si el dinero del wallet es superior al precio
-        if(wallet>price) {
-            offersService.setOfferSold(id);
-            user.setWallet((user.getWallet())-price);
+        if(wallet>=price) {
+            offersService.setOfferSold(id,user);
+            usersService.decrementMoney(user,price);
+            invalidBuy=false;
         }
         return "redirect:/offer/allList";
     }
@@ -160,10 +176,14 @@ public class OfferController {
         //Si esta vacio el buscador devolvemos todas, sino no
         if(searchText==null || searchText.isEmpty()){
             offers = offersService.getAllOffersToBuy(userEmail);
+
         }else{
             offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
+        User user = usersService.getUserByEmail(userEmail);
+        model.addAttribute("buyer",user);
         model.addAttribute("offersList",offers);
-        return "offer/allList :: tableOffer";
+        model.addAttribute("buyError",invalidBuy);
+        return "offer/allList :: tableBuy";
     }
 }

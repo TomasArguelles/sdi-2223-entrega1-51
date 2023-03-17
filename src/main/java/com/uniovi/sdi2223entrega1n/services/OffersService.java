@@ -1,6 +1,7 @@
 package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
+import com.uniovi.sdi2223entrega1n.entities.User;
 import com.uniovi.sdi2223entrega1n.repositories.OffersRepository;
 import org.openqa.selenium.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,9 @@ public class OffersService {
      * Metodo que actualiza una oferta a vendida
      * @param id de la oferta
      */
-    public void setOfferSold(Long id) {
+    public void setOfferSold(Long id,User user) {
         offersRepository.setOfferSold(true,id);
+        offersRepository.setBuyer(user,id);
     }
 
     /**

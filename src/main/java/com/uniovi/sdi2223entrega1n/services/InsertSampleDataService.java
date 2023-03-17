@@ -61,6 +61,17 @@ public class InsertSampleDataService {
         user2.setRole(rolesService.getRoles()[1]);
         usersService.addUser(user2);
 
+        User user6= new User("usuario6@email.com", "User", "Normal");
+        user6.setPassword("123456");
+        user6.setRole(rolesService.getRoles()[0]);
+        user6.setWallet(154.0);
+        usersService.addUser(user6);
+
+        User user7= new User("usuario7@email.com", "User", "Normal");
+        user7.setPassword("123456");
+        user7.setRole(rolesService.getRoles()[0]);
+        user7.setWallet(154.0);
+        usersService.addUser(user7);
 
         Offer offer1 = new Offer("Coche1", "Opel", 124.0);
         offer1.setSeller(user1);
@@ -107,18 +118,18 @@ public class InsertSampleDataService {
         offer11.setSeller(user5);
         offersService.add(offer11);
 
-        Offer offer12 = new Offer("Coche", "LG", 28.0);
-        offer12.setSeller(user1);
-        offersService.add(offer12);
+        Offer offer12 = new Offer("Coche2", "Peugeot", 14.0);
+        offer12.setSeller(user6);
+        offer12.setSold(true);
+        offersService.add(offer2);
 
-        Offer offer13 = new Offer("Carro", "LG", 28.0);
-        offer13.setSeller(user3);
-        offersService.add(offer13);
+        Offer offer13 = new Offer("Coche3", "Citroen", 24.0);
+        offer13.setSeller(user6);
+        offersService.add(offer3);
 
-        Conversation c1=new Conversation();
-        c1.setOffer(offer12);
-        c1.setBuyer(user3);
-        convService.add(c1);
+        Offer offer14 = new Offer("Coche4", "Aston Martin", 1224.0);
+        offer14.setSeller(user6);
+        offersService.add(offer4);
 
 
         Conversation c2=new Conversation();
@@ -157,8 +168,6 @@ public class InsertSampleDataService {
         msgService.add(m4);
         c3.addMessage(m4);
         convService.add(c3);
-
-
 
 
     }
