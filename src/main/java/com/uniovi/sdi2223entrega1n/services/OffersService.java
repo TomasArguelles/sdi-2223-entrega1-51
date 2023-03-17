@@ -91,4 +91,5 @@ public class OffersService {
     public Offer getOffer(Long id) {
         return offersRepository.findById(id).get();
     }
+
 }
