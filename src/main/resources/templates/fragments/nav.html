@@ -12,54 +12,65 @@ springsecurity4">
     <div class="collapse navbar-collapse" id="my-navbarColor02">
         <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
             <li class="nav-item ">
-                <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/home" th:text="#{nav.home}">Home<span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown active"
                 sec:authorize="hasRole('ROLE_STANDARD')">
                 <a class="nav-link dropdown-toggle" href="#"
                    id="gestionOfertasMenu" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false"> Gestión de
+                   aria-haspopup="true" aria-expanded="false"
+                   th:text="#{nav.offer.title}"> Gestión de
                     ofertas
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown"
                      id="gestionOfertasDropdown">
                     <a class="dropdown-item" href="/offer/allList"
-                       id="listAllOfferMenu">Ver ofertas para comprar </a>
+                       id="listAllOfferMenu"
+                       th:text="#{nav.offer.viewOffersToBuy}">Ver ofertas para
+                        comprar </a>
                     <a class="dropdown-item" href="/offer/list"
-                       id="listOfferMenu">Ver ofertas propias</a>
+                       id="listOfferMenu" th:text="#{nav.offer.all}">Ver ofertas
+                        propias</a>
                     <a class="dropdown-item" id="addOfferMenu"
-                       href="/offer/add">Agregar oferta</a>
+                       href="/offer/add" th:text="#{nav.offer.add}">Añadir
+                        oferta</a>
                 </div>
             </li>
 
             <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown"
                    role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false"> Gestión de
+                   aria-haspopup="true" aria-expanded="false"
+                   th:text="#{nav.user.title}"> Gestión de
                     usuarios
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/user/list"
-                       th:if="${#request.isUserInRole('ROLE_ADMIN')}">Ver
+                       th:if="${#request.isUserInRole('ROLE_ADMIN')}"
+                       th:text="#{nav.user.all}">Ver
                         usuarios</a>
                 </div>
             </li>
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown"
+                sec:authorize="hasRole('ROLE_STANDARD')">
                 <a class="nav-link dropdown-toggle" href="#"
                    id="profesorDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false"> Gestión de
+                   aria-haspopup="true" aria-expanded="false"
+                   th:text="#{nav.conversation.title}"> Gestión de
                     conversaciones
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown"
-                     sec:authorize="hasRole('ROLE_STANDARD')">
-                    <a class="dropdown-item" href="/conversation/list">Ver mis
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/conversation/list"
+                       th:text="#{nav.conversation.all}">Ver mis
                         conversaciones</a>
                 </div>
             </li>
 
             <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="nav-link" href="/admin/logs" id="viewLogsMenuItem">Ver
+                <a class="nav-link" href="/admin/logs" id="viewLogsMenuItem"
+                   th:text="#{nav.logs.all}">Ver
                     logs</a>
             </li>
         </ul>
@@ -95,9 +106,5 @@ springsecurity4">
                 </a>
             </li>
         </ul>
-        <!--<form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-        </form> -->
     </div>
 </nav>
