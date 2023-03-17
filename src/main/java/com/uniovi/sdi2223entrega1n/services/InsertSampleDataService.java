@@ -2,18 +2,23 @@ package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
 import com.uniovi.sdi2223entrega1n.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-//@Service
+import javax.annotation.PostConstruct;
+
+@Service
 public class InsertSampleDataService {
-    //@Autowired
+    @Autowired
     private UsersService usersService;
 
-    //@Autowired
+    @Autowired
     private RolesService rolesService;
-    //@Autowired
+
+    @Autowired
     private OffersService offersService;
 
-    //@PostConstruct
+    @PostConstruct
     public void init() {
         User user1 = new User("usuario1@email.com", "User", "Normal");
         user1.setPassword("123456");
@@ -114,8 +119,6 @@ public class InsertSampleDataService {
         Offer offer14 = new Offer("Coche4", "Aston Martin", 1224.0);
         offer14.setSeller(user6);
         offersService.add(offer4);
-
-
         //Conversation c1=new Conversation(offer9);
 
     }

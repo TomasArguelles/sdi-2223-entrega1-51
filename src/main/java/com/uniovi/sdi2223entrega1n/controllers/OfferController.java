@@ -31,12 +31,11 @@ public class OfferController {
     @Autowired
     private UsersService usersService;
 
-    private Logger logger = LoggerFactory.getLogger(OfferController.class);
+    private final Logger logger = LoggerFactory.getLogger(OfferController.class);
 
     /**
      * Añade una nueva oferta.
      *
-     * @return
      */
     @RequestMapping(value = "/offer/add", method = RequestMethod.POST)
     public String addNewOffer(@ModelAttribute Offer offerToAdd, BindingResult result, Model model) {
@@ -66,8 +65,6 @@ public class OfferController {
     /**
      * Redirecciona a la vista de añadir una nueva oferta.
      *
-     * @param model
-     * @return
      */
     @RequestMapping(value = "/offer/add", method = RequestMethod.GET)
     public String getAddNewOffer(Model model) {
@@ -78,13 +75,12 @@ public class OfferController {
     /**
      * Redirecciona a la vista de listado de oferta disponibles.
      *
-     * @return
      */
     @RequestMapping(value = "/offer/list", method = RequestMethod.GET)
     public String getAllOffersList(Model model, Principal principal) {
         String userEmail = principal.getName();
 
-        if (userEmail == null || userEmail == "" || userEmail == "anonymousUser") {
+        if (userEmail == null || userEmail.equals("") || userEmail.equals("anonymousUser")) {
             return "home";
         }
 
@@ -100,7 +96,6 @@ public class OfferController {
      * Dar de baja una oferta por su identificador.
      *
      * @param id Identificador de la oferta.
-     * @return
      */
     @RequestMapping(value = "/offer/delete/{id}", method = RequestMethod.GET)
     public String deleteOfferById(@PathVariable final Long id) {
@@ -132,7 +127,6 @@ public class OfferController {
     /**
      * Metodo para comprar una oferta
      * @param id id de la oferta
-     * @param model
      * @param principal usuario
      * @return la vista
      */
@@ -155,7 +149,6 @@ public class OfferController {
 
     /**
      * Metodo que actualiza la vista
-     * @param model
      * @param principal usuario registrado
      * @param searchText texto a buscar
      * @return la vista
