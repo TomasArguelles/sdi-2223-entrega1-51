@@ -100,7 +100,8 @@ public class LoggingInterceptor implements HandlerInterceptor {
      */
     private String getLogTypeByRequestUrl(final HttpServletRequest request, final String httpMethod,
                                           final int httpStatus, final String requestUrl) {
-        boolean isSuccessResponse = httpStatus >= 200 && httpStatus < 300;
+        boolean isSuccessResponse = httpStatus >= 200 && httpStatus < 400;
+        //boolean isRedirectResponse = httpStatus >= 300 && httpStatus < 400;
         boolean isErrorResponse = httpStatus >= 400 && httpStatus < 500;
         boolean isPostMethod = httpMethod.equals(HttpMethod.POST);
 
@@ -116,10 +117,11 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
             // Peticiones de alta de usuarios
         } else if (isPostMethod && isSuccessResponse && requestUrl.contains(SIGNUP_ENDPOINT)) {
+            System.out.println("alta realizada. " + LogType.ALTA.name());
             return LogType.ALTA.name();
 
             // TODO: NO funciona logout
-        } else if (requestUrl.contains(LOGOUT_ENDPOINT)) {
+        } else if (isSuccessResponse && requestUrl.contains(LOGOUT_ENDPOINT)) {
             return LogType.LOGOUT.name();
 
         } else if (!requestUrl.contains(LOGIN_ENDPOINT)) {

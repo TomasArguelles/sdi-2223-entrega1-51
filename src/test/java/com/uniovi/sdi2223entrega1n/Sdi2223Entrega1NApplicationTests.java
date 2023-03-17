@@ -20,16 +20,30 @@ import java.util.List;
 class Sdi2223Entrega1NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    // TODO: Eliminar y dejar una ruta
+    //static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String URL = "http://localhost:8090";
+
+    // Endpoint para mostrar el listado de usuarios (Ver UserController)
+    static final String USER_LIST_ENDPOINT = URL + "/user/list";
+
+    // Endpoint para mostrar la vista de conversaciones de un usuario.
+    static final String CONVERSATION_LIST_ENDPOINT = URL + "/conversation/list";
+
+    // Endpoint para mostrar la vista de dashboard (logs)
+    static final String ADMIN_DASHBOARD_ENDPOINT = URL + "/admin/logs";
+
+
+    // Enpoint para mostrar la vista de login
+    static final String LOGIN_ENDPOINT = URL + "/login";
 
     @Autowired
     private OffersRepository offersRepository;
@@ -297,7 +311,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50);
 
         // Comprobar que se muestra en el listado de ofertas
-        PO_View.checkElementBy(driver, "text", newOfferText);
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", newOfferText);
+        Assertions.assertEquals(1, offers.size());
     }
 
     // [Prueba 16]. Añadir una nueva oferta con datos inválidos -> precio negativo.
@@ -429,10 +444,10 @@ class Sdi2223Entrega1NApplicationTests {
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
         String invalid = "asdasd";
-        PO_AllOfferView.SearchInvalid(driver,invalid);
+        PO_AllOfferView.SearchInvalid(driver, invalid);
 
         //Comprobar que el numero es 0
-        SeleniumUtils.textIsNotPresentOnPage(driver,"//tbody/tr");
+        SeleniumUtils.textIsNotPresentOnPage(driver, "//tbody/tr");
 
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -511,4 +526,140 @@ class Sdi2223Entrega1NApplicationTests {
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
+
+    // [Prueba 30]. Acceso sin autenticación a la opción de listado de usuarios.
+    @Test
+    @Order(30)
+    public void PR30() {
+        // Acceso por url sin estar autenticado.
+        driver.navigate().to(USER_LIST_ENDPOINT);
+
+        // Comprobar que se redirecciona a la vista de login
+        Assertions.assertEquals(LOGIN_ENDPOINT, driver.getCurrentUrl());
+    }
+
+    // [Prueba 31]. Acceso sin autenticación al listado de conversaciones de un
+    // usuario estandar. Se debe redireccionar al formulario de login.
+    @Test
+    @Order(31)
+    public void PR31() {
+        // Acceso por url sin estar autenticado.
+        driver.navigate().to(CONVERSATION_LIST_ENDPOINT);
+
+        // Comprobar que se redirecciona a la vista de login
+        Assertions.assertEquals(LOGIN_ENDPOINT, driver.getCurrentUrl());
+    }
+
+    // [Prueba 32]. Usuario estandar autenticado accede a una opción disponible solo
+    // para usuarios administradores.
+    @Test
+    @Order(32)
+    public void PR32() {
+        String email = "miemail888@email.com";
+
+        // Registrar nuevo usuario
+        SeleniumUtils.registerNewUser(driver, email, "123456");
+
+        // Acceder a una opción para usuarios administradores.
+        // Escenario 1: Ver logs
+        driver.navigate().to(ADMIN_DASHBOARD_ENDPOINT);
+
+        // Comprobar que se redirecciona a la vista de login
+        Assertions.assertEquals(LOGIN_ENDPOINT, driver.getCurrentUrl());
+
+    }
+
+    // [Prueba 33]. Usuario administrador autenticado visualiza los logs generados
+    // en una serie de iteraciones. Generar al menos dos interacciones de cada
+    // tipo y comprobar que el listado incluye los correspondientes logs.
+    @Test
+    @Order(33)
+    public void PR33() {
+
+        // -- TIPO LOGIN-EX
+        // Iniciar sesion como admin - LOG-EX
+        SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
+
+        // Cerrar la sesión del usuario admin
+        PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+
+        String userEmail1 = "user0000234@email.com";
+
+        // Registrar nuevo usuario
+        // -- TIPO ALTA
+        SeleniumUtils.registerNewUser(driver, userEmail1, "123456");
+
+        // Iniciar sesión con el usuario creado e introducir la contraseña mal - LOGIN-ERR
+        // -- TIPO LOGIN-ERR
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail1, "123");
+
+        // -- TIPO LOGIN-EX
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail1, "123456");
+
+        // -- TIPO PET
+        PO_NavView.selectDropdownById(driver, "", "", "");
+        PO_NavView.selectDropdownById(driver, "", "", "");
+
+        // -- TIPO LOGOUT
+        // Cerrar la sesión del usuario 1
+        PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+
+        String userEmail2 = "user0000444@email.com";
+
+        // Registrar nuevo usuario
+        // -- TIPO ALTA
+        SeleniumUtils.registerNewUser(driver, userEmail2, "123456");
+
+        // Iniciar sesión con el usuario creado e introducir la contraseña mal - LOGIN-ERR
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail2, "123");
+
+        // -- TIPO PET
+        PO_NavView.selectDropdownById(driver, "", "", "");
+        PO_NavView.selectDropdownById(driver, "", "", "");
+
+        // -- TIPO LOGOUT
+        // Cerrar la sesión del usuario 2
+        PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+
+        // Total de logs esperado:
+        int expectedLogs = 13;
+
+        // Volver a iniciar sesion como admin
+        SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
+
+        // Ir a la vista de logs
+        PO_NavView.clickOption(driver, "/admin/logs", "id", "viewLogsMenuItem");
+
+        // Obtener el número de logs de la tabla
+        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table']/tbody/tr");
+
+        // Comprobar que el número de registros mostrados es correcto
+        Assertions.assertEquals(expectedLogs, rowCount);
+    }
+
+    // [Prueba 34]. Autenticado como usuario administrador, ir a visualización de
+    // logs, pulsar en el botón de borrar logs y comprobar que se eliminan los logs
+    // de la base de datos.
+    @Test
+    @Order(34)
+    public void PR34() {
+        // Iniciar sesión como administrador
+        SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
+
+        // Ir a la vista de logs
+        PO_NavView.clickOption(driver, "/admin/logs", "id", "viewLogsMenuItem");
+
+        // Hacer click en el boton de eliminar logs
+        PO_NavView.clickOption(driver, "/admin/logs/deleteAll", "id", "deleteAllLogsButton");
+
+        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table']/tbody/tr");
+
+        // Comprobar que el número de registros mostrados es correcto
+        // Comprobar que se muestra la peticion de eliminar logs realizada, es decir,
+        // un único registro.
+        Assertions.assertEquals(1, rowCount);
+
+    }
+
+
 }
