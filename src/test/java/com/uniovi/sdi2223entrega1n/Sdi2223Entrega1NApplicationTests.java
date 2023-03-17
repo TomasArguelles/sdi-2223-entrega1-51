@@ -464,8 +464,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 53 que su precio es valido
-        String buttonName = "buyOffer53";
+        //Entramos a la vista de comprar y compramos la oferta 62 que su precio es valido
+        String buttonName = "buyOffer62";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -496,8 +496,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 92 que su precio es igual al wallet
-        String buttonName = "buyOffer92";
+        //Entramos a la vista de comprar y compramos la oferta 107 que su precio es igual al wallet
+        String buttonName = "buyOffer107";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -517,8 +517,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 38 que su precio es invalido
-        String buttonName = "buyOffer38";
+        //Entramos a la vista de comprar y compramos la oferta 45 que su precio es invalido
+        String buttonName = "buyOffer45";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Buscamos que aparezca en la pagina la label
         boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
