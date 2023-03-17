@@ -2,18 +2,22 @@ package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
 import com.uniovi.sdi2223entrega1n.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-//@Service
+import javax.annotation.PostConstruct;
+
+@Service
 public class InsertSampleDataService {
-    //@Autowired
+    @Autowired
     private UsersService usersService;
 
-    //@Autowired
+    @Autowired
     private RolesService rolesService;
-    //@Autowired
+    @Autowired
     private OffersService offersService;
 
-    //@PostConstruct
+    @PostConstruct
     public void init() {
         User user1 = new User("usuario1@email.com", "User", "Normal");
         user1.setPassword("123456");
@@ -59,6 +63,7 @@ public class InsertSampleDataService {
 
         Offer offer1 = new Offer("Coche1", "Opel", 124.0);
         offer1.setSeller(user1);
+        offer1.setImage("https://d1eip2zddc2vdv.cloudfront.net/dphotos/750x400/11364250-1597338802.jpeg");
         offersService.add(offer1);
 
         Offer offer2 = new Offer("Coche2", "Peugeot", 14.0);
@@ -92,6 +97,7 @@ public class InsertSampleDataService {
 
         Offer offer9 = new Offer("Movil1", "iPhone", 700.0);
         offer9.setSeller(user5);
+        offer9.setImage("https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-12-finish-select-202207-black?wid=2560&hei=1440&fmt=jpeg&qlt=95&.v=1662149951953");
         offersService.add(offer9);
 
         Offer offer10 = new Offer("Movil2", "Samsung", 228.0);

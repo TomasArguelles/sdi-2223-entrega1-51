@@ -53,6 +53,18 @@
             </div>
         </div>
 
+        <!-- Imagen solicitada -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="image"
+                   th:text="#{offer.page.form.detail}+ ':'"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="image"
+                       name="image"
+                       th:value="${offer.image}"
+                       th:placeholder="#{offer.page.form.image}"/>
+            </div>
+        </div>
+
         <!-- Boton para publicar la nueva oferta -->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
