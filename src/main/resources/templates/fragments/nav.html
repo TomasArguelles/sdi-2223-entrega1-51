@@ -62,9 +62,15 @@ springsecurity4">
                     conversaciones
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/conversation/allList">Ver todas las conversaciones</a>
-                    <a class="dropdown-item" href="/conversation/mylist">Ver conversaciones de mis ofertas</a>
-                    <a class="dropdown-item" href="/conversation/list">Ver conversaciones de otras ofertas</a>
+                    <a class="dropdown-item" href="/conversation/allList"
+                       th:text="#{nav.conversation.all}">Ver todas las
+                        conversaciones</a>
+                    <a class="dropdown-item" href="/conversation/mylist"
+                       th:text="#{nav.conversation.offer.all}">Ver
+                        conversaciones de mis ofertas</a>
+                    <a class="dropdown-item" href="/conversation/list"
+                       th:text="#{nav.conversation.offer.other.all}">Ver
+                        conversaciones de otras ofertas</a>
                 </div>
 
             </li>
