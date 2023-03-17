@@ -28,4 +28,16 @@ public class PO_AllOfferView extends PO_NavView{
         driver.findElement(boton).click();
 
     }
+
+    public static void buyOffer(WebDriver driver,String nameButton) {
+        PO_NavView.selectDropdownById(driver,"gestionOfertasMenu","gestionOfertasDropdow","listAllOfferMenu");
+        By boton = By.id(nameButton);
+        driver.findElement(boton).click();
+    }
+
+    public static String seeWallet(WebDriver driver) {
+
+        return driver.findElement(By.id("wallet")).getText();
+
+    }
 }
