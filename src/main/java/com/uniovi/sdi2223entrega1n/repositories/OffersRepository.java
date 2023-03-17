@@ -1,6 +1,7 @@
 package com.uniovi.sdi2223entrega1n.repositories;
 
 import com.uniovi.sdi2223entrega1n.entities.Offer;
+import com.uniovi.sdi2223entrega1n.entities.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -22,4 +23,9 @@ public interface OffersRepository extends CrudRepository<Offer, Long> {
     @Transactional
     @Query("UPDATE Offer SET sold =?1 WHERE id = ?2")
     void setOfferSold(boolean value,Long id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Offer SET buyer =?1 WHERE id = ?2")
+    void setBuyer(User user, Long id);
 }

@@ -18,6 +18,9 @@ public class Message {
 
     private String text;
 
+    @OneToOne
+    private User sender;
+
     public Message() {
     }
 
@@ -53,4 +56,14 @@ public class Message {
     public void setText(String text) {
         this.text = text;
     }
+
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
 }
