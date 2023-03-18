@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -29,22 +31,19 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
-    static String URL = "http://localhost:8090";
+    static String BASE_ENDPOINT = "http://localhost:8090";
 
     // Endpoint para mostrar el listado de usuarios (Ver UserController)
-    static final String USER_LIST_ENDPOINT = URL + "/user/list";
+    static final String USER_LIST_ENDPOINT = BASE_ENDPOINT + "/user/list";
 
     // Endpoint para mostrar la vista de conversaciones de un usuario.
-    static final String CONVERSATION_LIST_ENDPOINT = URL + "/conversation/list";
-
-    // Endpoint para mostrar la vista de dashboard (logs)
-    static final String ADMIN_DASHBOARD_ENDPOINT = URL + "/admin/logs";
+    static final String CONVERSATION_LIST_ENDPOINT = BASE_ENDPOINT + "/conversation/list";
 
 
     // Enpoint para mostrar la vista de login
-    static final String LOGIN_ENDPOINT = URL + "/login";
+    static final String LOGIN_ENDPOINT = BASE_ENDPOINT + "/login";
 
     @Autowired
     private OffersRepository offersRepository;
@@ -61,7 +60,7 @@ class Sdi2223Entrega1NApplicationTests {
 
     @BeforeEach
     public void setUp() {
-        driver.navigate().to(URL);
+        driver.navigate().to(BASE_ENDPOINT);
     }
 
     //Después de cada prueba se borran las cookies del navegador
@@ -222,6 +221,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_UserListView.markCheckBoxUser(driver, firstUser);
         //Borramos dandole al boton
         PO_UserListView.clickDeleteButton(driver);
+
         //Actualizamos la lista
         usersList = PO_UserListView.getUsersList(driver);
         //Guardamos segundo tamaño y vemos q no es el mismo, comprobamos que decrementó en 1
@@ -417,18 +417,18 @@ class Sdi2223Entrega1NApplicationTests {
      */
     @Test
     @Order(20)
-    public void PR020(){
+    public void PR020() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
         String invalid = "";
-        PO_AllOfferView.SearchInvalid(driver,invalid);
+        PO_AllOfferView.SearchInvalid(driver, invalid);
 
         //Comprobar que el numero es 0
         List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
 
-        Assertions.assertEquals(5,offerList.size());
+        Assertions.assertEquals(5, offerList.size());
 
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -440,7 +440,7 @@ class Sdi2223Entrega1NApplicationTests {
      */
     @Test
     @Order(21)
-    public void PR021(){
+    public void PR021() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
@@ -527,7 +527,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
-
+    
     // [Prueba 25]. Listado de ofertas compradas por un usuario.
     // Comprobar que se muestran todas las ofertas compradas por dicho usuario.
     @Test
@@ -565,6 +565,92 @@ class Sdi2223Entrega1NApplicationTests {
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
+    
+    //[Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
+//a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
+//en la conversación.
+    @Test
+    @Order(26)
+    public void PR026() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario6@email.com", "123456");
+
+
+
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/offer/allList?searchText=Carro");
+
+        //Click the link
+        PO_ConversationsView.clickConversationsLink(driver);
+
+        //we count the number of rows
+        WebElement table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsInit = rows.size();
+
+        // Write a message
+        PO_ConversationsView.writeMessage(driver, "MensajePrueba");
+        // Send the message
+        PO_ConversationsView.sendMessage(driver);
+
+        // Check if the message was sent by counting again the number of rows
+        table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
+        int numRowsAfter = rows2.size();
+
+        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
+    }
+
+    //[Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
+    //“Conversación”. Comprobar que el mensaje aparece en la conversación
+    @Test
+    @Order(27)
+    public void PR027() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/offer/allList?searchText=Carro");
+
+        //Click the link
+        PO_ConversationsView.clickConversationsLink(driver);
+
+        //we count the number of rows
+        WebElement table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsInit = rows.size();
+
+        // Write a message
+        PO_ConversationsView.writeMessage(driver, "MensajePrueba");
+        // Send the message
+        PO_ConversationsView.sendMessage(driver);
+
+        // Check if the message was sent by counting again the number of rows
+        table = driver.findElement(By.id("tableMessages"));
+        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
+        int numRowsAfter = rows2.size();
+
+        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
+    }
+
+    //[Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
+    //cantidad correcta de conversaciones.
+    @Test
+    @Order(28)
+    public void PR028() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/conversation/mylist");
+        WebElement table = driver.findElement(By.id("tableMyOffer"));
+        List<WebElement> rows2 = table.findElements(By.tagName("tr"));
+        int numRows = rows2.size();
+
+        Assertions.assertEquals(numRows, 2);
+
+    }
 
     // [Prueba 30]. Acceso sin autenticación a la opción de listado de usuarios.
     @Test
@@ -594,18 +680,18 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(32)
     public void PR32() {
+
         String email = "miemail888@email.com";
 
         // Registrar nuevo usuario
         SeleniumUtils.registerNewUser(driver, email, "123456");
 
-        // Acceder a una opción para usuarios administradores.
-        // Escenario 1: Ver logs
-        driver.navigate().to(ADMIN_DASHBOARD_ENDPOINT);
+
+        // Acceder a una opción para usuarios administradores
+        driver.navigate().to(BASE_ENDPOINT + PO_AdminView.ADMIN_DASHBOARD_ENDPOINT);
 
         // Comprobar que se redirecciona a la vista de login
         Assertions.assertEquals(LOGIN_ENDPOINT, driver.getCurrentUrl());
-
     }
 
     // [Prueba 33]. Usuario administrador autenticado visualiza los logs generados
@@ -614,19 +700,25 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(33)
     public void PR33() {
+        // Acción previa: Borrar todos los logs
+        PO_AdminView.deleteAllLogs(driver);
 
         // -- TIPO LOGIN-EX
         // Iniciar sesion como admin - LOG-EX
         SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
 
         // Cerrar la sesión del usuario admin
-        PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
-
+        // TIPO_LOGOUT
+        PO_NavView.clickLogout(driver);
         String userEmail1 = "user0000234@email.com";
 
         // Registrar nuevo usuario
         // -- TIPO ALTA
         SeleniumUtils.registerNewUser(driver, userEmail1, "123456");
+
+        // -- TIPO LOGOUT
+        // Cerrar la sesión del usuario 1
+        PO_NavView.clickLogout(driver);
 
         // Iniciar sesión con el usuario creado e introducir la contraseña mal - LOGIN-ERR
         // -- TIPO LOGIN-ERR
@@ -636,12 +728,19 @@ class Sdi2223Entrega1NApplicationTests {
         SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail1, "123456");
 
         // -- TIPO PET
-        PO_NavView.selectDropdownById(driver, "", "", "");
-        PO_NavView.selectDropdownById(driver, "", "", "");
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
+
+        // Acceder a la vista de añadir una nueva oferta
+        // -- TIPO PET
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores válidos.
+        // -- TIPO PET
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 1
-        PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+        PO_NavView.clickLogout(driver);
 
         String userEmail2 = "user0000444@email.com";
 
@@ -649,28 +748,40 @@ class Sdi2223Entrega1NApplicationTests {
         // -- TIPO ALTA
         SeleniumUtils.registerNewUser(driver, userEmail2, "123456");
 
-        // Iniciar sesión con el usuario creado e introducir la contraseña mal - LOGIN-ERR
+        // -- TIPO LOGOUT
+        PO_NavView.clickLogout(driver);
+        // Iniciar sesión con el usuario creado e introducir la contraseña mal
+        // -- TIPO LOGIN-ERR
         SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail2, "123");
 
+        // -- TIPO LOGIN-EX
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail2, "123456");
+
         // -- TIPO PET
-        PO_NavView.selectDropdownById(driver, "", "", "");
-        PO_NavView.selectDropdownById(driver, "", "", "");
+        // Acceder a la vista de añadir una nueva oferta
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores válidos.
+        // -- TIPO PET
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 2
-        PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
+        PO_NavView.clickLogout(driver);
 
-        // Total de logs esperado:
-        int expectedLogs = 13;
+        // Total de logs esperado: +1 por la peticion de borrado de logs previamente
+        // realizada
+        int expectedLogs = 27;
 
         // Volver a iniciar sesion como admin
         SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
 
         // Ir a la vista de logs
+        // -- TIPO PET
         PO_NavView.clickOption(driver, "/admin/logs", "id", "viewLogsMenuItem");
 
         // Obtener el número de logs de la tabla
-        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table']/tbody/tr");
+        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
 
         // Comprobar que el número de registros mostrados es correcto
         Assertions.assertEquals(expectedLogs, rowCount);
@@ -682,21 +793,68 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(34)
     public void PR34() {
-        // Iniciar sesión como administrador
-        SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
+        // Iniciar sesion como administrador y eliminar todos los logs
+        PO_AdminView.deleteAllLogs(driver);
+
+        // Total de logs esperado: 1 - peticion admin/logs/deleteAll
+        int expectedLogs = 1;
+
+        SeleniumUtils.signInIntoAccount(driver, "ADMIN", PO_AdminView.ADMIN_EMAIL);
 
         // Ir a la vista de logs
-        PO_NavView.clickOption(driver, "/admin/logs", "id", "viewLogsMenuItem");
+        PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DASHBOARD_ENDPOINT, "id", "viewLogsMenuItem");
 
         // Hacer click en el boton de eliminar logs
-        PO_NavView.clickOption(driver, "/admin/logs/deleteAll", "id", "deleteAllLogsButton");
+        PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", "deleteAllLogsButton");
 
-        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table']/tbody/tr");
+        // Obtener el número de logs de la tabla
+        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
 
         // Comprobar que el número de registros mostrados es correcto
-        // Comprobar que se muestra la peticion de eliminar logs realizada, es decir,
-        // un único registro.
-        Assertions.assertEquals(1, rowCount);
+        Assertions.assertEquals(expectedLogs, rowCount);
+    }
+    //[Prueba35] Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
+    //comprobar que el listado se actualiza correctamente
+    @Test
+    @Order(35)
+    public void PR035() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/conversation/list");
+
+        WebElement table = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsOriginal = rows.size();
+
+        PO_ConversationsView.clickEliminarOtherOffersFirst(driver);
+        WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
+        int numRowsFinal = rows2.size();
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
+
+    }
+    //[Prueba36] Sobre el listado de conversaciones ya abiertas, pulsar el enlace Eliminar de la última y
+    //comprobar que el listado se actualiza correctamente
+    @Test
+    @Order(36)
+    public void PR036() {
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Cumplimentamos el registro con datos VALIDOS
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
+        driver.get("http://localhost:8090/conversation/list");
+
+        WebElement table = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+        int numRowsOriginal = rows.size();
+
+        PO_ConversationsView.clickEliminarOtherOffersLast(driver);
+        WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
+        List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
+        int numRowsFinal = rows2.size();
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
 
     }
 

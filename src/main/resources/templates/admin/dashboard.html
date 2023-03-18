@@ -107,9 +107,7 @@
             <td scope="row" th:text="${log.responseLocale}"></td>
             <td scope="row" th:text="${log.createdAt}"></td>
             <td scope="row"
-                th:if="${log.username != 'anonymous' || log.username != 'null'}"
-                th:text="${log.username}"></td>
-            <td scope="row" th:unless="${log.username == null}">-</td>
+                th:text="${log.username != null ? log.username : '-'}"></td>
         </tr>
         </tbody>
     </table>

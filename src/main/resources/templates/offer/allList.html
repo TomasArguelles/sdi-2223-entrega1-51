@@ -10,18 +10,21 @@
 
     <div class="table-responsive">
 
-        <h2 th:text="#{alloffer.page.title}" ></h2>
+        <h2 th:text="#{alloffer.page.title}"></h2>
         <form class="form-inline" action="/offer/allList">
             <div class="form-group">
-                <input name="searchText" type="text" class="form-control" size="50"
+                <input name="searchText" type="text" class="form-control"
+                       size="50"
                        placeholder="Buscar nombre del producto">
             </div>
-            <button name="search" type="submit" class="btn btn-primary">Buscar</button>
+            
+            <button type="submit" class="btn btn-primary">Buscar</button
         </form>
 
-        <div id= "tableBuy" th:fragment = "tableBuy">
+        <div id="tableBuy" th:fragment="tableBuy">
 
-            <label> Su saldo es: </label> <label id="wallet" th:text="${buyer.wallet}"></label>
+            <label> Su saldo es: </label> <label id="wallet"
+                                                 th:text="${buyer.wallet}"></label>
 
             <table class="table table-hover"
                    id="tableOffer">
@@ -43,26 +46,28 @@
                             Vendido
                         </div>
                         <div th:unless="${offer.sold}">
-                            <button type="button" th:id="${'buyOffer' + offer.id}"
+                            <button type="button"
+                                    th:id="${'buyOffer' + offer.id}"
                                     class="btn btn-success">
                                 Comprar
                             </button>
                             <script th:inline="javascript">
-                                $( "#buyOffer"+ "[[${offer.id}]]" ).click(function() {
-                                    $.get( "/offer/[[${offer.id}]]/buyOffer",function (data){
+                                $("#buyOffer" + "[[${offer.id}]]").click(function () {
+                                    $.get("/offer/[[${offer.id}]]/buyOffer", function (data) {
                                         $("#tableBuy").load('/offer/list/update');
                                     });
                                 });
                             </script>
                         </div>
                     </td>
+                    <td><a th:href="${'/conversation/redirectToConversation/' + offer.id}">Conversation</a></td>
                 </tr>
                 </tbody>
             </table>
             <span id="errorPrecio" class="text-danger" th:if="${buyError}" >Tu dinero debe ser superior al precio</span>
         </div>
     <div th:if="${#lists.isEmpty(offersList)}"> No hay ofertas</div>
-    </div>
+</div>
 </div>
 <footer th:replace="fragments/footer"/>
 

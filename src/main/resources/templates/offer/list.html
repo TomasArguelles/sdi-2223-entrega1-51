@@ -37,7 +37,7 @@ springsecurity4">
 </div>
 
 <div class="container" id="main-container">
-    <h2>Listado de ofertas propias</h2>
+    <h2>Mis ofertas</h2>
     <div class="table-responsive">
         <table class="table table-hover" th:fragment="tableOffer"
                id="tableOffer">
@@ -70,7 +70,9 @@ springsecurity4">
                        class="btnBorrarOferta"
                        th:text="#{offer.page.button.delete}">Eliminar</a>
                 </td>
+                <td><a th:href="${'/conversation/redirectToConversationMyOffers/' + offer.id}">Conversation</a></td>
             </tr>
+
             </tbody>
         </table>
     </div>
