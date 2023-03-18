@@ -52,4 +52,14 @@ public class ConversationsService {
     public void deleteConversationById(Long id) {
         conversationsRepository.deleteById(id);
     }
+
+    public void deleteFromBuyer(Long userId) {
+        conversationsRepository.deleteByBuyerId(userId);
+    }
+
+    public void deleteConversation(Conversation conversation) {
+        conversationsRepository.deleteById(conversation.getId());
+    }
+
+
 }

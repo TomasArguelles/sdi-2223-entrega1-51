@@ -13,4 +13,10 @@ public class MessagesService {
     private MessagesRepository messagesRepository;
 
     public void add(Message newMsg){messagesRepository.save(newMsg);}
+
+    public void removeBySender(Long id){messagesRepository.removeBySender(id);}
+
+    public void deleteMessage(Message message) {
+        messagesRepository.deleteById(message.getId());
+    }
 }
