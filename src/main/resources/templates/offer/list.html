@@ -26,7 +26,7 @@ springsecurity4">
             <tbody>
             <tr th:each="offer : ${offerList}">
                 <td>
-                    <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57">
+                    <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
                     <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
                 </td>
                 <td th:text="${offer.title}"></td>
