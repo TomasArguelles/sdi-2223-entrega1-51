@@ -53,6 +53,14 @@
             </div>
         </div>
 
+        <!-- Boton para destacar la nueva oferta -->
+        <div class="form-group">
+            <div class="col-sm-10">
+                <label for="featured">Destacar la oferta:</label>
+                <input type="checkbox" class="form-control" id="featured" name="featured"/>
+            </div>
+        </div>
+
         <!-- Boton para publicar la nueva oferta -->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -67,6 +75,7 @@
         <input type="hidden" name="${_csrf.parameterName}"
                value="${_csrf.token}"/>
     </form>
+    <span id="errorPrecio" class="text-danger" th:if="${buyError}">Tu dinero debe ser al menos de 20€ para destacar una oferta</span>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>
