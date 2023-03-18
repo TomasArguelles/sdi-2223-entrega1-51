@@ -102,4 +102,16 @@ public class PO_OfferView extends PO_NavView {
         linkFeaturedOffer.click();
     }
 
+    /**
+     * Comprueba que se muestra el mensaje de no tener suficiente dinero para destacar una oferta
+     *
+     * @param driver
+     * @param language
+     * @param resourceKey Clave en el fichero de idiomas.
+     */
+    static public void checkNoMoneyMessage(WebDriver driver, int language, String resourceKey) {
+        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString(resourceKey, language),
+                getTimeout());
+    }
+
 }

@@ -31,7 +31,7 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_ENDPOINT = "http://localhost:8090";
 
@@ -736,7 +736,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50, false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 1
@@ -763,7 +763,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50, false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 2
@@ -937,14 +937,11 @@ class Sdi2223Entrega1NApplicationTests {
         // Acceder a la vista del listado de ofertas propias
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
 
-        int sizeOfferList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
-                PO_View.getTimeout()).size();
-
         // Click en el enlace de destacar una oferta (la primera de la lista)
         PO_OfferView.clickFeaturedLink(driver, 0);
 
         // Comprobar que se muestra el mensaje
-        SeleniumUtils.textIsPresentOnPage(driver, "Tu dinero debe ser al menos de 20€ para destacar una oferta!");
+        PO_OfferView.checkNoMoneyMessage(driver, PO_Properties.getSPANISH(), "offer.featured.nomoney");
 
         // Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
