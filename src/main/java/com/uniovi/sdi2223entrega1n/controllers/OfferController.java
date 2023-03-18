@@ -31,19 +31,15 @@ public class OfferController {
     @Autowired
     private UsersService usersService;
 
-
     private boolean invalidBuy = false;
 
-    private Logger logger = LoggerFactory.getLogger(OfferController.class);
-
+    private final Logger logger = LoggerFactory.getLogger(OfferController.class);
 
     /**
      * Añade una nueva oferta.
-     *
-     * @return
      */
     @RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-    public String addNewOffer(@ModelAttribute Offer offerToAdd, BindingResult result, Model model) {
+    public String addNewOffer(@ModelAttribute Offer offerToAdd, BindingResult result, Model model, Principal principal) {
         // Validacion de campos
         offerValidationForm.validate(offerToAdd, result);
 
@@ -51,6 +47,7 @@ public class OfferController {
             model.addAttribute("fields", offerToAdd);
             return "offer/add";
         }
+
         // Añadir la nueva oferta
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -59,6 +56,25 @@ public class OfferController {
         offerToAdd.setSeller(seller);
         // Fecha a dia de hoy
         offerToAdd.setDateUpload(Instant.now());
+
+        // Compruebo el valor del checkbox por si el usuario quiere destacar la nueva oferta
+        if (offerToAdd.getFeatured()) {
+            // Obtengo el dinero que tiene la cartera del usuario
+            String userEmail = principal.getName();
+            User user = usersService.getUserByEmail(userEmail);
+            Double wallet = user.getWallet();
+
+            // Compruebo si el dinero del wallet es superior al precio de destacar una oferta
+            if (wallet >= 20.0) {
+                invalidBuy = false;
+                offerToAdd.setFeatured(true); // destaco la oferta
+                usersService.decrementMoney(user, 20.0); // actualizo el dinero del usuario
+            }
+            else {
+                invalidBuy = true;
+                model.addAttribute("buyError", invalidBuy);
+            }
+        }
 
         offersService.add(offerToAdd);
 
@@ -81,8 +97,8 @@ public class OfferController {
 
     /**
      * Redirecciona a la vista de listado de oferta disponibles.
-     *
-     * @return
+     * Además, obtiene todas las ofertas destacadas (de todos los usuarios)
+     * y las redirecciona a la vista de listado de ofertas disponibles
      */
     @RequestMapping(value = "/offer/list", method = RequestMethod.GET)
     public String getAllOffersList(Model model, Principal principal) {
@@ -97,6 +113,13 @@ public class OfferController {
 
         // Enviar el listado de ofertas a la vista
         model.addAttribute("offerList", offers);
+
+        // Obtenemos la lista de ofertas destacadas
+        List<Offer> featuredOffers = offersService.getAllFeatured();
+
+        // Enviar el listado de ofertas destacadas a la vista
+        model.addAttribute("offerFeaturedList", featuredOffers);
+
         return "offer/list";
     }
 
@@ -185,4 +208,61 @@ public class OfferController {
         model.addAttribute("buyError", invalidBuy);
         return "offer/allList :: tableBuy";
     }
+
+    /**
+     * Obtiene todas las ofertas compradas por el usuario autenticado
+     *
+     * @param model, modelo al que pasamos la lista de ofertas
+     * @param principal, nos permite obtener al usuario autenticado
+     * @return la lista de ofertas
+     */
+    @RequestMapping("/offer/boughtList")
+    public String getAllByBuyer(Model model, Principal principal) {
+        // Obtenemos el email del usuario autenticado
+        String email = principal.getName(); // email es el name de la autenticación
+        // Obtenemos la lista de ofertas compradas por el usuario
+        List<Offer> offers = offersService.getAllByBuyer(email);
+        // Se la pasamos al modelo
+        model.addAttribute("offersList", offers);
+        return "offer/boughtList";
+    }
+
+    /**
+     * Destacar una oferta por su identificador
+     * Cuesta 20€, se debe comprobar por tanto que el usuario tenga ese dinero al menos
+     *
+     * @param id, identificador de la oferta a destacar
+     * @param principal, nos permite obtener al usuario autenticado
+     * @param model, permite enviar a la vista un atributo
+     * @return la redirección a la vista de listado de ofertas
+     */
+    @RequestMapping("/offer/featured/{id}")
+    public String featuredOfferById(@PathVariable final Long id, Principal principal, Model model) {
+        // Obtengo el dinero que tiene la cartera del usuario
+        String userEmail = principal.getName();
+        User user = usersService.getUserByEmail(userEmail);
+        Double wallet = user.getWallet();
+
+        // Compruebo si el dinero del wallet es superior al precio de destacar una oferta (20€)
+        if (wallet >= 20.0) {
+            invalidBuy = false;
+            offersService.featuredOfferById(id); // destaco la oferta
+            usersService.decrementMoney(user, 20.0); // actualizo el dinero del usuario
+
+            // ACTUALIZACIÓN:
+            // Enviar el listado de ofertas (propias del usuario) actualizado a la vista
+            List<Offer> offers = offersService.findAllOffersFromUserByEmail(userEmail);
+            model.addAttribute("offerList", offers);
+            // Enviar el listado de ofertas destacadas actualizado a la vista
+            List<Offer> featuredOffers = offersService.getAllFeatured();
+            model.addAttribute("offerFeaturedList", featuredOffers);
+        }
+        else {
+            invalidBuy = true;
+            model.addAttribute("buyError", invalidBuy);
+        }
+
+        return "redirect:/offer/list";
+    }
+
 }

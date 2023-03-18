@@ -15,11 +15,13 @@ springsecurity4">
                id="tableOffer">
             <thead>
             <tr>
-                <th scope="col" th:text="#{offer.image}">Imagen</th>
                 <th scope="col" th:text="#{offer.title}">Texto</th>
                 <th scope="col" th:text="#{offer.description}">Detalle</th>
                 <th scope="col" th:text="#{offer.price}">Cantidad solicitada
                 </th>
+                <th scope="col" th:text="#{offer.featured}">Destacada
+                </th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -32,6 +34,12 @@ springsecurity4">
                 <td th:text="${offer.title}"></td>
                 <td th:text="${offer.description}"></td>
                 <td th:text="${offer.price}"></td>
+                <td th:text="${offer.featured}"></td>
+                <td>
+                    <a th:if="${offer.featured} == false" th:href="${'/offer/featured/' + offer.id}"
+                       class="linkFeaturedOffer"
+                       th:text="#{offer.page.button.featured}">Destacar</a>
+                </td>
                 <td>
                     <a th:href="${'/offer/delete/' + offer.id}"
                        sec:authorize="hasRole('ROLE_STANDARD')"

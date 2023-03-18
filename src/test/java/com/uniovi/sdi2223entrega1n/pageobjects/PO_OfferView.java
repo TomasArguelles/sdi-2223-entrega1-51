@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public class PO_OfferView extends PO_NavView {
-    static public void fillForm(WebDriver driver, String titleP, String descriptionP, Double priceP) {
+    static public void fillForm(WebDriver driver, String titleP, String descriptionP, Double priceP, Boolean isFeatured) {
 
         // Campo titulo de la oferta
         WebElement offerTitle = driver.findElement(By.name("title"));
@@ -27,6 +27,12 @@ public class PO_OfferView extends PO_NavView {
         price.click();
         price.clear();
         price.sendKeys(priceP.toString());
+
+        // Checkbox destacar la oferta
+        if (isFeatured) {
+            WebElement featured = driver.findElement(By.name("featured"));
+            featured.click();
+        }
 
         // Pulsar el boton de Añadir.
         By boton = By.className("btn");
@@ -62,7 +68,7 @@ public class PO_OfferView extends PO_NavView {
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
         // Rellenar campos del formulario con valores inválidos.
-        PO_OfferView.fillForm(driver, offerTitle, "Coche de los años 90", 100.0);
+        PO_OfferView.fillForm(driver, offerTitle, "Coche de los años 90", 100.0, false);
     }
 
     /**
@@ -87,4 +93,13 @@ public class PO_OfferView extends PO_NavView {
     static public void checkOfferNotExistsOnPage(WebDriver driver, String textToSearch) {
         SeleniumUtils.textIsNotPresentOnPage(driver, textToSearch);
     }
+
+    public static void clickFeaturedLink(WebDriver driver, int position) {
+        List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout());
+        // Enlace de destacar una oferta (la de la primera fila)
+        WebElement linkFeaturedOffer = markList.get(position).findElement(By.className("linkFeaturedOffer"));
+        linkFeaturedOffer.click();
+    }
+
 }
