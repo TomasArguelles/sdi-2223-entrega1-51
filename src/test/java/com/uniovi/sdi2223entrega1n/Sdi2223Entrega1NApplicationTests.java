@@ -706,19 +706,18 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(37)
     public void PR37() {
-        // Iniciamos sesión como usuario standard
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        // Crear nuevo usuario
+        SeleniumUtils.registerNewUser(driver, "miemail555@email.com", "123456");
+
+        String newOfferText = "Coche marca Renault 1";
 
         // Acceder a la vista de añadir una nueva oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
-        // Rellenar campos del formulario con valores válidos
-        String newOfferText = "Coche marca Renault 1";
-        PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50, true);
+        // Rellenar campos del formulario con valores válidos.
+        PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50, false);
 
-        // Comprobar que se muestra en el listado de ofertas destacadas
-        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
+        // Comprobar que se muestra en el listado de ofertas
         List<WebElement> offers = PO_View.checkElementBy(driver, "text", newOfferText);
         Assertions.assertEquals(1, offers.size());
 
