@@ -102,4 +102,54 @@ public class PO_OfferView extends PO_NavView {
         linkFeaturedOffer.click();
     }
 
+    /**
+     * Añadir una oferta con imagen para probar.
+     *
+     * @param driver
+     * @param s
+     */
+    public static void addImageOffer(WebDriver driver, String s) {
+        // Acceder a la vista de añadir una nueva oferta
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores inválidos.
+        PO_OfferView.fillImageForm(driver, s, "Coche de los años 90", 100.0, false);
+    }
+
+    private static void fillImageForm(WebDriver driver, String titleP, String descriptionP, Double priceP, Boolean isFeatured) {
+        // Campo titulo de la oferta
+        WebElement offerTitle = driver.findElement(By.name("title"));
+        offerTitle.click();
+        offerTitle.clear();
+        offerTitle.sendKeys(titleP);
+
+        // Campo descripcion de la oferta
+        WebElement description = driver.findElement(By.name("description"));
+        description.click();
+        description.clear();
+        description.sendKeys(descriptionP);
+
+        // Campo precio (En euros) de la oferta
+        WebElement price = driver.findElement(By.name("price"));
+        price.click();
+        price.clear();
+        price.sendKeys(priceP.toString());
+
+        //Campo imagen
+        WebElement image = driver.findElement(By.name("image"));
+        image.click();
+        image.clear();
+        image.sendKeys("https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-finish-select-202207-white?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1662150115751");
+
+        // Checkbox destacar la oferta
+        if (isFeatured) {
+            WebElement featured = driver.findElement(By.name("featured"));
+            featured.click();
+        }
+
+
+        // Pulsar el boton de Añadir.
+        By boton = By.className("btn");
+        driver.findElement(boton).click();
+    }
 }

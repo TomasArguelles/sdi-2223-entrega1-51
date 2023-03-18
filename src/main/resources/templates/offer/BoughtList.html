@@ -9,6 +9,8 @@
         <table class="table table-hover">
             <thead>
             <tr>
+                <th scope="col" th:text="#{offer.image}">Imagen</th>
+                <th scope="col">Id</th>
                 <th scope="col">Título</th>
                 <th scope="col">Detalle</th>
                 <th scope="col">Precio</th>
@@ -17,6 +19,10 @@
             </thead>
             <tbody>
             <tr th:each="offer : ${offersList}">
+                <td>
+                    <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
+                    <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
+                </td>
                 <td scope="row" th:text="${offer.id}"> 1A</td>
                 <td th:text="${offer.title}"> Título1</td>
                 <td th:text="${offer.description}"> Detalle1</td>

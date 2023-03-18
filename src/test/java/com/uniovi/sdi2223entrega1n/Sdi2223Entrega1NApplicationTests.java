@@ -32,7 +32,7 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_ENDPOINT = "http://localhost:8090";
 
@@ -490,7 +490,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Accedemos al menu de añadir una oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
         // Añadimos una oferta nueva
-        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0);
+        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0,false);
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 
@@ -737,7 +737,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50,false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 1
@@ -764,7 +764,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50,false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 2
@@ -961,6 +961,15 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(40)
     public void PR040(){
+        //Crear un usuario
+        SeleniumUtils.registerNewUser(driver, "miemail12333@email.com", "123456");
+        //Creo una oferta sin imagen
+        String s= "coche";
+        PO_OfferView.addImageOffer(driver, s);
+
+        //Comprobar que se muestra
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", s);
+        Assertions.assertEquals(1, offers.size());
 
     }
 
@@ -971,7 +980,15 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(41)
     public void PR041(){
+        //Crear un usuario
+        SeleniumUtils.registerNewUser(driver, "miemail123@email.com", "123456");
+        //Creo una oferta sin imagen
+        String s= "coche";
+        PO_OfferView.addSampleOffer(driver, s);
 
+        //Comprobar que se muestra
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", s);
+        Assertions.assertEquals(1, offers.size());
     }
 
 
