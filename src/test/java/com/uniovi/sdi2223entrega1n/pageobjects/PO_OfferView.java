@@ -53,8 +53,6 @@ public class PO_OfferView extends PO_NavView {
         WebElement btnDeleteOffer = markList.get(position).findElement(By.className("btnBorrarOferta"));
 
         btnDeleteOffer.click();
-
-
     }
 
     /**
@@ -95,10 +93,10 @@ public class PO_OfferView extends PO_NavView {
     }
 
     public static void clickFeaturedLink(WebDriver driver, int position) {
-        List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+        List<WebElement> offers = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
         // Enlace de destacar una oferta (la de la primera fila)
-        WebElement linkFeaturedOffer = markList.get(position).findElement(By.className("linkFeaturedOffer"));
+        WebElement linkFeaturedOffer = offers.get(position).findElement(By.className("linkFeaturedOffer"));
         linkFeaturedOffer.click();
     }
 
