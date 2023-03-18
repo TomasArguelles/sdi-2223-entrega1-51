@@ -18,7 +18,7 @@
                        placeholder="Buscar nombre del producto">
             </div>
             
-            <button type="submit" class="btn btn-primary">Buscar</button
+            <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
 
         <div id="tableBuy" th:fragment="tableBuy">
@@ -30,14 +30,20 @@
                    id="tableOffer">
                 <thead>
                 <tr>
+                    <th scope="col" th:text="#{offer.image}">Imagen</th>
                     <th scope="col" th:text="#{offer.title}">Texto</th>
                     <th scope="col" th:text="#{offer.description}">Detalle</th>
-                    <th scope="col" th:text="#{offer.price}">Cantidad solicitada
-                    </th>
+                    <th scope="col" th:text="#{offer.price}">Cantidad solicitada</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="offer : ${offersList}">
+
+                    <td>
+                        <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
+                        <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
+                    </td>
+
                     <td th:text="${offer.title}"></td>
                     <td th:text="${offer.description}"></td>
                     <td th:text="${offer.price}"></td>

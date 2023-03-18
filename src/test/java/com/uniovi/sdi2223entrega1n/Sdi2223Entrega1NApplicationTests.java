@@ -23,7 +23,8 @@ class Sdi2223Entrega1NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     // TODO: Eliminar y dejar una ruta
-    static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -31,7 +32,7 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_ENDPOINT = "http://localhost:8090";
 
@@ -489,7 +490,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Accedemos al menu de añadir una oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
         // Añadimos una oferta nueva
-        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0, false);
+        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0,false);
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 
@@ -527,7 +528,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
-    
+
     // [Prueba 25]. Listado de ofertas compradas por un usuario.
     // Comprobar que se muestran todas las ofertas compradas por dicho usuario.
     @Test
@@ -565,7 +566,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
-    
+
     //[Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
 //a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
 //en la conversación.
@@ -603,7 +604,7 @@ class Sdi2223Entrega1NApplicationTests {
     }
 
     //[Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
-    //“Conversación”. Comprobar que el mensaje aparece en la conversación
+//“Conversación”. Comprobar que el mensaje aparece en la conversación
     @Test
     @Order(27)
     public void PR027() {
@@ -634,6 +635,7 @@ class Sdi2223Entrega1NApplicationTests {
         Assertions.assertEquals(numRowsInit, numRowsAfter-1);
     }
 
+
     //[Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
     //cantidad correcta de conversaciones.
     @Test
@@ -651,7 +653,6 @@ class Sdi2223Entrega1NApplicationTests {
         Assertions.assertEquals(numRows, 2);
 
     }
-
     // [Prueba 30]. Acceso sin autenticación a la opción de listado de usuarios.
     @Test
     @Order(30)
@@ -736,7 +737,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50,false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 1
@@ -763,7 +764,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50,false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 2
@@ -953,5 +954,42 @@ class Sdi2223Entrega1NApplicationTests {
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
+    /**
+     * [Prueba40] Desde el formulario de dar de alta ofertas, crear una oferta con datos válidos y una imagen adjunta.
+     * Comprobar que en el listado de ofertas propias aparece la imagen adjunta junto al resto de datos de la oferta.
+     */
+    @Test
+    @Order(40)
+    public void PR040(){
+        //Crear un usuario
+        SeleniumUtils.registerNewUser(driver, "miemail12333@email.com", "123456");
+        //Creo una oferta sin imagen
+        String s= "coche";
+        PO_OfferView.addImageOffer(driver, s);
+
+        //Comprobar que se muestra
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", s);
+        Assertions.assertEquals(1, offers.size());
+
+    }
+
+    /**
+     * Crear una oferta con datos válidos y sin una imagen adjunta.
+     * Comprobar que la oferta se ha creado con éxito, ya que la imagen no es obligatoria.
+     */
+    @Test
+    @Order(41)
+    public void PR041(){
+        //Crear un usuario
+        SeleniumUtils.registerNewUser(driver, "miemail123@email.com", "123456");
+        //Creo una oferta sin imagen
+        String s= "coche";
+        PO_OfferView.addSampleOffer(driver, s);
+
+        //Comprobar que se muestra
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", s);
+        Assertions.assertEquals(1, offers.size());
+    }
+
 
 }

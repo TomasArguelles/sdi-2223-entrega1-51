@@ -18,15 +18,14 @@ public class InsertSampleDataService {
 
     @Autowired
     private RolesService rolesService;
-    
+
     @Autowired
     private OffersService offersService;
 
     @Autowired
-    private MessagesService msgService;
-
-    @Autowired
     private ConversationsService convService;
+    @Autowired
+    private  MessagesService msgService;
 
     @PostConstruct
     public void init() {

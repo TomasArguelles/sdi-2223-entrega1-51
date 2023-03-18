@@ -53,6 +53,18 @@
             </div>
         </div>
 
+        <!-- Imagen solicitada -->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="image"
+                   th:text="#{offer.image}+ ':'"></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="image"
+                       name="image"
+                       th:value="${offer.image}"
+                       th:placeholder="#{offer.page.form.image}"/>
+            </div>
+        </div>
+
         <!-- Boton para destacar la nueva oferta -->
         <div class="form-group">
             <div class="col-sm-10">
@@ -75,7 +87,6 @@
         <input type="hidden" name="${_csrf.parameterName}"
                value="${_csrf.token}"/>
     </form>
-    <span id="errorPrecio" class="text-danger" th:if="${buyError}">Tu dinero debe ser al menos de 20€ para destacar una oferta</span>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>
