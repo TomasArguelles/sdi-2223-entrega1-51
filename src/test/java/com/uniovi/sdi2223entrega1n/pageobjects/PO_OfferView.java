@@ -53,8 +53,6 @@ public class PO_OfferView extends PO_NavView {
         WebElement btnDeleteOffer = markList.get(position).findElement(By.className("btnBorrarOferta"));
 
         btnDeleteOffer.click();
-
-
     }
 
     /**
@@ -95,11 +93,23 @@ public class PO_OfferView extends PO_NavView {
     }
 
     public static void clickFeaturedLink(WebDriver driver, int position) {
-        List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+        List<WebElement> offers = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
         // Enlace de destacar una oferta (la de la primera fila)
-        WebElement linkFeaturedOffer = markList.get(position).findElement(By.className("linkFeaturedOffer"));
+        WebElement linkFeaturedOffer = offers.get(position).findElement(By.className("linkFeaturedOffer"));
         linkFeaturedOffer.click();
+    }
+
+    /**
+     * Comprueba que se muestra el mensaje de no tener suficiente dinero para destacar una oferta
+     *
+     * @param driver
+     * @param language
+     * @param resourceKey Clave en el fichero de idiomas.
+     */
+    static public void checkNoMoneyMessage(WebDriver driver, int language, String resourceKey) {
+        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString(resourceKey, language),
+                getTimeout());
     }
 
     /**
@@ -147,9 +157,9 @@ public class PO_OfferView extends PO_NavView {
             featured.click();
         }
 
-
         // Pulsar el boton de Añadir.
         By boton = By.className("btn");
         driver.findElement(boton).click();
     }
+
 }
