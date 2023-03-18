@@ -94,4 +94,30 @@ public class OffersService {
         return offersRepository.findById(id).get();
     }
 
+    /**
+     * Obtiene todas las ofertas compradas por un usuario
+     * @param email, email del usuario
+     * @return offers, la lista de ofertas compradas
+     */
+    public List<Offer> getAllByBuyer(String email) {
+        List<Offer> offers = new ArrayList<>();
+        offersRepository.findAllByBuyer(email).forEach(offers::add);
+        return offers;
+    }
+
+    /**
+     * Destacar una oferta por su identificador
+     * @param id, identificador de la oferta a destacar
+     */
+    public void featuredOfferById(Long id) {
+        offersRepository.featuredOfferById(id);
+    }
+
+    /**
+     * Obtiene todas las ofertas destacadas (de todos los usuarios)
+     */
+    public List<Offer> getAllFeatured() {
+        return offersRepository.getAllFeatured();
+    }
+
 }

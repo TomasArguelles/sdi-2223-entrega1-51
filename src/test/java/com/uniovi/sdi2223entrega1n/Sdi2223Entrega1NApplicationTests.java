@@ -21,11 +21,12 @@ class Sdi2223Entrega1NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     // TODO: Eliminar y dejar una ruta
+    static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -308,7 +309,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
         // Rellenar campos del formulario con valores válidos.
-        PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50);
+        PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50, false);
 
         // Comprobar que se muestra en el listado de ofertas
         List<WebElement> offers = PO_View.checkElementBy(driver, "text", newOfferText);
@@ -326,7 +327,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
         // Rellenar campos del formulario con valores inválidos.
-        PO_OfferView.fillForm(driver, "Coche marca Renault", "Coche de los años 90", -1.0);
+        PO_OfferView.fillForm(driver, "Coche marca Renault", "Coche de los años 90", -1.0, false);
 
         // Comprobar que se muestra el error en el formulario.
         PO_OfferView.checkErrorMessage(driver, PO_Properties.getSPANISH(), "error.offer.price.range");
@@ -488,7 +489,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Accedemos al menu de añadir una oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
         // Añadimos una oferta nueva
-        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0);
+        PO_OfferView.fillForm(driver, "Prueba 23", "Descripción prueba 23", 54.0, false);
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
 
@@ -524,6 +525,44 @@ class Sdi2223Entrega1NApplicationTests {
         boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
         Assertions.assertEquals(true,isDisplayed);
         //Cierro sesion
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    // [Prueba 25]. Listado de ofertas compradas por un usuario.
+    // Comprobar que se muestran todas las ofertas compradas por dicho usuario.
+    @Test
+    @Order(25)
+    public void PR025() {
+        // Iniciamos sesión como usuario standard
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+
+        // Entramos a la vista de comprar y compramos la oferta 62
+        String buttonName = "buyOffer62";
+        PO_AllOfferView.buyOffer(driver, buttonName);
+
+        // Sacamos el valor del wallet
+        String value = PO_AllOfferView.seeWallet(driver);
+
+        // Lo comparamos con el precio restado
+        Assertions.assertEquals(value, "54.0");
+
+        // Accedemos a la vista de listado de ofertas compradas
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listBoughtOffers");
+
+        // Es necesario obtener el usuario identificado para poder buscar sus ofertas compradas (por su  email)
+        User user = userService.getUserByEmail("usuario7@email.com");
+
+        // Comprobamos el número de elementos de la tabla con el de elementos en la BBDD
+        int offerCountFromUserOnDatabase = offersRepository.findAllByBuyer(user.getEmail()).size();
+
+        // Obtenemos el número de filas de la tabla de la vista del listado de ofertas
+        int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
+
+        // Verificamos que el número de registros mostrados es correcto
+        Assertions.assertEquals(offerCountFromUserOnDatabase, rowCount);
+
+        // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
 
@@ -661,5 +700,101 @@ class Sdi2223Entrega1NApplicationTests {
 
     }
 
+    // [Prueba 37]. Al crear una oferta, marcar dicha oferta como destacada y a continuación comprobar:
+    // i) que aparece en el listado de ofertas destacadas para los usuarios
+    // y que el saldo del usuario se actualiza adecuadamente en la vista del ofertante (-20).
+    @Test
+    @Order(37)
+    public void PR37() {
+        // Iniciamos sesión como usuario standard
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+
+        // Acceder a la vista de añadir una nueva oferta
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores válidos
+        String newOfferText = "Coche marca Renault 1";
+        PO_OfferView.fillForm(driver, newOfferText, "Coche de los años 90", 2000.50, true);
+
+        // Comprobar que se muestra en el listado de ofertas destacadas
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", newOfferText);
+        Assertions.assertEquals(1, offers.size());
+
+        // Sacamos el valor del wallet
+        String value = PO_AllOfferView.seeWallet(driver);
+
+        // Lo comparamos con el precio restado: 154.0 - 20.0 = 134.0
+        Assertions.assertEquals(value,"134.0");
+
+        // Cerramos sesión
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    // [Prueba 38]. Sobre el listado de ofertas de un usuario con 20 euros (o más) de saldo,
+    // pinchar en el enlace Destacada y a continuación comprobar:
+    // que aparece en el listado de ofertas destacadas para los usuarios y
+    // que el saldo del usuario se actualiza adecuadamente en la vista del ofertante (-20).
+    @Test
+    @Order(38)
+    public void PR38() {
+        // Iniciamos sesión como usuario standard
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+
+        // Acceder a la vista del listado de ofertas propias
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
+
+        int sizeOfferList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout()).size();
+
+        // Click en el enlace de destacar una oferta (la primera de la lista)
+        PO_OfferView.clickFeaturedLink(driver, 0);
+
+        // Comprobar que se muestra en el listado de ofertas destacadas
+        List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout());
+        Assertions.assertEquals(sizeOfferList + 1, offerList.size());
+
+        // Sacamos el valor del wallet
+        String value = PO_AllOfferView.seeWallet(driver);
+
+        // Lo comparamos con el precio restado: 154.0 - 20.0 = 134.0
+        Assertions.assertEquals(value,"134.0");
+
+        // Cerramos sesión
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    // [Prueba 39]. Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo,
+    // pinchar en el enlace Destacada y a continuación comprobar que se muestra el mensaje de
+    // saldo insuficiente.
+    @Test
+    @Order(39)
+    public void PR39() {
+        // Iniciamos sesión como usuario standard
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillForm(driver, "usuario8@email.com", "123456");
+
+        // Acceder a la vista del listado de ofertas propias
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
+
+        int sizeOfferList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout()).size();
+
+        // Click en el enlace de destacar una oferta (la primera de la lista)
+        PO_OfferView.clickFeaturedLink(driver, 0);
+
+        // Comprobar que se muestra el mensaje
+        SeleniumUtils.textIsPresentOnPage(driver, "Tu dinero debe ser al menos de 20€ para destacar una oferta!");
+
+        // Sacamos el valor del wallet
+        String value = PO_AllOfferView.seeWallet(driver);
+        Assertions.assertEquals(value,"14.0");
+
+        // Cerramos sesión
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
 
 }

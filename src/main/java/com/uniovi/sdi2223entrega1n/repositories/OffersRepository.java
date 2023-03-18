@@ -19,6 +19,13 @@ public interface OffersRepository extends CrudRepository<Offer, Long> {
 
     @Query("SELECT o FROM Offer o WHERE o.seller.email NOT LIKE ?1")
     List<Offer> findAllToBuy(String userEmail);
+
+    @Query("SELECT o FROM Offer o WHERE o.buyer.email = ?1 and o.sold = true")
+    List<Offer> findAllByBuyer(final String buyerEmail);
+
+    @Query("SELECT o FROM Offer o WHERE o.featured = true")
+    List<Offer> getAllFeatured();
+
     @Modifying
     @Transactional
     @Query("UPDATE Offer SET sold =?1 WHERE id = ?2")
@@ -28,4 +35,10 @@ public interface OffersRepository extends CrudRepository<Offer, Long> {
     @Transactional
     @Query("UPDATE Offer SET buyer =?1 WHERE id = ?2")
     void setBuyer(User user, Long id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Offer SET featured = true WHERE id = ?1")
+    void featuredOfferById(Long id);
+
 }
