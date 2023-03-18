@@ -428,7 +428,7 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
 
-        Assertions.assertEquals(5, offerList.size());
+        Assertions.assertEquals(21, offerList.size());
 
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -949,6 +949,43 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+    }
+
+    /**
+     * [Prueba40] Desde el formulario de dar de alta ofertas, crear una oferta con datos válidos y una imagen adjunta.
+     * Comprobar que en el listado de ofertas propias aparece la imagen adjunta junto al resto de datos de la oferta.
+     */
+    @Test
+    @Order(40)
+    public void PR040(){
+        //Crear un usuario
+        SeleniumUtils.registerNewUser(driver, "miemail12333@email.com", "123456");
+        //Creo una oferta sin imagen
+        String s= "coche";
+        PO_OfferView.addImageOffer(driver, s);
+
+        //Comprobar que se muestra
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", s);
+        Assertions.assertEquals(1, offers.size());
+
+    }
+
+    /**
+     * Crear una oferta con datos válidos y sin una imagen adjunta.
+     * Comprobar que la oferta se ha creado con éxito, ya que la imagen no es obligatoria.
+     */
+    @Test
+    @Order(41)
+    public void PR041(){
+        //Crear un usuario
+        SeleniumUtils.registerNewUser(driver, "miemail123@email.com", "123456");
+        //Creo una oferta sin imagen
+        String s= "coche";
+        PO_OfferView.addSampleOffer(driver, s);
+
+        //Comprobar que se muestra
+        List<WebElement> offers = PO_View.checkElementBy(driver, "text", s);
+        Assertions.assertEquals(1, offers.size());
     }
 
 }

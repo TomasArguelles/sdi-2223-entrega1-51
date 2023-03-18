@@ -85,6 +85,9 @@ public class OfferController {
 
     /**
      * Redirecciona a la vista de añadir una nueva oferta.
+     *
+     * @param model
+     * @return
      */
     @RequestMapping(value = "/offer/add", method = RequestMethod.GET)
     public String getAddNewOffer(Model model) {
@@ -101,7 +104,7 @@ public class OfferController {
     public String getAllOffersList(Model model, Principal principal) {
         String userEmail = principal.getName();
 
-        if (userEmail == null || userEmail.equals("") || userEmail.equals("anonymousUser")) {
+        if (userEmail == null || userEmail == "" || userEmail == "anonymousUser") {
             return "home";
         }
 
@@ -124,6 +127,7 @@ public class OfferController {
      * Dar de baja una oferta por su identificador.
      *
      * @param id Identificador de la oferta.
+     * @return
      */
     @RequestMapping(value = "/offer/delete/{id}", method = RequestMethod.GET)
     public String deleteOfferById(@PathVariable final Long id) {
@@ -133,37 +137,36 @@ public class OfferController {
 
     /**
      * Metodo que redirecciona a la vista de TODAS las ofertas en el sistema
-     *
-     * @param principal  usuario
+     * @param model
+     * @param principal usuario
      * @param searchText texto a buscar
      * @return la vista
      */
-    @RequestMapping(value = "/offer/allList")
-    public String getOffersToBuy(Model model, Principal principal, @RequestParam(value = "", required = false) String searchText) {
+    @RequestMapping (value="/offer/allList")
+    public String getOffersToBuy(Model model, Principal principal,@RequestParam(value = "", required = false)String searchText){
         String userEmail = principal.getName();
-        List<Offer> offers;
+        List<Offer>offers;
         //Si esta vacio el buscador devolvemos todas, sino no
-        if (searchText == null || searchText.isEmpty()) {
+        if(searchText==null || searchText.isEmpty()){
             offers = offersService.getAllOffersToBuy(userEmail);
-        } else {
-            offers = offersService.searchOffersByNameAndUser(searchText, userEmail);
+        }else{
+            offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
         }
         User user = usersService.getUserByEmail(userEmail);
-        model.addAttribute("buyer", user);
-        model.addAttribute("offersList", offers);
-        model.addAttribute("buyError", invalidBuy);
+        model.addAttribute("buyer",user);
+        model.addAttribute("offersList",offers);
+        model.addAttribute("buyError",invalidBuy);
         return "offer/allList";
     }
 
     /**
      * Metodo para comprar una oferta
-     *
-     * @param id        id de la oferta
+     * @param id id de la oferta
      * @param principal usuario
      * @return la vista
      */
     @RequestMapping(value = "/offer/{id}/buyOffer")
-    public String buyOffer(@PathVariable Long id, Principal principal) {
+    public String buyOffer(@PathVariable Long id,Principal principal){
         //Obtengo el dinero que tiene la cartera del usuario
         String userEmail = principal.getName();
         User user = usersService.getUserByEmail(userEmail);
@@ -171,7 +174,7 @@ public class OfferController {
         //Obtengo el precio de la oferta
         Offer offer = offersService.getOffer(id);
         Double price = offer.getPrice();
-        invalidBuy = true;
+        invalidBuy=true;
         //Comprobar si el dinero del wallet es superior al precio
         if(wallet>=price) {
             offersService.setOfferSold(id,user);
