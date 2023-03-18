@@ -841,6 +841,8 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(36)
     public void PR036() {
+
+
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
         PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");

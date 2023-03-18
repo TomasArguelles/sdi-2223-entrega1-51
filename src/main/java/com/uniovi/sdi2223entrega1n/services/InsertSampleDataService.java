@@ -29,6 +29,29 @@ public class InsertSampleDataService {
 
     @PostConstruct
     public void init() {
+        User eliminar1 = new User("eliminar1@email.com", "User", "Normal");
+        eliminar1.setPassword("123456");
+        eliminar1.setRole(rolesService.getRoles()[0]);
+        eliminar1.setWallet(154.0);
+        usersService.addUser(eliminar1);
+        User eliminar2 = new User("eliminar2@email.com", "User", "Normal");
+        eliminar2.setPassword("123456");
+        eliminar2.setRole(rolesService.getRoles()[0]);
+        eliminar2.setWallet(154.0);
+        usersService.addUser(eliminar2);
+        User eliminar3 = new User("eliminar3@email.com", "User", "Normal");
+        eliminar3.setPassword("123456");
+        eliminar3.setRole(rolesService.getRoles()[0]);
+        eliminar3.setWallet(154.0);
+        usersService.addUser(eliminar3);
+        User eliminar4 = new User("eliminar4@email.com", "User", "Normal");
+        eliminar4.setPassword("123456");
+        eliminar4.setRole(rolesService.getRoles()[0]);
+        eliminar4.setWallet(154.0);
+        usersService.addUser(eliminar4);
+
+
+
         User user1 = new User("usuario1@email.com", "User", "Normal");
         user1.setPassword("123456");
         user1.setRole(rolesService.getRoles()[0]);
@@ -70,6 +93,13 @@ public class InsertSampleDataService {
         user7.setRole(rolesService.getRoles()[0]);
         user7.setWallet(154.0);
         usersService.addUser(user7);
+
+
+        User eliminar5 = new User("eliminar5@email.com", "eliminar5", "eliminar5");
+        eliminar5.setPassword("123456");
+        eliminar5.setRole(rolesService.getRoles()[0]);
+        eliminar5.setWallet(154.0);
+        usersService.addUser(eliminar5);
 
         User user8= new User("usuario8@email.com", "User", "Normal");
         user8.setPassword("123456");
