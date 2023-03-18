@@ -49,7 +49,6 @@ public class AuthUtil {
         int responseStatus = response.getStatus();
 
         // Cabecera HTTP indicando el tipo de log - [LOGOUT].
-        String logType = logTypeCode;
 
         // Idioma de la respuesta HTTP
         Locale responseLocale = response.getLocale();
@@ -61,6 +60,6 @@ public class AuthUtil {
         Timestamp currentTime = Timestamp.from(Instant.now());
 
         // Guardar el log en la base de datos
-        return new CustomLog(logType, httpMethod, responseStatus, remoteAddress, responseLocale, currentTime, endPointName, null, username);
+        return new CustomLog(logTypeCode, httpMethod, responseStatus, remoteAddress, responseLocale, currentTime, endPointName, null, username);
     }
 }

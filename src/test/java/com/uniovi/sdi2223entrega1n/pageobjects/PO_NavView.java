@@ -75,4 +75,13 @@ public class PO_NavView extends PO_View {
             dropdownSubmenu.get(0).click();
         }
     }
+
+    /**
+     * Pulsa el boton de salir de sesión.
+     *
+     * @param driver
+     */
+    public static void clickLogout(WebDriver driver) {
+        clickOption(driver, "logout", "class", "btn btn-primary");
+    }
 }

@@ -13,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -45,7 +43,7 @@ public class OfferController {
      * @return
      */
     @RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-    public String addNewOffer(@Validated Offer offerToAdd, BindingResult result, Model model) {
+    public String addNewOffer(@ModelAttribute Offer offerToAdd, BindingResult result, Model model) {
         // Validacion de campos
         offerValidationForm.validate(offerToAdd, result);
 
@@ -63,7 +61,7 @@ public class OfferController {
         offerToAdd.setDateUpload(Instant.now());
 
         offersService.add(offerToAdd);
-        System.out.println(offerToAdd.getImage());
+
         logger.info("Oferta añadida al sistema correctamente");
 
         return "redirect:/offer/list";
@@ -165,26 +163,26 @@ public class OfferController {
 
     /**
      * Metodo que actualiza la vista
-     * @param model
-     * @param principal usuario registrado
+     *
+     * @param principal  usuario registrado
      * @param searchText texto a buscar
      * @return la vista
      */
     @RequestMapping(value = "/offer/list/update")
-    public String updateList(Model model, Principal principal,@RequestParam(value = "", required = false)String searchText){
+    public String updateList(Model model, Principal principal, @RequestParam(value = "", required = false) String searchText) {
         String userEmail = principal.getName();
-        List<Offer>offers;
+        List<Offer> offers;
         //Si esta vacio el buscador devolvemos todas, sino no
-        if(searchText==null || searchText.isEmpty()){
+        if (searchText == null || searchText.isEmpty()) {
             offers = offersService.getAllOffersToBuy(userEmail);
 
-        }else{
-            offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
+        } else {
+            offers = offersService.searchOffersByNameAndUser(searchText, userEmail);
         }
         User user = usersService.getUserByEmail(userEmail);
-        model.addAttribute("buyer",user);
-        model.addAttribute("offersList",offers);
-        model.addAttribute("buyError",invalidBuy);
+        model.addAttribute("buyer", user);
+        model.addAttribute("offersList", offers);
+        model.addAttribute("buyError", invalidBuy);
         return "offer/allList :: tableBuy";
     }
 }

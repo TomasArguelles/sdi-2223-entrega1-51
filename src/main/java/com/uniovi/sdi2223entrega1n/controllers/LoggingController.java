@@ -19,8 +19,6 @@ public class LoggingController {
 
     /**
      * Listado de todos los logs registrados por la aplicación.
-     *
-     * @return
      */
     @RequestMapping("/admin/logs")
     public String getAllLogs(Model model) {
@@ -33,7 +31,6 @@ public class LoggingController {
      * Listado de todos los logs de un tipo determinado.
      *
      * @param logType Tipo de log a filtrar.
-     * @return
      */
     @RequestMapping("/admin/logs/filter")
     public String getAllLogsByLogType(@RequestParam(value = "logType") String logType, Model model) {
@@ -50,8 +47,6 @@ public class LoggingController {
 
     /**
      * Eliminar todos los logs del sistema.
-     *
-     * @return
      */
     @RequestMapping(value = "/admin/logs/deleteAll", method = RequestMethod.GET)
     public String deleteAllLogs() {
