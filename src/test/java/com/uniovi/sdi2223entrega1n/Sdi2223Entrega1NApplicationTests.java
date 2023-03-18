@@ -429,7 +429,7 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> offerList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
 
-        Assertions.assertEquals(5, offerList.size());
+        Assertions.assertEquals(21, offerList.size());
 
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
