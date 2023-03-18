@@ -14,6 +14,7 @@ springsecurity4">
                id="tableFeaturedOffer">
             <thead>
             <tr>
+                <th scope="col" th:text="#{offer.image}">Imagen</th>
                 <th scope="col" th:text="#{offer.title}">Texto</th>
                 <th scope="col" th:text="#{offer.description}">Detalle</th>
                 <th scope="col" th:text="#{offer.price}">Cantidad solicitada
@@ -23,6 +24,10 @@ springsecurity4">
             </thead>
             <tbody>
             <tr th:each="offer : ${offerFeaturedList}">
+                <td>
+                    <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
+                    <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
+                </td>
                 <td th:text="${offer.title}"></td>
                 <td th:text="${offer.description}"></td>
                 <td th:text="${offer.price}"></td>
@@ -44,7 +49,7 @@ springsecurity4">
                id="tableOffer">
             <thead>
             <tr>
-                <th scope="col"></th>
+                <th scope="col" th:text="#{offer.image}">Imagen</th>
                 <th scope="col" th:text="#{offer.title}">Texto</th>
                 <th scope="col" th:text="#{offer.description}">Detalle</th>
                 <th scope="col" th:text="#{offer.price}">Cantidad solicitada
