@@ -66,7 +66,7 @@ public class Offer {
     }
 
     public Offer(String title, String description, Double price) {
-        this(title,description,price,"aa");
+        this(title,description,price,"");
 
     }
     public Offer(String title, String description, Double price,String image){

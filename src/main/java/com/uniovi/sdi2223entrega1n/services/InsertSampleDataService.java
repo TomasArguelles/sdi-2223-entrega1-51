@@ -8,7 +8,10 @@ import com.uniovi.sdi2223entrega1n.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-//@Service
+import javax.annotation.PostConstruct;
+import java.time.Instant;
+
+@Service
 public class InsertSampleDataService {
     @Autowired
     private UsersService usersService;
@@ -19,7 +22,12 @@ public class InsertSampleDataService {
     @Autowired
     private OffersService offersService;
 
-    //@PostConstruct
+    @Autowired
+    private ConversationsService convService;
+    @Autowired
+    private  MessagesService msgService;
+
+    @PostConstruct
     public void init() {
         User user1 = new User("usuario1@email.com", "User", "Normal");
         user1.setPassword("123456");

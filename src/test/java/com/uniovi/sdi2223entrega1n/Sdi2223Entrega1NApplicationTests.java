@@ -30,7 +30,7 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_ENDPOINT = "http://localhost:8090";
 
@@ -815,6 +815,26 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
         int numRowsFinal = rows2.size();
         Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
+
+    }
+
+    /**
+     * [Prueba40] Desde el formulario de dar de alta ofertas, crear una oferta con datos válidos y una imagen adjunta.
+     * Comprobar que en el listado de ofertas propias aparece la imagen adjunta junto al resto de datos de la oferta.
+     */
+    @Test
+    @Order(40)
+    public void PR040(){
+
+    }
+
+    /**
+     * Crear una oferta con datos válidos y sin una imagen adjunta.
+     * Comprobar que la oferta se ha creado con éxito, ya que la imagen no es obligatoria.
+     */
+    @Test
+    @Order(41)
+    public void PR041(){
 
     }
 
