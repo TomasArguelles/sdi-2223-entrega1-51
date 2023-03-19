@@ -15,16 +15,15 @@
             <div class="form-group">
                 <input name="searchText" type="text" class="form-control"
                        size="50"
-                       placeholder="Buscar nombre del producto">
+                       th:placeholder="#{alloffer.page.placeholder.search}">
             </div>
             
-            <button type="submit" name="search" class="btn btn-primary">Buscar
-            </button>
+            <button type="submit" name="search" class="btn btn-primary" th:text ="#{allofer.page.button.search}"></button>
         </form>
 
         <div id="tableBuy" th:fragment="tableBuy">
 
-            <label> Su saldo es: </label> <label id="wallet"
+            <label th:text="#{alloffer.label.wallet}">  </label> <label id="wallet"
                                                  th:text="${buyer.wallet}"></label>
 
             <table class="table table-hover"
@@ -34,20 +33,15 @@
                     <th scope="col" th:text="#{offer.image}">Imagen</th>
                     <th scope="col" th:text="#{offer.title}">Texto</th>
                     <th scope="col" th:text="#{offer.description}">Detalle</th>
-                    <th scope="col" th:text="#{offer.price}">Cantidad
-                        solicitada
-                    </th>
+                    <th scope="col" th:text="#{offer.price}">Cantidad solicitada</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="offer : ${offersList}">
 
                     <td>
-                        <img th:if="${offer.image != null and offer.image != ''}"
-                             th:src="${offer.image}" width="56" height="57"
-                             style="object-fit: cover;">
-                        <img th:unless="${offer.image != null and offer.image != ''}"
-                             src="/images/nodisponible.png"/>
+                        <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
+                        <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
                     </td>
 
                     <td th:text="${offer.title}"></td>
@@ -55,13 +49,13 @@
                     <td th:text="${offer.price}"></td>
                     <td>
                         <div th:if="${offer.sold}">
-                            Vendido
+                            <label th:text="#{alloffer.label.selled}"></label>
                         </div>
                         <div th:unless="${offer.sold}">
                             <button type="button"
                                     th:id="${'buyOffer' + offer.id}"
-                                    class="btn btn-success">
-                                Comprar
+                                    class="btn btn-success"
+                                    th:text="#{alloffer.botton}">
                             </button>
                             <script th:inline="javascript">
                                 $("#buyOffer" + "[[${offer.id}]]").click(function () {
