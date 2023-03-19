@@ -7,16 +7,16 @@
 <nav th:replace="fragments/nav"/>
 
 <div class="container" id="main-container">
-    <h2>Conversaciones de Mis Ofertas</h2>
+    <h2><label th:text="#{convs.mytitle}">  </label></h2>
     <div class="table-responsive">
         <table class="table table-hover" th:fragment="tableConversations"
                id="tableMyOffer">
             <thead>
             <tr>
-                <th scope="col" >Titulo de la oferta</th>
-                <th scope="col" >Candidato</th>
-                <th scope="col" >Ultimo mensaje</th>
-                <th scope="col" >Ir</th>
+                <th scope="col" ><label th:text="#{convs.offertitle}">  </label></th>
+                <th scope="col" ><label th:text="#{convs.candidate}">  </label></th>
+                <th scope="col" ><label th:text="#{convs.last}">  </label></th>
+                <th scope="col" ><label th:text="#{convs.go}">  </label></th>
 
             </tr>
             </thead>
@@ -27,16 +27,16 @@
                 <td>
                     <span th:text="${c.msgs.size() > 0 ? c.msgs[c.msgs.size()-1].text : 'No messages'}"></span>
                 </td>
-                <td><a th:href="${'/conversation/redirectToConversationMyOffers/' + c.offer.id}">Conversation</a></td>
+                <td><a th:href="${'/conversation/redirectToConversationMyOffers/' + c.offer.id}"><label th:text="#{convs.conversation}">  </label></a></td>
                 <td>
                     <a th:href="${'/conversation/mydelete/' + c.id}"
-                       class="btnBorrarConversacion">Eliminar</a>
+                       class="btnBorrarConversacion"><label th:text="#{convs.delete}">  </label></a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(conversationsList)}"> No hay conversaciones</div>
+    <div th:if="${#lists.isEmpty(conversationsList)}"> <label th:text="#{convs.noconvs}">  </label></div>
 </div>
 
 <footer th:replace="fragments/footer"/>
