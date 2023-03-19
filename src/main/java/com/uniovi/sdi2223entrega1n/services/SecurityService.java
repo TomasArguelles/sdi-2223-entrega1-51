@@ -27,10 +27,6 @@ public class SecurityService {
 
             String username = ((UserDetails) userDetails).getUsername();
 
-//TODO:            loggingService.addNewLog(new CustomLog(LogType.LOGIN_EX.name(),
-//                    "-", HttpServletResponse.SC_OK, "POST", null, Timestamp.from(Instant.now()),
-//                    "/login", username));
-
             return username;
         }
         return null;

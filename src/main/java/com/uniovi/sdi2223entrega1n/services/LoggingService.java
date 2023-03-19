@@ -29,7 +29,6 @@ public class LoggingService {
      * @return
      */
     public List<CustomLog> findAll() {
-        // TODO: Paginacion.
         List<CustomLog> logs = new ArrayList<>();
         loggingRepository.findAllOrderByDate().forEach(logs::add);
         return logs;
