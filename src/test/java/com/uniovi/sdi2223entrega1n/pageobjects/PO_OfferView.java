@@ -92,14 +92,6 @@ public class PO_OfferView extends PO_NavView {
         SeleniumUtils.textIsNotPresentOnPage(driver, textToSearch);
     }
 
-    public static void clickFeaturedLink(WebDriver driver, int position) {
-        List<WebElement> offers = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
-                PO_View.getTimeout());
-        // Enlace de destacar una oferta (la de la primera fila)
-        WebElement linkFeaturedOffer = offers.get(position).findElement(By.className("linkFeaturedOffer"));
-        linkFeaturedOffer.click();
-    }
-
     /**
      * Comprueba que se muestra el mensaje de no tener suficiente dinero para destacar una oferta
      *
