@@ -22,9 +22,9 @@ class Sdi2223Entrega1NApplicationTests {
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     // TODO: Eliminar y dejar una ruta
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+//    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -169,6 +169,42 @@ class Sdi2223Entrega1NApplicationTests {
         PO_LoginView.fillForm(driver, "", "");
         //Comprobamos que seguimos en la pantalla de inicio de sesión
         PO_LoginView.checkLoginPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //[Prueba8] Inicio de sesión con datos válidos (usuario estándar, email existente, pero contraseña incorrecta)
+    @Test
+    @Order(8)
+    void PR08() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos INVALIDOS
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "12346");
+        //Comprobamos que seguimos en la pantalla de inicio de sesión
+        PO_LoginView.checkLoginPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //[Prueba9] Hacer clic en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login).
+    @Test
+    @Order(9)
+    void PR09() {
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos con datos validos del usuario estandar
+        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
+        PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
+        //Nos movemos al formulario de inicio de sesión
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+        //Comprobamos que estamos en la pantalla de inicio de sesión
+        PO_LoginView.checkLoginPage(driver, PO_Properties.getSPANISH());
+    }
+
+    //[Prueba10] Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado.
+    @Test
+    @Order(10)
+    void PR010() {
+        //Buscamos que tenga el tex
+        SeleniumUtils.textIsNotPresentOnPage(driver,"Desconectate");
     }
 
     //[Prueba11] Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el
