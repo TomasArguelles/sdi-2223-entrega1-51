@@ -154,7 +154,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
     }
@@ -178,7 +178,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos INVALIDOS
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "12346");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //Comprobamos que seguimos en la pantalla de inicio de sesión
         PO_LoginView.checkLoginPage(driver, PO_Properties.getSPANISH());
     }
