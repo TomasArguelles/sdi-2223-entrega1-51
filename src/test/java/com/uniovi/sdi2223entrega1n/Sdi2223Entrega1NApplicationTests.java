@@ -22,11 +22,11 @@ class Sdi2223Entrega1NApplicationTests {
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     // TODO: Eliminar y dejar una ruta
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -190,7 +190,7 @@ class Sdi2223Entrega1NApplicationTests {
         //Nos movemos al formulario de inicio de sesión
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //Comprobamos que hemos ido a la pagina de home, confirmando que el inicio de sesión se ha completado con exito
         PO_HomeView.checkWelcomeToPage(driver, PO_Properties.getSPANISH());
         //Nos movemos al formulario de inicio de sesión
@@ -454,7 +454,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR020() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
         String invalid = "";
         PO_AllOfferView.SearchInvalid(driver, invalid);
 
@@ -477,7 +477,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR021() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
         String invalid = "asdasd";
         PO_AllOfferView.SearchInvalid(driver, invalid);
 
@@ -498,9 +498,9 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR022() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 97 que su precio es valido
-        String buttonName = "buyOffer97";
+        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
+        //Entramos a la vista de comprar y compramos la oferta 104 que su precio es valido
+        String buttonName = "buyOffer104";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -530,9 +530,9 @@ class Sdi2223Entrega1NApplicationTests {
         //Accedo con el comprador
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 146 que su precio es igual al wallet
-        String buttonName = "buyOffer146";
+        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
+        //Entramos a la vista de comprar y compramos la oferta 153 que su precio es igual al wallet
+        String buttonName = "buyOffer153";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -551,9 +551,9 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR024() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
-        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 17 que su precio es invalido
-        String buttonName = "buyOffer17";
+        PO_LoginView.fillForm(driver, "user07@email.com", "user07");
+        //Entramos a la vista de comprar y compramos la oferta 34 que su precio es invalido
+        String buttonName = "buyOffer34";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Buscamos que aparezca en la pagina la label
         boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
@@ -569,12 +569,12 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR025() {
         // Iniciamos sesión como usuario standard
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
 
         // Entramos a la vista de comprar y compramos la oferta 62
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
 
-        PO_AllOfferView.buyOffer(driver, "buyOffer14");
+        PO_AllOfferView.buyOffer(driver, "buyOffer21");
 
         // Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -603,7 +603,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR026() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "usuario6@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user06@email.com", "user06");
 
 
 
@@ -638,7 +638,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR027() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
         driver.get("http://localhost:8090/offer/allList?searchText=Carro");
 
@@ -670,14 +670,14 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR028() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
         driver.get("http://localhost:8090/conversation/mylist");
         WebElement table = driver.findElement(By.id("tableMyOffer"));
         List<WebElement> rows2 = table.findElements(By.tagName("tr"));
         int numRows = rows2.size();
 
-        Assertions.assertEquals(numRows, 2);
+        Assertions.assertEquals(numRows, 3);
 
     }
 
@@ -835,7 +835,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR035() {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
         driver.get("http://localhost:8090/conversation/list");
 
@@ -859,7 +859,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user01@email.com", "user01");
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
         driver.get("http://localhost:8090/conversation/list");
 
@@ -883,7 +883,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR37() {
         // Iniciamos sesión con un usuario estándar
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
 
         // Sacamos el valor del wallet (inicial)
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
@@ -921,7 +921,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR38() {
         // Iniciamos sesión como usuario standard
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "usuario6@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user06@email.com", "user06");
 
         // Acceder a la vista del listado de ofertas propias
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
@@ -959,7 +959,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR39() {
         // Inicio de sesión con un usuario que tiene menos de 20€ de saldo
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "usuario8@email.com", "123456");
+        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
 
         // Acceder a la vista del listado de ofertas propias
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
