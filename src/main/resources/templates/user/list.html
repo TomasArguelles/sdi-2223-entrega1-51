@@ -5,18 +5,17 @@
 <!-- Barra de Navegación superior -->
 <nav th:replace="fragments/nav"/>
 <div class="container">
-  <h2>Usuarios</h2>
-  <p>Los usuarios que actualmente figuran en el sistema son los
-    siguientes:</p>
-  <div class="table-responsive"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity4">>
+  <h2><label th:text="#{users.users}">  </label></h2>
+  <p><label th:text="#{users.text}">  </label></p>
+  <div class="table-responsive"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity4">
 
     <form method="POST" action="/users/deleteSelected">
     <table class="table table-hover" id="tableUsers">
       <thead>
       <tr>
         <th scope="col">Email</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellidos</th>
+        <th scope="col"><label th:text="#{users.name}">  </label></th>
+        <th scope="col"><label th:text="#{users.surname}">  </label></th>
         <th scope="col" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
           <input id="btnBorrar" type="submit" name="btnBorrar" value="Eliminar" ></th>
         <th scope="col"></th>
@@ -27,8 +26,8 @@
 
       <tr th:each="user : ${usersList}">
         <td scope="row" th:text="${user.email}">correo@email.com</td>
-        <td scope="row" th:text="${user.name}">Nombre del alumno</td>
-        <td scope="row" th:text="${user.lastName}">Apellidos del alumno</td>
+        <td scope="row" th:text="${user.name}"><label th:text="#{users.name}">  </label></td>
+        <td scope="row" th:text="${user.lastName}"><label th:text="#{users.surname}">  </label></td>
         <td scope="row" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
           <input type="checkbox" name="userIds" th:value="${user.id}" /></td>
 
@@ -41,5 +40,4 @@
 <footer th:replace="fragments/footer"/>
 </body>
 </html>
-<!--<td scope="row" ><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="${'/user/delete/' + user.id}" >eliminar</a></td>-->
-<!--<td scope="row"><input id="gre" type="checkbox" name="gre" th:checked="*{gre}" /></td>-->
+
