@@ -26,7 +26,7 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -175,11 +175,8 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(8)
     void PR08() {
-        //Nos movemos al formulario de inicio de sesión
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        //Rellenamos con datos INVALIDOS
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "12346");
-        //Comprobamos que seguimos en la pantalla de inicio de sesión
+        // Insertar contraseña incorrecta
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", "user01@email.com", "123");
         PO_LoginView.checkLoginPage(driver, PO_Properties.getSPANISH());
     }
 
@@ -678,7 +675,6 @@ class Sdi2223Entrega1NApplicationTests {
         int numRows = rows2.size();
 
         Assertions.assertEquals(numRows, 3);
-
     }
 
     // [Prueba 30]. Acceso sin autenticación a la opción de listado de usuarios.
