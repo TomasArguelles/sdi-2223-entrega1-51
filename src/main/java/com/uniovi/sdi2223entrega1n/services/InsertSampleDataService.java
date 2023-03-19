@@ -52,60 +52,104 @@ public class InsertSampleDataService {
 
 
 
-        User user1 = new User("usuario1@email.com", "User", "Normal");
-        user1.setPassword("123456");
+        User user1 = new User("user01@email.com", "User", "Normal");
+        user1.setPassword("user01");
         user1.setRole(rolesService.getRoles()[0]);
         user1.setWallet(154.0);
         usersService.addUser(user1);
 
 
-        User user3 = new User("usuario2@email.com", "User2", "Normal");
-        user3.setPassword("123456");
+        User user2 = new User("user02@email.com", "User2", "Normal");
+        user2.setPassword("user02");
+        user2.setRole(rolesService.getRoles()[0]);
+        user2.setWallet(154.0);
+        usersService.addUser(user2);
+
+        User user3 = new User("user03@email.com", "User3", "Normal");
+        user3.setPassword("user03");
         user3.setRole(rolesService.getRoles()[0]);
-        user3.setWallet(154.0);
+        user3.setWallet(100.0);
         usersService.addUser(user3);
 
-        User user4 = new User("usuario3@email.com", "User3", "Normal");
-        user4.setPassword("123456");
+        User user4 = new User("user04@email.com", "User", "Normal");
+        user4.setPassword("user04");
         user4.setRole(rolesService.getRoles()[0]);
-        user4.setWallet(100.0);
+        user4.setWallet(154.0);
         usersService.addUser(user4);
 
-        User user5 = new User("usuario4@email.com", "User", "Normal");
-        user5.setPassword("123456");
+        User admin = new User("admin@email.com", "User", "Admin");
+        admin.setPassword("admin");
+        admin.setRole(rolesService.getRoles()[1]);
+        usersService.addUser(admin);
+
+        User user5= new User("user05@email.com", "User", "Normal");
+        user5.setPassword("user05");
         user5.setRole(rolesService.getRoles()[0]);
         user5.setWallet(154.0);
         usersService.addUser(user5);
 
-        User user2 = new User("admin@email.com", "User", "Admin");
-        user2.setPassword("admin");
-        user2.setRole(rolesService.getRoles()[1]);
-        usersService.addUser(user2);
-
-        User user6= new User("usuario6@email.com", "User", "Normal");
-        user6.setPassword("123456");
+        User user6= new User("user06@email.com", "User", "Normal");
+        user6.setPassword("user06");
         user6.setRole(rolesService.getRoles()[0]);
         user6.setWallet(154.0);
         usersService.addUser(user6);
 
-        User user7= new User("usuario7@email.com", "User", "Normal");
-        user7.setPassword("123456");
+        User user7= new User("user07@email.com", "User", "Normal");
+        user7.setPassword("user07");
         user7.setRole(rolesService.getRoles()[0]);
         user7.setWallet(154.0);
         usersService.addUser(user7);
 
+
+        User user8= new User("user08@email.com", "User", "Normal");
+        user8.setPassword("user08");
+        user8.setRole(rolesService.getRoles()[0]);
+        user8.setWallet(14.0);
+        usersService.addUser(user8);
+
+        User user9= new User("user09@email.com", "User", "Normal");
+        user9.setPassword("user09");
+        user9.setRole(rolesService.getRoles()[0]);
+        user9.setWallet(14.0);
+        usersService.addUser(user9);
+
+        User user10= new User("user10@email.com", "User", "Normal");
+        user10.setPassword("user10");
+        user10.setRole(rolesService.getRoles()[0]);
+        user10.setWallet(14.0);
+        usersService.addUser(user10);
+
+        User user11= new User("user11@email.com", "User", "Normal");
+        user11.setPassword("user11");
+        user11.setRole(rolesService.getRoles()[0]);
+        user11.setWallet(14.0);
+        usersService.addUser(user11);
+        User user12= new User("user12@email.com", "User", "Normal");
+        user12.setPassword("user12");
+        user12.setRole(rolesService.getRoles()[0]);
+        user12.setWallet(14.0);
+        usersService.addUser(user12);
+        User user13= new User("user13@email.com", "User", "Normal");
+        user13.setPassword("user13");
+        user13.setRole(rolesService.getRoles()[0]);
+        user13.setWallet(14.0);
+        usersService.addUser(user8);
+        User user14= new User("user14@email.com", "User", "Normal");
+        user14.setPassword("user14");
+        user14.setRole(rolesService.getRoles()[0]);
+        user14.setWallet(14.0);
+        usersService.addUser(user14);
+        User user15= new User("user15@email.com", "User", "Normal");
+        user15.setPassword("user15");
+        user15.setRole(rolesService.getRoles()[0]);
+        user15.setWallet(14.0);
+        usersService.addUser(user15);
 
         User eliminar5 = new User("eliminar5@email.com", "eliminar5", "eliminar5");
         eliminar5.setPassword("123456");
         eliminar5.setRole(rolesService.getRoles()[0]);
         eliminar5.setWallet(154.0);
         usersService.addUser(eliminar5);
-
-        User user8= new User("usuario8@email.com", "User", "Normal");
-        user8.setPassword("123456");
-        user8.setRole(rolesService.getRoles()[0]);
-        user8.setWallet(14.0);
-        usersService.addUser(user8);
 
         Offer offer1 = new Offer("Coche1", "Opel", 124.0);
         offer1.setSeller(user1);
