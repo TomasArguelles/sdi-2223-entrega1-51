@@ -10,8 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,14 +22,14 @@ class Sdi2223Entrega1NApplicationTests {
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     // TODO: Eliminar y dejar una ruta
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_ENDPOINT = "http://localhost:8090";
 
@@ -465,8 +463,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 62 que su precio es valido
-        String buttonName = "buyOffer62";
+        //Entramos a la vista de comprar y compramos la oferta 93 que su precio es valido
+        String buttonName = "buyOffer93";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -485,7 +483,7 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(23)
     public void PR023() {
         // Registrar nuevo usuario
-        SeleniumUtils.registerNewUser(driver, "usuario8@email.com", "123456");
+        SeleniumUtils.registerNewUser(driver, "usuario113eddsf8@email.com", "123456");
         // Accedemos al menu de añadir una oferta
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
         // Añadimos una oferta nueva
@@ -497,8 +495,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 107 que su precio es igual al wallet
-        String buttonName = "buyOffer107";
+        //Entramos a la vista de comprar y compramos la oferta 142 que su precio es igual al wallet
+        String buttonName = "buyOffer142";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -518,8 +516,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
-        //Entramos a la vista de comprar y compramos la oferta 45 que su precio es invalido
-        String buttonName = "buyOffer45";
+        //Entramos a la vista de comprar y compramos la oferta 17 que su precio es invalido
+        String buttonName = "buyOffer17";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Buscamos que aparezca en la pagina la label
         boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
@@ -535,12 +533,12 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR025() {
         // Iniciamos sesión como usuario standard
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
+        PO_LoginView.fillForm(driver, "usuario4@email.com", "123456");
 
         // Entramos a la vista de comprar y compramos la oferta 62
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
 
-        PO_AllOfferView.buyOffer(driver, "buyOffer9");
+        PO_AllOfferView.buyOffer(driver, "buyOffer14");
 
         // Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
@@ -551,17 +549,11 @@ class Sdi2223Entrega1NApplicationTests {
         // Accedemos a la vista de listado de ofertas compradas
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listBoughtOffers");
 
-        // Es necesario obtener el usuario identificado para poder buscar sus ofertas compradas (por su  email)
-        User user = userService.getUserByEmail("usuario7@email.com");
-
-        // Comprobamos el número de elementos de la tabla con el de elementos en la BBDD
-        int offerCountFromUserOnDatabase = offersRepository.findAllByBuyer(user.getEmail()).size();
-
         // Obtenemos el número de filas de la tabla de la vista del listado de ofertas
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-hover']/tbody/tr");
 
         // Verificamos que el número de registros mostrados es correcto
-        Assertions.assertEquals(offerCountFromUserOnDatabase, rowCount);
+        Assertions.assertEquals(1, rowCount);
 
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
