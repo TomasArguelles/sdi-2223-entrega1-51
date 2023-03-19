@@ -22,11 +22,11 @@ class Sdi2223Entrega1NApplicationTests {
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     // TODO: Eliminar y dejar una ruta
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -204,7 +204,7 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(10)
     void PR010() {
         //Buscamos que tenga el tex
-        SeleniumUtils.textIsNotPresentOnPage(driver, "Desconectate");
+        SeleniumUtils.textIsNotPresentOnPage(driver,"Desconectate");
     }
 
     //[Prueba11] Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el
@@ -501,11 +501,11 @@ class Sdi2223Entrega1NApplicationTests {
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
         //Entramos a la vista de comprar y compramos la oferta 97 que su precio es valido
         String buttonName = "buyOffer97";
-        PO_AllOfferView.buyOffer(driver, buttonName);
+        PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
         //Lo comparamos con el precio restado
-        Assertions.assertEquals(value, "54.0");
+        Assertions.assertEquals(value,"54.0");
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
@@ -533,11 +533,11 @@ class Sdi2223Entrega1NApplicationTests {
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
         //Entramos a la vista de comprar y compramos la oferta 146 que su precio es igual al wallet
         String buttonName = "buyOffer146";
-        PO_AllOfferView.buyOffer(driver, buttonName);
+        PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
         String value = PO_AllOfferView.seeWallet(driver);
         //Lo comparamos con el precio restado
-        Assertions.assertEquals(value, "0.0");
+        Assertions.assertEquals(value,"0.0");
 
     }
 
@@ -554,14 +554,14 @@ class Sdi2223Entrega1NApplicationTests {
         PO_LoginView.fillForm(driver, "usuario7@email.com", "123456");
         //Entramos a la vista de comprar y compramos la oferta 17 que su precio es invalido
         String buttonName = "buyOffer17";
-        PO_AllOfferView.buyOffer(driver, buttonName);
+        PO_AllOfferView.buyOffer(driver,buttonName);
         //Buscamos que aparezca en la pagina la label
         boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
-        Assertions.assertEquals(true, isDisplayed);
+        Assertions.assertEquals(true,isDisplayed);
         //Cierro sesion
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
-
+    
     // [Prueba 25]. Listado de ofertas compradas por un usuario.
     // Comprobar que se muestran todas las ofertas compradas por dicho usuario.
     @Test
@@ -594,7 +594,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
     }
-
+    
     //[Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
 //a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
 //en la conversación.
@@ -604,6 +604,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Cumplimentamos el registro con datos VALIDOS
         PO_LoginView.fillForm(driver, "usuario6@email.com", "123456");
+
 
 
         //vamos a la vista que queremos, directamente haciendo la búsqueda que queremos, en nuestro caso Carro
@@ -627,7 +628,7 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> rows2 = table.findElements(By.tagName("tr"));
         int numRowsAfter = rows2.size();
 
-        Assertions.assertEquals(numRowsInit, numRowsAfter - 1);
+        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
     }
 
     //[Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
@@ -659,7 +660,7 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> rows2 = table.findElements(By.tagName("tr"));
         int numRowsAfter = rows2.size();
 
-        Assertions.assertEquals(numRowsInit, numRowsAfter - 1);
+        Assertions.assertEquals(numRowsInit, numRowsAfter-1);
     }
 
     //[Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
@@ -729,7 +730,7 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(33)
     public void PR33() {
         // Acción previa: Borrar todos los logs
-        PO_AdminView.deleteAllLogsWithLogout(driver);
+        PO_AdminView.deleteAllLogs(driver);
 
         // -- TIPO LOGIN-EX
         // Iniciar sesion como admin - LOG-EX
@@ -755,9 +756,16 @@ class Sdi2223Entrega1NApplicationTests {
         // -- TIPO LOGIN-EX
         SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail1, "123456");
 
+        // -- TIPO PET
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
+
+        // Acceder a la vista de añadir una nueva oferta
+        // -- TIPO PET
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.addSampleOfferWithDescriptionAndPrice(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50, false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 1
@@ -780,7 +788,11 @@ class Sdi2223Entrega1NApplicationTests {
 
         // -- TIPO PET
         // Acceder a la vista de añadir una nueva oferta
-        PO_OfferView.addSampleOfferWithDescriptionAndPrice(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores válidos.
+        // -- TIPO PET
+        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50, false);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 2
@@ -788,14 +800,18 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Total de logs esperado: +1 por la peticion de borrado de logs previamente
         // realizada
-        int expectedLogs = 30;
+        int expectedLogs = 31;
+
+        // Volver a iniciar sesion como admin
+        SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
 
         // Ir a la vista de logs
         // -- TIPO PET
-        PO_AdminView.goToListOfLogsView(driver);
+        PO_NavView.clickOption(driver, "/admin/logs", "id", "viewLogsMenuItem");
 
         // Obtener el número de logs de la tabla
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
+
         // Comprobar que el número de registros mostrados es correcto
         Assertions.assertEquals(expectedLogs, rowCount);
     }
@@ -807,9 +823,9 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(34)
     public void PR34() {
         // Iniciar sesion como administrador y eliminar todos los logs
-        PO_AdminView.deleteAllLogsWithLogout(driver);
+        PO_AdminView.deleteAllLogs(driver);
 
-        // Total de logs esperado: 1
+        // Total de logs esperado: 1 - peticion admin/logs/deleteAll
         int expectedLogs = 1;
 
         SeleniumUtils.signInIntoAccount(driver, "ADMIN", PO_AdminView.ADMIN_EMAIL);
@@ -818,7 +834,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DASHBOARD_ENDPOINT, "id", "viewLogsMenuItem");
 
         // Hacer click en el boton de eliminar logs
-        PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", PO_AdminView.DELETE_ALL_LOGS_BUTTON);
+        PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", "deleteAllLogsButton");
 
         // Obtener el número de logs de la tabla
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
@@ -826,7 +842,6 @@ class Sdi2223Entrega1NApplicationTests {
         // Comprobar que el número de registros mostrados es correcto
         Assertions.assertEquals(expectedLogs, rowCount);
     }
-
     //[Prueba35] Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
     //comprobar que el listado se actualiza correctamente
     @Test
@@ -846,10 +861,9 @@ class Sdi2223Entrega1NApplicationTests {
         WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
         List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
         int numRowsFinal = rows2.size();
-        Assertions.assertEquals(numRowsOriginal, numRowsFinal + 1);
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
 
     }
-
     //[Prueba36] Sobre el listado de conversaciones ya abiertas, pulsar el enlace Eliminar de la última y
     //comprobar que el listado se actualiza correctamente
     @Test
@@ -871,7 +885,8 @@ class Sdi2223Entrega1NApplicationTests {
         WebElement table2 = driver.findElement(By.id("tableOtherOffers"));
         List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
         int numRowsFinal = rows2.size();
-        Assertions.assertEquals(numRowsOriginal, numRowsFinal + 1);
+        Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
+
     }
 
     // [Prueba 37]. Al crear una oferta, marcar dicha oferta como destacada y a continuación comprobar:
@@ -944,7 +959,7 @@ class Sdi2223Entrega1NApplicationTests {
         String value = PO_AllOfferView.seeWallet(driver);
 
         // Lo comparamos con el precio restado: 154.0 - 20.0 = 134.0
-        Assertions.assertEquals(value, "134.0");
+        Assertions.assertEquals(value,"134.0");
 
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -981,11 +996,11 @@ class Sdi2223Entrega1NApplicationTests {
      */
     @Test
     @Order(40)
-    public void PR040() {
+    public void PR040(){
         //Crear un usuario
         SeleniumUtils.registerNewUser(driver, "miemail12333@email.com", "123456");
         //Creo una oferta sin imagen
-        String s = "coche";
+        String s= "coche";
         PO_OfferView.addImageOffer(driver, s);
 
         //Comprobar que se muestra
@@ -1000,15 +1015,16 @@ class Sdi2223Entrega1NApplicationTests {
      */
     @Test
     @Order(41)
-    public void PR041() {
+    public void PR041(){
         //Crear un usuario
         SeleniumUtils.registerNewUser(driver, "miemail123@email.com", "123456");
         //Creo una oferta sin imagen
-        String s = "coche";
+        String s= "coche";
         PO_OfferView.addSampleOffer(driver, s);
 
         //Comprobar que se muestra
         List<WebElement> offers = PO_View.checkElementBy(driver, "text", s);
         Assertions.assertEquals(2, offers.size());
     }
+
 }

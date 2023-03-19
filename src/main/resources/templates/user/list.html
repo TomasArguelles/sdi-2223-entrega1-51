@@ -17,9 +17,6 @@
         <th scope="col">Email</th>
         <th scope="col">Nombre</th>
         <th scope="col">Apellidos</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-
         <th scope="col" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
           <input id="btnBorrar" type="submit" name="btnBorrar" value="Eliminar" ></th>
         <th scope="col"></th>
@@ -32,9 +29,6 @@
         <td scope="row" th:text="${user.email}">correo@email.com</td>
         <td scope="row" th:text="${user.name}">Nombre del alumno</td>
         <td scope="row" th:text="${user.lastName}">Apellidos del alumno</td>
-        <td scope="row"><a th:href="${'/user/details/' + user.id}">detalles</a></td>
-        <td scope="row"><a th:href="${'/user/edit/' + user.id}">modificar</a></td>
-
         <td scope="row" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
           <input type="checkbox" name="userIds" th:value="${user.id}" /></td>
 
