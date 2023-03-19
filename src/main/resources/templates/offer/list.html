@@ -91,7 +91,7 @@ springsecurity4">
     <div th:if="${#lists.isEmpty(offerList)}"
          th:text="#{offer.page.noOffersToShow}"> No hay ofertas
     </div>
-    <div th:if="#{buyError}" th:text="#{offer.featured.nomoney}">
+    <div th:if="#{buyError == true}" th:text="#{offer.featured.nomoney}">
         Tu dinero debe ser al menos de 20€ para destacar una oferta!</div>
 </div>
 

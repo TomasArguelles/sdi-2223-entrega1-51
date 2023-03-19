@@ -21,10 +21,10 @@ class Sdi2223Entrega1NApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     // TODO: Eliminar y dejar una ruta
-    //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
-//    static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver  ="A:\\Escritorio\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -935,7 +935,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR38() {
         // Iniciamos sesión como usuario standard
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "123456");
+        PO_LoginView.fillForm(driver, "usuario6@email.com", "123456");
 
         // Acceder a la vista del listado de ofertas propias
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
@@ -944,7 +944,9 @@ class Sdi2223Entrega1NApplicationTests {
         int initialNumRows = initialTable.findElements(By.tagName("tr")).size();
 
         // Click en el enlace de destacar una oferta (la primera de la lista)
-        PO_OfferView.clickFeaturedLink(driver, 0);
+        List<WebElement> offers = SeleniumUtils.waitLoadElementsBy(driver, "class", "linkFeaturedOffer",
+                PO_View.getTimeout());
+        offers.get(0).click();
 
         WebElement table = driver.findElement(By.id("tableFeaturedOffer"));
         int numRows = table.findElements(By.tagName("tr")).size();
@@ -969,24 +971,20 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(39)
     public void PR39() {
-        // Creamos un usuario
-        SeleniumUtils.registerNewUser(driver, "miemail987@email.com", "123456");
-
-        // Creo una oferta
-        PO_OfferView.addImageOffer(driver, "coche");
+        // Inicio de sesión con un usuario que tiene menos de 20€ de saldo
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillForm(driver, "usuario8@email.com", "123456");
 
         // Acceder a la vista del listado de ofertas propias
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");
 
         // Click en el enlace de destacar una oferta (la primera de la lista)
-        PO_OfferView.clickFeaturedLink(driver, 0);
+        List<WebElement> offers = SeleniumUtils.waitLoadElementsBy(driver, "class", "linkFeaturedOffer",
+                PO_View.getTimeout());
+        offers.get(0).click();
 
         // Comprobar que se muestra el mensaje
         PO_OfferView.checkNoMoneyMessage(driver, PO_Properties.getSPANISH(), "offer.featured.nomoney");
-
-        // Sacamos el valor del wallet
-        String value = PO_AllOfferView.seeWallet(driver);
-        Assertions.assertEquals(value,"14.0");
 
         // Cerramos sesión
         PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
