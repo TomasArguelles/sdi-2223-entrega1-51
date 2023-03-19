@@ -70,7 +70,7 @@
                 </tr>
                 </tbody>
             </table>
-            <span id="errorPrecio" class="text-danger" th:if="${buyError}" >Tu dinero debe ser superior al precio</span>
+            <span id="errorPrecio" class="text-danger" th:if="${buyError}" th:text="#{all.offer.errorbuy}">Tu dinero debe ser superior al precio</span>
         </div>
     <div th:if="${#lists.isEmpty(offersList)}"> No hay ofertas</div>
 </div>

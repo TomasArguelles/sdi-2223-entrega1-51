@@ -6,9 +6,9 @@
 <nav th:replace="fragments/nav"/>
 <div class="container" style="text-align: center">
     <h2 th:text="#{welcome.message}"></h2>
-    <h3>Esta es una zona privada la web</h3>
+    <h3 th:text ="#{home.subtitle}"></h3>
     <p>
-        Usuario Autenticado como :
+        <b th:text ="#{home.auth.user}"></b>
         <b th:inline="text" sec:authentication="principal.username"></b>
     </p>
 </div>

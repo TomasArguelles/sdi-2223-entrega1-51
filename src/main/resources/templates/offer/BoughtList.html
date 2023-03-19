@@ -5,17 +5,17 @@
 <body>
 <nav th:replace="fragments/nav"/>
 <div class="container" id="main-container">
-    <h2>Ofertas compradas</h2>
+    <h2 th:text="#{bought.title.page}">Ofertas compradas</h2>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col" th:text="#{offer.image}">Imagen</th>
                 <th scope="col">Id</th>
-                <th scope="col">Título</th>
-                <th scope="col">Detalle</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Email del vendedor</th>
+                <th scope="col" th:text="#{bought.title}">Título</th>
+                <th scope="col" th:text="#{bought.details}">Detalle</th>
+                <th scope="col" th:text="#{bought.price}">Precio</th>
+                <th scope="col" th:text="#{bought.email}">Email del vendedor</th>
             </tr>
             </thead>
             <tbody>
@@ -36,7 +36,9 @@
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(offersList)}"> No hay ofertas compradas</div>
+    <div th:if="${#lists.isEmpty(offersList)}">
+        <label th:text="#{bought.nobuyed}"></label>
+    </div>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>

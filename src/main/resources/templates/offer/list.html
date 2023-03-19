@@ -8,7 +8,7 @@ springsecurity4">
 <nav th:replace="fragments/nav"/>
 
 <div class="container" id="featured-container">
-    <h2>Listado de ofertas destacadas</h2>
+    <h2 th:text="#{offer.featured.title}">Listado de ofertas destacadas</h2>
     <div class="table-responsive">
         <table class="table table-hover" th:fragment="tableFeaturedOffer"
                id="tableFeaturedOffer">
@@ -45,7 +45,7 @@ springsecurity4">
 </div>
 
 <div class="container" id="main-container">
-    <h2>Mis ofertas</h2>
+    <h2 th:text="#{offer.myoffers}"></h2>
     <div class="table-responsive">
         <!--        <p th:if=""></p>-->
         <table class="table table-hover" th:fragment="tableOffer"
