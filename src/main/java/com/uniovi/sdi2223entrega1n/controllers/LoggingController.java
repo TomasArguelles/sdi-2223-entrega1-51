@@ -20,7 +20,7 @@ public class LoggingController {
     /**
      * Listado de todos los logs registrados por la aplicación.
      */
-    @RequestMapping("/admin/logs")
+    @RequestMapping("/admin/logs/all")
     public String getAllLogs(Model model) {
         List<CustomLog> logs = loggingService.findAll();
         model.addAttribute("logs", logs);
@@ -51,6 +51,6 @@ public class LoggingController {
     @RequestMapping(value = "/admin/logs/deleteAll", method = RequestMethod.GET)
     public String deleteAllLogs() {
         loggingService.deleteAllLogs();
-        return "redirect:/admin/logs";
+        return "redirect:/admin/logs/all";
     }
 }

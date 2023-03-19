@@ -1,5 +1,5 @@
 <!-- nav.html -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-
+<nav class="navbar navbar-expand-lg navbar-dark bg-my-green" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-
 springsecurity4">
     <a class="navbar-brand" href="#"></a>
     <img src="/images/student-48.png" alt="logo"/>
@@ -35,6 +35,8 @@ springsecurity4">
                     <a class="dropdown-item" id="addOfferMenu"
                        href="/offer/add" th:text="#{nav.offer.add}">Añadir
                         oferta</a>
+                    <a class="dropdown-item" href="/offer/boughtList"
+                       id="listBoughtOffers">Ver ofertas compradas</a>
                 </div>
             </li>
 
@@ -75,15 +77,17 @@ springsecurity4">
             </li>
 
             <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="nav-link" href="/admin/logs" id="viewLogsMenuItem"
+                <a class="nav-link show-logs-link" href="/admin/logs/all"
+                   id="viewLogsMenuItem"
                    th:text="#{nav.logs.all}">Ver
                     logs</a>
             </li>
             <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="nav-link" href="/admin/logs/deleteAll"
+                <a class="nav-link deleteAllLogs" id="deleteAllLogsButton"
+                   href="/admin/logs/deleteAll"
                    th:title="#{admin.dashboard.deleteAllLogs.title}"
                    th:text="#{admin.dashboard.deleteAllLogs}"
-                   id="deleteAllLogsButton">Eliminar logs
+                >Eliminar logs
                 </a>
             </li>
         </ul>
@@ -117,8 +121,9 @@ springsecurity4">
                     class="nav-link" href="/login">
                 <i class='fas fa-sign-in-alt' style='font-size:16px'></i>
                 <span th:text="#{login.message}"></span></a></li>
+
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" href="/logout" id="nav-logout">
+                <a class="nav-link logout-link" href="/logout">
                     <i class='fas fa-sign-out-alt' style='font-size:16px'></i>
                     <span th:text="#{logout.message}"></span>
                 </a>

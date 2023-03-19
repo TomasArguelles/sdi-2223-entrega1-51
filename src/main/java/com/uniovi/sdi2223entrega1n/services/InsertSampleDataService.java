@@ -1,7 +1,6 @@
 package com.uniovi.sdi2223entrega1n.services;
 
 import com.uniovi.sdi2223entrega1n.entities.Conversation;
-
 import com.uniovi.sdi2223entrega1n.entities.Message;
 import com.uniovi.sdi2223entrega1n.entities.Offer;
 import com.uniovi.sdi2223entrega1n.entities.User;
@@ -18,18 +17,39 @@ public class InsertSampleDataService {
 
     @Autowired
     private RolesService rolesService;
-    
+
     @Autowired
     private OffersService offersService;
 
     @Autowired
-    private MessagesService msgService;
-
-    @Autowired
     private ConversationsService convService;
+    @Autowired
+    private MessagesService msgService;
 
     @PostConstruct
     public void init() {
+        User eliminar1 = new User("eliminar1@email.com", "User", "Normal");
+        eliminar1.setPassword("123456");
+        eliminar1.setRole(rolesService.getRoles()[0]);
+        eliminar1.setWallet(154.0);
+        usersService.addUser(eliminar1);
+        User eliminar2 = new User("eliminar2@email.com", "User", "Normal");
+        eliminar2.setPassword("123456");
+        eliminar2.setRole(rolesService.getRoles()[0]);
+        eliminar2.setWallet(154.0);
+        usersService.addUser(eliminar2);
+        User eliminar3 = new User("eliminar3@email.com", "User", "Normal");
+        eliminar3.setPassword("123456");
+        eliminar3.setRole(rolesService.getRoles()[0]);
+        eliminar3.setWallet(154.0);
+        usersService.addUser(eliminar3);
+        User eliminar4 = new User("eliminar4@email.com", "User", "Normal");
+        eliminar4.setPassword("123456");
+        eliminar4.setRole(rolesService.getRoles()[0]);
+        eliminar4.setWallet(154.0);
+        usersService.addUser(eliminar4);
+
+
         User user1 = new User("usuario1@email.com", "User", "Normal");
         user1.setPassword("123456");
         user1.setRole(rolesService.getRoles()[0]);
@@ -66,11 +86,24 @@ public class InsertSampleDataService {
         user6.setWallet(154.0);
         usersService.addUser(user6);
 
-        User user7= new User("usuario7@email.com", "User", "Normal");
+        User user7 = new User("usuario7@email.com", "User", "Normal");
         user7.setPassword("123456");
         user7.setRole(rolesService.getRoles()[0]);
         user7.setWallet(154.0);
         usersService.addUser(user7);
+
+
+        User eliminar5 = new User("eliminar5@email.com", "eliminar5", "eliminar5");
+        eliminar5.setPassword("123456");
+        eliminar5.setRole(rolesService.getRoles()[0]);
+        eliminar5.setWallet(154.0);
+        usersService.addUser(eliminar5);
+
+        User user8 = new User("usuario8@email.com", "User", "Normal");
+        user8.setPassword("123456");
+        user8.setRole(rolesService.getRoles()[0]);
+        user8.setWallet(14.0);
+        usersService.addUser(user8);
 
         Offer offer1 = new Offer("Coche1", "Opel", 124.0);
         offer1.setSeller(user1);
@@ -128,20 +161,23 @@ public class InsertSampleDataService {
 
         Offer offer14 = new Offer("Coche4", "Aston Martin", 1224.0);
         offer14.setSeller(user6);
-
         offersService.add(offer14);
 
+        //Conversation c1=new Conversation(offer9);
 
         Offer offer15 = new Offer("Carro", "Carro correro", 2.0);
         offer15.setSeller(user4);
         offersService.add(offer15);
 
+        Offer offer16 = new Offer("Coche5", "Seat", 18.0);
+        offer16.setSeller(user8);
+        offersService.add(offer16);
 
-        Conversation c2=new Conversation();
+        Conversation c2 = new Conversation();
         c2.setOffer(offer15);
         c2.setBuyer(user1);
         convService.add(c2);
-        Conversation c3=new Conversation();
+        Conversation c3 = new Conversation();
         c3.setOffer(offer10);
         c3.setBuyer(user1);
         convService.add(c3);

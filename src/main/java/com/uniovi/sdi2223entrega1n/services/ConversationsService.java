@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ConversationsService {
@@ -52,4 +51,14 @@ public class ConversationsService {
     public void deleteConversationById(Long id) {
         conversationsRepository.deleteById(id);
     }
+
+    public void deleteFromBuyer(Long userId) {
+        conversationsRepository.deleteByBuyerId(userId);
+    }
+
+    public void deleteConversation(Conversation conversation) {
+        conversationsRepository.deleteById(conversation.getId());
+    }
+
+
 }

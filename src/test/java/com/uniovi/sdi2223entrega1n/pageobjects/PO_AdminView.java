@@ -7,7 +7,7 @@ public class PO_AdminView extends PO_NavView {
 
     public static final String ADMIN_EMAIL = "admin@email.com";
 
-    public static final String ADMIN_DASHBOARD_ENDPOINT = "/admin/logs";
+    public static final String ADMIN_DASHBOARD_ENDPOINT = "/admin/logs/all";
     public static final String ADMIN_DELETE_ALL_LOGS_ENDPOINT = "/admin/logs/deleteAll";
 
     // Menu para acceder a la vista de logs
@@ -36,8 +36,7 @@ public class PO_AdminView extends PO_NavView {
         SeleniumUtils.signInIntoAccount(driver, "ADMIN", ADMIN_EMAIL);
 
         // Click en borrar todos los logs
-        PO_NavView.clickOption(driver, ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id",
-                DELETE_ALL_LOGS_BUTTON);
+        PO_NavView.clickOption(driver, ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", DELETE_ALL_LOGS_BUTTON);
     }
 
     /**
@@ -50,6 +49,6 @@ public class PO_AdminView extends PO_NavView {
         SeleniumUtils.signInIntoAccount(driver, "ADMIN", ADMIN_EMAIL);
 
         // Click en borrar todos los logs
-        PO_NavView.clickOption(driver, ADMIN_DASHBOARD_ENDPOINT, "id", VIEW_LOGS_MENU_ITEM);
+        PO_NavView.clickOption(driver, ADMIN_DASHBOARD_ENDPOINT, "id", "viewLogsMenuItem");
     }
 }

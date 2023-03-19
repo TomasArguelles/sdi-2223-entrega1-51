@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+<nav th:replace="fragments/nav"/>
+<div class="container" id="main-container">
+    <h2>Ofertas compradas</h2>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col" th:text="#{offer.image}">Imagen</th>
+                <th scope="col">Id</th>
+                <th scope="col">Título</th>
+                <th scope="col">Detalle</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Email del vendedor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="offer : ${offersList}">
+                <td>
+                    <img th:if="${offer.image != null and offer.image != ''}"
+                         th:src="${offer.image}" width="56" height="57"
+                         style="object-fit: cover;">
+                    <img th:unless="${offer.image != null and offer.image != ''}"
+                         src="/images/nodisponible.png"/>
+                </td>
+                <td scope="row" th:text="${offer.id}"> 1A</td>
+                <td th:text="${offer.title}"> Título1</td>
+                <td th:text="${offer.description}"> Detalle1</td>
+                <td th:text="${offer.price}"> 0.0</td>
+                <td th:text="${offer.seller.email}"> email@myemail.com</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(offersList)}"> No hay ofertas compradas</div>
+</div>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

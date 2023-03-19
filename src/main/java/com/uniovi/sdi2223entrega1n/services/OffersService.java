@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OffersService {
@@ -89,6 +88,7 @@ public class OffersService {
 
     /**
      * Metodo que buscar una oferta por id
+     *
      * @param id de la oferta
      * @return la oferta
      */
@@ -96,7 +96,36 @@ public class OffersService {
         return offersRepository.findById(id).get();
     }
 
+    /**
+     * Obtiene todas las ofertas compradas por un usuario
+     *
+     * @param email, email del usuario
+     * @return offers, la lista de ofertas compradas
+     */
+    public List<Offer> getAllByBuyer(String email) {
+        List<Offer> offers = new ArrayList<>();
+        offersRepository.findAllByBuyer(email).forEach(offers::add);
+        return offers;
+    }
+
+    /**
+     * Destacar una oferta por su identificador
+     *
+     * @param id, identificador de la oferta a destacar
+     */
+    public void featuredOfferById(Long id) {
+        offersRepository.featuredOfferById(id);
+    }
+
+    /**
+     * Obtiene todas las ofertas destacadas (de todos los usuarios)
+     */
+    public List<Offer> getAllFeatured() {
+        return offersRepository.getAllFeatured();
+    }
+
     public Offer findById(Long offerId) {
         return offersRepository.findById(offerId).orElseThrow(() -> new NotFoundException("Conversation not found with id " + offerId));
     }
+
 }
