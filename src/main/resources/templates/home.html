@@ -11,31 +11,6 @@
         Usuario Autenticado como :
         <b th:inline="text" sec:authentication="principal.username"></b>
     </p>
-    <p>Notas del usuario</p>
-    <div class="table-responsive">
-        <table class="table table-hover" th:fragment="tableMarks" id="tableMarks">
-            <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Puntuación</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="mark : ${markList}">
-                <td scope="row" th:text="${mark.id}"> 1</td>
-                <td th:text="${mark.description}"> Ejercicio 1</td>
-                <td th:text="${mark.score}">10</td>
-                <td><a th:href="${'/mark/details/' + mark.id}">detalles</a></td>
-                <td><a sec:authorize="hasRole('ROLE_PROFESSOR')" th:href="${'/mark/edit/' + mark.id}">modificar</a></td>
-                <td><a sec:authorize="hasRole('ROLE_PROFESSOR')" th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>
