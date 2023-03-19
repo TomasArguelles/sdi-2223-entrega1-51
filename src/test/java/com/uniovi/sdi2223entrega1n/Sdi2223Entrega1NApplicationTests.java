@@ -26,7 +26,7 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -676,6 +676,100 @@ class Sdi2223Entrega1NApplicationTests {
 
         Assertions.assertEquals(numRows, 3);
     }
+
+    /**
+     * [Prueba29] Visualizar al menos cuatro páginas en español/inglés/español (comprobando que algunas de las etiquetas cambian al idioma correspondiente).
+     * Ejemplo, Página principal/Opciones Principales de Usuario/Listado de Usuarios.
+     */
+    @Test
+    @Order(29)
+    public void PR29(){
+        //Me logueo como usuario normal
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
+        //Compruebo el titulo con la pagina en español
+        String title= "Bienvenidos a la página principal";
+        String result = PO_HomeView.getTitleMessage(driver);
+        Assertions.assertEquals(title,result);
+        //Cambio a idioma ingles
+        PO_NavView.changeLanguage(driver,"English");
+        //Compruebo el titulo con la pagina en ingles
+        title = "Welcome to homepage";
+        result = PO_HomeView.getTitleMessage(driver);
+        Assertions.assertEquals(title,result);
+        //Cambio a español
+        PO_NavView.changeLanguage(driver,"Spanish");
+        //Compruebo el titulo en español
+        title= "Bienvenidos a la página principal";
+        result = PO_HomeView.getTitleMessage(driver);
+        Assertions.assertEquals(title,result);
+
+        //Cambio a pagina de ver ofertas para comprar
+        PO_NavView.selectDropdownById(driver,"gestionOfertasMenu","gestionOfertasDropdow","listAllOfferMenu");
+
+        //Compruebo el titulo en español
+        title = "Todas las ofertas";
+        result = PO_AllOfferView.getTitleMessage(driver);
+        Assertions.assertEquals(title,result);
+        //Cambio a ingles
+        PO_NavView.changeLanguage(driver,"English");
+        //Compruebo en ingles
+        title = "All offers";
+        result = PO_AllOfferView.getTitleMessage(driver);
+        Assertions.assertEquals(title,result);
+        //Cambio a español
+        PO_NavView.changeLanguage(driver,"Spanish");
+        //Compruebo en español
+        title= "Todas las ofertas";
+        result = PO_HomeView.getTitleMessage(driver);
+        Assertions.assertEquals(title,result);
+
+        //Me deslogueo
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+        //Me logueo como admin
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+
+        //Voy a la ventana ver Usuario
+        driver.get("http://localhost:8090/user/list");
+        //Compruebo el titulo en español
+
+        title="Usuarios";
+        result = PO_UserListView.getTile(driver);
+        Assertions.assertEquals(title,result);
+        //Me cambio a ingles
+        PO_NavView.changeLanguage(driver,"English");
+        //Compruebo el titulo en ingles
+        title="Users";
+        result = PO_UserListView.getTile(driver);
+        Assertions.assertEquals(title,result);
+        //Me cambio a español
+        PO_NavView.changeLanguage(driver,"Spanish");
+        //Compruebo el titulo en español
+        title="Usuarios";
+        result = PO_UserListView.getTile(driver);
+        Assertions.assertEquals(title,result);
+
+        //Cambiamos a la ventana log
+        driver.get("http://localhost:8090/admin/logs/all");
+        //Comprobamos en español
+        title = "Listado de logs";
+        result = PO_AdminView.getTitle(driver);
+        Assertions.assertEquals(title,result);
+        //Cambiamos a ingles
+        PO_NavView.changeLanguage(driver,"English");
+        //Comprobamos en ingles
+        title = "Log listing";
+        result = PO_AdminView.getTitle(driver);
+        Assertions.assertEquals(title,result);
+        //Cambiamos a español
+        PO_NavView.changeLanguage(driver,"Spanish");
+        //Comprobamos en español
+        title = "Listado de logs";
+        result = PO_AdminView.getTitle(driver);
+        Assertions.assertEquals(title,result);
+    }
+
 
     // [Prueba 30]. Acceso sin autenticación a la opción de listado de usuarios.
     @Test

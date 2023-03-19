@@ -37,4 +37,8 @@ public class PO_UserListView extends PO_NavView {
         WebElement firstUserChechbox=user.findElement(By.name("userIds"));
         firstUserChechbox.click();
     }
+
+    public static String getTile(WebDriver driver) {
+        return driver.findElement(By.name("title")).getText();
+    }
 }

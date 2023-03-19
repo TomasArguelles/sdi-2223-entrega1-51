@@ -2,6 +2,7 @@ package com.uniovi.sdi2223entrega1n.pageobjects;
 
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -84,4 +85,6 @@ public class PO_NavView extends PO_View {
     public static void clickLogout(WebDriver driver) {
         clickOption(driver, "logout", "class", "btn btn-primary");
     }
+
+
 }

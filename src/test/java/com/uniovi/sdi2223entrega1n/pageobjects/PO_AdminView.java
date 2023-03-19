@@ -1,6 +1,7 @@
 package com.uniovi.sdi2223entrega1n.pageobjects;
 
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class PO_AdminView extends PO_NavView {
@@ -50,5 +51,9 @@ public class PO_AdminView extends PO_NavView {
 
         // Click en borrar todos los logs
         PO_NavView.clickOption(driver, ADMIN_DASHBOARD_ENDPOINT, "id", "viewLogsMenuItem");
+    }
+
+    public static String getTitle(WebDriver driver) {
+        return driver.findElement(By.name("title")).getText();
     }
 }

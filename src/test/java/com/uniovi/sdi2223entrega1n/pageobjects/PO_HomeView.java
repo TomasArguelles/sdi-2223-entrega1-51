@@ -1,6 +1,7 @@
 package com.uniovi.sdi2223entrega1n.pageobjects;
 
 import com.uniovi.sdi2223entrega1n.util.SeleniumUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -31,5 +32,9 @@ public class PO_HomeView extends PO_NavView {
         PO_HomeView.changeLanguage(driver, textLanguage1);
 //Esperamos a que se cargue el saludo de bienvenida en Español
         PO_HomeView.checkWelcomeToPage(driver, locale1);
+    }
+
+    public static String getTitleMessage(WebDriver driver) {
+        return driver.findElement(By.name("title")).getText();
     }
 }

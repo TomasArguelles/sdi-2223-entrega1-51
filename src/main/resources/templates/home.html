@@ -5,7 +5,7 @@
 <body>
 <nav th:replace="fragments/nav"/>
 <div class="container" style="text-align: center">
-    <h2 th:text="#{welcome.message}"></h2>
+    <h2 name="title" th:text="#{welcome.message}"></h2>
     <h3 th:text ="#{home.subtitle}"></h3>
     <p>
         <b th:text ="#{home.auth.user}"></b>

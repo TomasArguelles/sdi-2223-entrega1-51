@@ -40,4 +40,8 @@ public class PO_AllOfferView extends PO_NavView{
         return driver.findElement(By.id("wallet")).getText();
 
     }
+
+    public static String getTitleMessage(WebDriver driver) {
+        return driver.findElement(By.name("title")).getText();
+    }
 }
