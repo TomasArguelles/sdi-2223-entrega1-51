@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OffersService {
@@ -89,6 +88,7 @@ public class OffersService {
 
     /**
      * Metodo que buscar una oferta por id
+     *
      * @param id de la oferta
      * @return la oferta
      */
@@ -98,6 +98,7 @@ public class OffersService {
 
     /**
      * Obtiene todas las ofertas compradas por un usuario
+     *
      * @param email, email del usuario
      * @return offers, la lista de ofertas compradas
      */
@@ -109,6 +110,7 @@ public class OffersService {
 
     /**
      * Destacar una oferta por su identificador
+     *
      * @param id, identificador de la oferta a destacar
      */
     public void featuredOfferById(Long id) {

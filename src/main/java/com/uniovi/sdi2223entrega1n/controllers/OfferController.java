@@ -69,8 +69,7 @@ public class OfferController {
                 invalidBuy = false;
                 offerToAdd.setFeatured(true); // destaco la oferta
                 usersService.decrementMoney(user, 20.0); // actualizo el dinero del usuario
-            }
-            else {
+            } else {
                 invalidBuy = true;
                 model.addAttribute("buyError", invalidBuy);
             }
@@ -137,36 +136,38 @@ public class OfferController {
 
     /**
      * Metodo que redirecciona a la vista de TODAS las ofertas en el sistema
+     *
      * @param model
-     * @param principal usuario
+     * @param principal  usuario
      * @param searchText texto a buscar
      * @return la vista
      */
-    @RequestMapping (value="/offer/allList")
-    public String getOffersToBuy(Model model, Principal principal,@RequestParam(value = "", required = false)String searchText){
+    @RequestMapping(value = "/offer/allList")
+    public String getOffersToBuy(Model model, Principal principal, @RequestParam(value = "", required = false) String searchText) {
         String userEmail = principal.getName();
-        List<Offer>offers;
+        List<Offer> offers;
         //Si esta vacio el buscador devolvemos todas, sino no
-        if(searchText==null || searchText.isEmpty()){
+        if (searchText == null || searchText.isEmpty()) {
             offers = offersService.getAllOffersToBuy(userEmail);
-        }else{
-            offers = offersService.searchOffersByNameAndUser(searchText,userEmail);
+        } else {
+            offers = offersService.searchOffersByNameAndUser(searchText, userEmail);
         }
         User user = usersService.getUserByEmail(userEmail);
-        model.addAttribute("buyer",user);
-        model.addAttribute("offersList",offers);
-        model.addAttribute("buyError",invalidBuy);
+        model.addAttribute("buyer", user);
+        model.addAttribute("offersList", offers);
+        model.addAttribute("buyError", invalidBuy);
         return "offer/allList";
     }
 
     /**
      * Metodo para comprar una oferta
-     * @param id id de la oferta
+     *
+     * @param id        id de la oferta
      * @param principal usuario
      * @return la vista
      */
     @RequestMapping(value = "/offer/{id}/buyOffer")
-    public String buyOffer(@PathVariable Long id,Principal principal){
+    public String buyOffer(@PathVariable Long id, Principal principal) {
         //Obtengo el dinero que tiene la cartera del usuario
         String userEmail = principal.getName();
         User user = usersService.getUserByEmail(userEmail);
@@ -174,9 +175,9 @@ public class OfferController {
         //Obtengo el precio de la oferta
         Offer offer = offersService.getOffer(id);
         Double price = offer.getPrice();
-        invalidBuy=true;
+        invalidBuy = true;
         //Comprobar si el dinero del wallet es superior al precio
-        if(wallet>=price) {
+        if (wallet >=price) {
             offersService.setOfferSold(id,user);
             usersService.decrementMoney(user,price);
             invalidBuy=false;
@@ -212,7 +213,7 @@ public class OfferController {
     /**
      * Obtiene todas las ofertas compradas por el usuario autenticado
      *
-     * @param model, modelo al que pasamos la lista de ofertas
+     * @param model,     modelo al que pasamos la lista de ofertas
      * @param principal, nos permite obtener al usuario autenticado
      * @return la lista de ofertas
      */
@@ -231,9 +232,9 @@ public class OfferController {
      * Destacar una oferta por su identificador
      * Cuesta 20€, se debe comprobar por tanto que el usuario tenga ese dinero al menos
      *
-     * @param id, identificador de la oferta a destacar
+     * @param id,        identificador de la oferta a destacar
      * @param principal, nos permite obtener al usuario autenticado
-     * @param model, permite enviar a la vista un atributo
+     * @param model,     permite enviar a la vista un atributo
      * @return la redirección a la vista de listado de ofertas
      */
     @RequestMapping("/offer/featured/{id}")
@@ -256,8 +257,7 @@ public class OfferController {
             // Enviar el listado de ofertas destacadas actualizado a la vista
             List<Offer> featuredOffers = offersService.getAllFeatured();
             model.addAttribute("offerFeaturedList", featuredOffers);
-        }
-        else {
+        } else {
             invalidBuy = true;
             model.addAttribute("buyError", invalidBuy);
         }

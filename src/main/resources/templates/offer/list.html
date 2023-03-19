@@ -25,8 +25,11 @@ springsecurity4">
             <tbody>
             <tr th:each="offer : ${offerFeaturedList}">
                 <td>
-                    <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
-                    <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
+                    <img th:if="${offer.image != null and offer.image != ''}"
+                         th:src="${offer.image}" width="56" height="57"
+                         style="object-fit: cover;">
+                    <img th:unless="${offer.image != null and offer.image != ''}"
+                         src="/images/nodisponible.png"/>
                 </td>
                 <td th:text="${offer.title}"></td>
                 <td th:text="${offer.description}"></td>
@@ -64,15 +67,19 @@ springsecurity4">
             <tbody>
             <tr th:each="offer : ${offerList}">
                 <td>
-                    <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
-                    <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
+                    <img th:if="${offer.image != null and offer.image != ''}"
+                         th:src="${offer.image}" width="56" height="57"
+                         style="object-fit: cover;">
+                    <img th:unless="${offer.image != null and offer.image != ''}"
+                         src="/images/nodisponible.png"/>
                 </td>
                 <td th:text="${offer.title}"></td>
                 <td th:text="${offer.description}"></td>
                 <td th:text="${offer.price}"></td>
                 <td th:text="${offer.featured}"></td>
                 <td>
-                    <a th:if="${offer.featured} == false" th:href="${'/offer/featured/' + offer.id}"
+                    <a th:if="${offer.featured} == false"
+                       th:href="${'/offer/featured/' + offer.id}"
                        class="linkFeaturedOffer"
                        th:text="#{offer.page.button.featured}">Destacar</a>
                 </td>
@@ -82,7 +89,9 @@ springsecurity4">
                        class="btnBorrarOferta"
                        th:text="#{offer.page.button.delete}">Eliminar</a>
                 </td>
-                <td><a th:href="${'/conversation/redirectToConversationMyOffers/' + offer.id}">Conversation</a></td>
+                <td>
+                    <a th:href="${'/conversation/redirectToConversationMyOffers/' + offer.id}">Conversation</a>
+                </td>
             </tr>
 
             </tbody>
@@ -92,7 +101,8 @@ springsecurity4">
          th:text="#{offer.page.noOffersToShow}"> No hay ofertas
     </div>
     <div th:if="#{buyError == true}" th:text="#{offer.featured.nomoney}">
-        Tu dinero debe ser al menos de 20€ para destacar una oferta!</div>
+        Tu dinero debe ser al menos de 20€ para destacar una oferta!
+    </div>
 </div>
 
 <footer th:replace="fragments/footer"/>

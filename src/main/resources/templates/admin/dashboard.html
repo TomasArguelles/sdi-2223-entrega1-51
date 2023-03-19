@@ -10,16 +10,6 @@
     <h2 class="my-3" th:text="#{admin.dashboard.title}">Listado de logs</h2>
 
     <div class="d-flex flex-row justify-content-start mb-5">
-
-        <div class="col-md-4">
-            <a class="btn btn-dark mb-4" href="/admin/logs/deleteAll"
-               th:title="#{admin.dashboard.deleteAllLogs.title}"
-               th:text="#{admin.dashboard.deleteAllLogs}"
-               id="deleteAllLogsButton">Eliminar
-                logs
-                <span class="badge badge-light" th:text="${logs.size()}"></span>
-            </a>
-        </div>
         <form action="/admin/logs/filter" method="GET"
               class="d-flex flex-row justify-content-start mb-4 gap-3">
             <select class="form-select form-select-lg mb-3"

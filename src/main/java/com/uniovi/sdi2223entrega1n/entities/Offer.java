@@ -66,15 +66,16 @@ public class Offer {
     }
 
     public Offer(String title, String description, Double price) {
-        this(title,description,price,"");
+        this(title, description, price, "");
 
     }
-    public Offer(String title, String description, Double price,String image){
+
+    public Offer(String title, String description, Double price, String image) {
         super();
-        this.title=title;
-        this.description=description;
-        this.price=price;
-        this.image=image;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.image = image;
     }
 
 

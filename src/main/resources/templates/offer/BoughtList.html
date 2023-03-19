@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head th:replace="fragments/head"/>
 <body>
 <nav th:replace="fragments/nav"/>
@@ -20,8 +21,11 @@
             <tbody>
             <tr th:each="offer : ${offersList}">
                 <td>
-                    <img th:if="${offer.image != null and offer.image != ''}" th:src="${offer.image}" width="56" height="57" style="object-fit: cover;">
-                    <img th:unless="${offer.image != null and offer.image != ''}" src="/images/nodisponible.png" />
+                    <img th:if="${offer.image != null and offer.image != ''}"
+                         th:src="${offer.image}" width="56" height="57"
+                         style="object-fit: cover;">
+                    <img th:unless="${offer.image != null and offer.image != ''}"
+                         src="/images/nodisponible.png"/>
                 </td>
                 <td scope="row" th:text="${offer.id}"> 1A</td>
                 <td th:text="${offer.title}"> Título1</td>
@@ -32,7 +36,7 @@
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(offersList)}"> No hay ofertas compradas </div>
+    <div th:if="${#lists.isEmpty(offersList)}"> No hay ofertas compradas</div>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>

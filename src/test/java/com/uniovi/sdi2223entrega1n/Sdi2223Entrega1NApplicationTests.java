@@ -26,7 +26,7 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
     static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
@@ -175,11 +175,8 @@ class Sdi2223Entrega1NApplicationTests {
     @Test
     @Order(8)
     void PR08() {
-        //Nos movemos al formulario de inicio de sesión
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        //Rellenamos con datos INVALIDOS
-        PO_LoginView.fillForm(driver, "usuario1@email.com", "12346");
-        //Comprobamos que seguimos en la pantalla de inicio de sesión
+        // Insertar contraseña incorrecta
+        SeleniumUtils.signInIntoAccount(driver, "STANDARD", "user01@email.com", "123");
         PO_LoginView.checkLoginPage(driver, PO_Properties.getSPANISH());
     }
 
@@ -531,7 +528,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "user07@email.com", "user07");
-        //Entramos a la vista de comprar y compramos la oferta 53 que su precio es igual al wallet
+        //Entramos a la vista de comprar y compramos la oferta 153 que su precio es igual al wallet
         String buttonName = "buyOffer153";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Sacamos el valor del wallet
@@ -552,8 +549,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos con datos validos del usuario estandar
         PO_LoginView.fillForm(driver, "user07@email.com", "user07");
-        //Entramos a la vista de comprar y compramos la oferta 24 que su precio es invalido
-        String buttonName = "buyOffer24";
+        //Entramos a la vista de comprar y compramos la oferta 34 que su precio es invalido
+        String buttonName = "buyOffer34";
         PO_AllOfferView.buyOffer(driver,buttonName);
         //Buscamos que aparezca en la pagina la label
         boolean isDisplayed = driver.findElement(By.id("errorPrecio")).isDisplayed();
@@ -678,7 +675,6 @@ class Sdi2223Entrega1NApplicationTests {
         int numRows = rows2.size();
 
         Assertions.assertEquals(numRows, 3);
-
     }
 
     // [Prueba 30]. Acceso sin autenticación a la opción de listado de usuarios.
@@ -730,7 +726,7 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(33)
     public void PR33() {
         // Acción previa: Borrar todos los logs
-        PO_AdminView.deleteAllLogs(driver);
+        PO_AdminView.deleteAllLogsWithLogout(driver);
 
         // -- TIPO LOGIN-EX
         // Iniciar sesion como admin - LOG-EX
@@ -756,16 +752,9 @@ class Sdi2223Entrega1NApplicationTests {
         // -- TIPO LOGIN-EX
         SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail1, "123456");
 
-        // -- TIPO PET
-        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
-
-        // Acceder a la vista de añadir una nueva oferta
-        // -- TIPO PET
-        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
-
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50, false);
+        PO_OfferView.addSampleOfferWithDescriptionAndPrice(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 1
@@ -788,11 +777,7 @@ class Sdi2223Entrega1NApplicationTests {
 
         // -- TIPO PET
         // Acceder a la vista de añadir una nueva oferta
-        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
-
-        // Rellenar campos del formulario con valores válidos.
-        // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50, false);
+        PO_OfferView.addSampleOfferWithDescriptionAndPrice(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 2
@@ -800,18 +785,14 @@ class Sdi2223Entrega1NApplicationTests {
 
         // Total de logs esperado: +1 por la peticion de borrado de logs previamente
         // realizada
-        int expectedLogs = 31;
-
-        // Volver a iniciar sesion como admin
-        SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
+        int expectedLogs = 30;
 
         // Ir a la vista de logs
         // -- TIPO PET
-        PO_NavView.clickOption(driver, "/admin/logs", "id", "viewLogsMenuItem");
+        PO_AdminView.goToListOfLogsView(driver);
 
         // Obtener el número de logs de la tabla
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
-
         // Comprobar que el número de registros mostrados es correcto
         Assertions.assertEquals(expectedLogs, rowCount);
     }
@@ -823,9 +804,9 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(34)
     public void PR34() {
         // Iniciar sesion como administrador y eliminar todos los logs
-        PO_AdminView.deleteAllLogs(driver);
+        PO_AdminView.deleteAllLogsWithLogout(driver);
 
-        // Total de logs esperado: 1 - peticion admin/logs/deleteAll
+        // Total de logs esperado: 1
         int expectedLogs = 1;
 
         SeleniumUtils.signInIntoAccount(driver, "ADMIN", PO_AdminView.ADMIN_EMAIL);
@@ -834,7 +815,7 @@ class Sdi2223Entrega1NApplicationTests {
         PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DASHBOARD_ENDPOINT, "id", "viewLogsMenuItem");
 
         // Hacer click en el boton de eliminar logs
-        PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", "deleteAllLogsButton");
+        PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", PO_AdminView.DELETE_ALL_LOGS_BUTTON);
 
         // Obtener el número de logs de la tabla
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
@@ -842,6 +823,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Comprobar que el número de registros mostrados es correcto
         Assertions.assertEquals(expectedLogs, rowCount);
     }
+
     //[Prueba35] Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
     //comprobar que el listado se actualiza correctamente
     @Test
@@ -973,7 +955,7 @@ class Sdi2223Entrega1NApplicationTests {
     public void PR39() {
         // Inicio de sesión con un usuario que tiene menos de 20€ de saldo
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillForm(driver, "user05@email.com", "user05");
+        PO_LoginView.fillForm(driver, "user04@email.com", "user04");
 
         // Acceder a la vista del listado de ofertas propias
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listOfferMenu");

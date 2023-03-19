@@ -13,10 +13,11 @@ footer {
     width: 100%;
     height: 60px;
     background-color: #1FA979;
-    text-align:center;
-    line-height:60px
+    text-align: center;
+    line-height: 60px
 }
-#btnBorrar{
+
+#btnBorrar {
     background-color: #1FA979
 }
 

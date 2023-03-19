@@ -30,10 +30,11 @@ public class UsersController {
     private ConversationsService conversationsService;
     @Autowired
     private SignUpFormValidator signUpFormValidator;
-//    @Autowired
+    //    @Autowired
 //    private EditUserFormValidator editUserFormValidator;
     @Autowired
     private RolesService rolesService;
+
     @RequestMapping("/user/list")
     public String getListado(Model model) {
         model.addAttribute("usersList", usersService.getUsers());
@@ -60,6 +61,7 @@ public class UsersController {
         model.addAttribute("user", usersService.getUser(id));
         return "user/details";
     }
+
     @RequestMapping("/user/delete/{id}")
     public String delete(@PathVariable Long id) {
         usersService.deleteUser(id);
@@ -70,9 +72,9 @@ public class UsersController {
     //                    conversationsService.deleteFromBuyer(userIds[i]);
     @RequestMapping("/users/deleteSelected")
     public String deleteUsers(@RequestParam(value = "userIds", required = false) Long[] userIds, Principal principal) {
-        String currentEmail=principal.getName();
-        User currentUser=usersService.getUserByEmail(currentEmail);
-        Long id=currentUser.getId();
+        String currentEmail = principal.getName();
+        User currentUser = usersService.getUserByEmail(currentEmail);
+        Long id = currentUser.getId();
         if (userIds != null && userIds.length > 0) {
             for (Long userId : userIds) {
                 User user = usersService.getUser(userId);
