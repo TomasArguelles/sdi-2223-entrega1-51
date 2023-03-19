@@ -27,10 +27,10 @@ class Sdi2223Entrega1NApplicationTests {
     //static String Geckodriver = "C:\\Path\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\Tomás\\Downloads\\OneDrive_1_7-3-2023\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\UO253628\\Downloads\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\kikoc\\Dev\\sellenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
     //Ruta Manu (cambiar)
-    static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\Usuario\\Desktop\\SDI\\sesion5\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     static WebDriver driver = getDriver(PathFirefox, Geckodriver);
     static String BASE_ENDPOINT = "http://localhost:8090";
 
@@ -661,7 +661,7 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(33)
     public void PR33() {
         // Acción previa: Borrar todos los logs
-        PO_AdminView.deleteAllLogs(driver);
+        PO_AdminView.deleteAllLogsWithLogout(driver);
 
         // -- TIPO LOGIN-EX
         // Iniciar sesion como admin - LOG-EX
@@ -687,16 +687,9 @@ class Sdi2223Entrega1NApplicationTests {
         // -- TIPO LOGIN-EX
         SeleniumUtils.signInIntoAccount(driver, "STANDARD", userEmail1, "123456");
 
-        // -- TIPO PET
-        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "listAllOfferMenu");
-
-        // Acceder a la vista de añadir una nueva oferta
-        // -- TIPO PET
-        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
-
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
+        PO_OfferView.addSampleOfferWithDescriptionAndPrice(driver, "Oferta de prueba 1.1", "Coche de los años 90", 2000.50);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 1
@@ -719,11 +712,10 @@ class Sdi2223Entrega1NApplicationTests {
 
         // -- TIPO PET
         // Acceder a la vista de añadir una nueva oferta
-        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+        PO_OfferView.addSampleOfferWithDescriptionAndPrice(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
 
         // Rellenar campos del formulario con valores válidos.
         // -- TIPO PET
-        PO_OfferView.fillForm(driver, "Oferta de prueba 1.2", "Piso céntrico en Oviedo centro", 2000.50);
 
         // -- TIPO LOGOUT
         // Cerrar la sesión del usuario 2
@@ -733,12 +725,9 @@ class Sdi2223Entrega1NApplicationTests {
         // realizada
         int expectedLogs = 27;
 
-        // Volver a iniciar sesion como admin
-        SeleniumUtils.signInIntoAccount(driver, "ADMIN", "admin@email.com");
-
         // Ir a la vista de logs
         // -- TIPO PET
-        PO_NavView.clickOption(driver, "/admin/logs", "id", "viewLogsMenuItem");
+        PO_AdminView.goToListOfLogsView(driver);
 
         // Obtener el número de logs de la tabla
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
@@ -754,9 +743,9 @@ class Sdi2223Entrega1NApplicationTests {
     @Order(34)
     public void PR34() {
         // Iniciar sesion como administrador y eliminar todos los logs
-        PO_AdminView.deleteAllLogs(driver);
+        PO_AdminView.deleteAllLogsWithLogout(driver);
 
-        // Total de logs esperado: 1 - peticion admin/logs/deleteAll
+        // Total de logs esperado: 1
         int expectedLogs = 1;
 
         SeleniumUtils.signInIntoAccount(driver, "ADMIN", PO_AdminView.ADMIN_EMAIL);
@@ -765,7 +754,8 @@ class Sdi2223Entrega1NApplicationTests {
         PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DASHBOARD_ENDPOINT, "id", "viewLogsMenuItem");
 
         // Hacer click en el boton de eliminar logs
-        PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", "deleteAllLogsButton");
+        //PO_NavView.clickOption(driver, PO_AdminView.ADMIN_DELETE_ALL_LOGS_ENDPOINT, "id", "deleteAllLogsButton");
+        PO_AdminView.deleteAllLogsWithoutLogout(driver);
 
         // Obtener el número de logs de la tabla
         int rowCount = SeleniumUtils.countTableRows(driver, "//table[@class='table table-striped px-3 my-3']/tbody/tr");
@@ -773,6 +763,7 @@ class Sdi2223Entrega1NApplicationTests {
         // Comprobar que el número de registros mostrados es correcto
         Assertions.assertEquals(expectedLogs, rowCount);
     }
+
     //[Prueba35] Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
     //comprobar que el listado se actualiza correctamente
     @Test
@@ -815,8 +806,5 @@ class Sdi2223Entrega1NApplicationTests {
         List<WebElement> rows2 = table2.findElements(By.tagName("tr"));
         int numRowsFinal = rows2.size();
         Assertions.assertEquals(numRowsOriginal, numRowsFinal+1);
-
     }
-
-
 }

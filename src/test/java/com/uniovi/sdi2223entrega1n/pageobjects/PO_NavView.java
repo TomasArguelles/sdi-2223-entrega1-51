@@ -82,6 +82,6 @@ public class PO_NavView extends PO_View {
      * @param driver
      */
     public static void clickLogout(WebDriver driver) {
-        clickOption(driver, "logout", "class", "btn btn-primary");
+        clickOption(driver, "logout", "id", "deleteAllLogsButton");
     }
 }

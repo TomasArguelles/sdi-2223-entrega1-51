@@ -62,7 +62,23 @@ public class PO_OfferView extends PO_NavView {
         PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
 
         // Rellenar campos del formulario con valores inválidos.
-        PO_OfferView.fillForm(driver, offerTitle, "Coche de los años 90", 100.0);
+        PO_OfferView.fillForm(driver, offerTitle, "Descripcion de prueba", 100.0);
+    }
+
+    /**
+     * Añadir una oferta para probar.
+     *
+     * @param driver
+     * @param offerTitle Titulo de la oferta
+     * @param offerDescription Descripcion de la oferta
+     * @param offerPrice Precio de la oferta
+     */
+    static public void addSampleOfferWithDescriptionAndPrice(WebDriver driver, String offerTitle, String offerDescription, Double offerPrice) {
+        // Acceder a la vista de añadir una nueva oferta
+        PO_NavView.selectDropdownById(driver, "gestionOfertasMenu", "gestionOfertasDropdown", "addOfferMenu");
+
+        // Rellenar campos del formulario con valores inválidos.
+        PO_OfferView.fillForm(driver, offerTitle, offerDescription, offerPrice);
     }
 
     /**
